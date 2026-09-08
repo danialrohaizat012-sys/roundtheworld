@@ -239,3 +239,13 @@ Firebase Storage is not required.
 - Project Astra becomes accessible only after all 5 Phoenix requirements are complete
 - Launch function is hard-guarded against early access
 - Existing Firebase Auth, Firestore auto-sync, PWA icon and splash animation remain intact
+
+## V24 PWA Icon Fix
+- Generated real PNG install icons from the approved ASTRA emblem
+- 192x192 standard icon
+- 512x512 standard icon
+- 512x512 maskable icon
+- 180x180 Apple Touch Icon
+- 64x64 favicon
+- Manifest points only to ASTRA icons
+- Service worker cache bumped to force a fresh PWA asset set
