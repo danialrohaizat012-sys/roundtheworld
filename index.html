@@ -1,0 +1,1367 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#071018"/>
+<title>Phoenix → Astra</title>
+<link rel="manifest" href="manifest.json">
+<style>
+:root{
+  --bg:#071018;--panel:#0c1a24;--panel2:#102430;--line:#1f3947;--text:#f4f7fa;--muted:#8ea4b4;
+  --green:#42e3b4;--blue:#6bb9ff;--gold:#f7c65b;--red:#ff725f;--soft:#132a38;
+}
+*{box-sizing:border-box} body{margin:0;background:linear-gradient(180deg,#071018,#08141d 60%,#061018);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,textarea,select{font:inherit}.app{max-width:480px;margin:auto;min-height:100vh;padding-bottom:90px}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(7,16,24,.9);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.04);padding:14px 18px 10px}
+.brand{display:flex;align-items:center;gap:12px}.brandmark{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#142735,#061018);border:1px solid #274454;font-size:22px}
+.brand h1{margin:0;font-size:18px;letter-spacing:.18em}.brand small{color:var(--muted);letter-spacing:.16em}
+.hero{margin:14px 16px 12px;border-radius:24px;overflow:hidden;position:relative;min-height:240px;background:
+linear-gradient(180deg,rgba(5,15,23,.1),rgba(5,15,23,.78)),
+url('https://images.unsplash.com/photo-1469521669194-babb45599def?auto=format&fit=crop&w=1600&q=88') center/cover}
+.hero.phoenix{background:
+linear-gradient(180deg,rgba(5,15,23,.1),rgba(5,15,23,.82)),
+url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=88') center/cover}
+.heroContent{position:absolute;left:18px;right:18px;bottom:18px}.kicker{color:var(--gold);font-weight:800;letter-spacing:.18em;font-size:12px}.heroTitle{font-size:32px;font-weight:900;letter-spacing:.12em;margin:6px 0}.heroQuote{font-style:italic;font-size:17px;line-height:1.45;max-width:85%}
+.section{padding:0 16px 14px}.card{background:linear-gradient(180deg,rgba(17,38,50,.98),rgba(10,27,37,.98));border:1px solid var(--line);border-radius:18px;padding:14px}
+.row{display:flex;align-items:center;gap:12px}.between{display:flex;align-items:center;justify-content:space-between;gap:12px}.muted{color:var(--muted)}.small{font-size:12px}.big{font-size:30px;font-weight:900}.label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
+.progress{height:9px;background:#1d3543;border-radius:99px;overflow:hidden}.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--green),#70f3cb);border-radius:99px}
+.btn{border:0;border-radius:14px;padding:13px 15px;font-weight:800;cursor:pointer}.btn-primary{background:linear-gradient(90deg,#dbe5ff,#b8cbff);color:#061018}.btn-gold{background:linear-gradient(90deg,#ffd56e,#f2b93e);color:#171007}.btn-dark{background:#132732;color:white;border:1px solid #284758}.btn:disabled{opacity:.45;cursor:not-allowed}
+.requirement{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.06)}.requirement:last-child{border:0}.num{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#193140;border:1px solid #315064}.ok{color:var(--green)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.stat{text-align:center;padding:12px 6px;border:1px solid var(--line);background:#0b1b25;border-radius:14px}.stat b{font-size:19px}
+.bottomnav{position:fixed;z-index:30;bottom:0;left:50%;transform:translateX(-50%);max-width:480px;width:100%;display:grid;grid-template-columns:repeat(5,1fr);background:rgba(7,16,24,.96);backdrop-filter:blur(18px);border-top:1px solid #1b3340;padding:7px 6px calc(7px + env(safe-area-inset-bottom))}
+.navbtn{background:none;border:0;color:#7f97a7;padding:8px 2px;font-size:11px}.navbtn.active{color:var(--gold)}.navbtn .ico{display:block;font-size:20px;margin-bottom:2px}
+.tabs{display:flex;gap:7px;overflow:auto;padding:0 16px 12px}.chip{white-space:nowrap;border:1px solid #294555;background:#0d1e28;color:#b9c8d2;border-radius:99px;padding:8px 12px}.chip.active{background:#d9e3ff;color:#071018;border-color:#d9e3ff}
+.screen{display:none}.screen.active{display:block}
+.countryGrid{display:grid;gap:10px}.countryCard{display:grid;grid-template-columns:50px 1fr auto;align-items:center;gap:12px;padding:12px;border:1px solid var(--line);border-radius:16px;background:#0c1b25}.flag{width:46px;height:34px;border-radius:10px;background:#fff;display:grid;place-items:center;font-size:27px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}.status{font-size:11px;padding:5px 8px;border-radius:99px}.visited{background:rgba(66,227,180,.16);color:var(--green)}.planned{background:rgba(107,185,255,.15);color:var(--blue)}.notvisited{background:#162b37;color:#91a8b8}
+.search{width:100%;background:#0b1b25;border:1px solid #264452;color:white;padding:12px 14px;border-radius:14px;outline:none}
+.mapBox{margin:0 16px 14px;padding:12px;border:1px solid var(--line);border-radius:18px;background:#091923}.mapSvg{width:100%;height:auto}.land{fill:#607c8c;opacity:.75}.land.vis{fill:#42e3b4}.land.plan{fill:#6bb9ff}
+.featured{display:flex;gap:10px;overflow:auto}.journey{min-width:155px;height:145px;border-radius:16px;overflow:hidden;position:relative;background-size:cover;background-position:center;border:1px solid var(--line)}.journey:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgba(0,0,0,.78))}.journey span{position:absolute;z-index:1;left:10px;bottom:10px;font-weight:800}
+.detailHero{height:220px;margin:0 16px 12px;border-radius:22px;background-size:cover;background-position:center;position:relative;overflow:hidden}.detailHero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.72))}.detailHero .dtext{position:absolute;z-index:1;left:16px;bottom:14px}
+.gallery{columns:2 140px;column-gap:10px}.photo{break-inside:avoid;margin:0 0 10px;border-radius:14px;overflow:hidden;position:relative;background:#102430}.photo img{width:100%;display:block}.photo button{position:absolute;right:7px;top:7px;border:0;border-radius:50%;width:30px;height:30px;background:rgba(0,0,0,.58);color:white}
+.entry{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)}.entry:last-child{border:0}
+.formgrid{display:grid;gap:9px}.formgrid input,.formgrid textarea,.formgrid select{width:100%;background:#091923;border:1px solid #294655;color:white;border-radius:12px;padding:11px}.formgrid textarea{min-height:100px;resize:vertical}
+.quest{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06)}.quest input{width:20px;height:20px}.badge{font-size:11px;border-radius:99px;padding:4px 7px;background:#18303e;color:#aac0cf}
+.routeLeg{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)}.routeStops{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}.stop{background:#102631;border:1px solid #274452;padding:6px 9px;border-radius:99px;font-size:12px}
+.toast{position:fixed;z-index:80;left:50%;bottom:88px;transform:translateX(-50%) translateY(20px);opacity:0;background:#f4f7fa;color:#071018;padding:11px 16px;border-radius:14px;font-weight:800;transition:.25s}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.modal{position:fixed;z-index:100;inset:0;background:rgba(0,0,0,.72);display:none;align-items:flex-end}.modal.show{display:flex}.sheet{width:100%;max-width:480px;margin:auto;background:#0b1821;border:1px solid #284352;border-radius:24px 24px 0 0;padding:18px;max-height:82vh;overflow:auto}
+.back{border:0;background:none;color:white;font-size:24px;padding:0}
+@media(min-width:800px){body{padding:30px}.app{border:1px solid #24414f;border-radius:28px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.35)}.bottomnav{border-radius:0 0 28px 28px}}
+
+.worldCalling{margin:14px 16px 12px;border-radius:24px;overflow:hidden;position:relative;min-height:260px;background:
+linear-gradient(180deg,rgba(4,12,18,.05),rgba(4,12,18,.78)),
+url("https://images.unsplash.com/photo-1469521669194-babb45599def?auto=format&fit=crop&w=1600&q=88") center/cover;border:1px solid #223e4d}
+.worldCalling .heroContent{position:absolute;left:18px;right:18px;bottom:18px}
+.trailbtn{margin-top:9px;background:none;border:0;color:var(--blue);padding:0;font-weight:800}
+.historyChart{width:100%;height:185px;display:block;margin-top:12px}
+.historyList{display:grid;gap:8px;margin-top:12px}.historyItem{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.countryCard{position:relative;overflow:hidden}.countryCard:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,var(--countryA,#153749),var(--countryB,#0b1d27));opacity:.62;z-index:0}.countryCard>*{position:relative;z-index:1}
+.countryMeta{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px}.miniTag{font-size:10px;border-radius:99px;padding:3px 7px;background:rgba(255,255,255,.07);color:#c5d4dc}
+.worldPanel{margin:0 16px 14px;border-radius:20px;border:1px solid var(--line);overflow:hidden;background:#081923}.worldPanel img{width:100%;display:block}.worldPanel .mapCaption{padding:12px 14px;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.routeTimeline{position:relative;padding-left:28px}.routeTimeline:before{content:"";position:absolute;left:10px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--gold),var(--blue),var(--green))}
+.routeCard{position:relative;margin:0 0 14px;background:linear-gradient(135deg,#102735,#091821);border:1px solid #294654;border-radius:18px;padding:14px}.routeCard:before{content:"";position:absolute;left:-25px;top:18px;width:12px;height:12px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 5px #071018,0 0 18px rgba(247,198,91,.55)}
+.routeTitle{font-size:18px;font-weight:900}.routeMode{display:inline-block;margin-top:7px;font-size:11px;background:#18323f;color:#bdd0db;padding:5px 8px;border-radius:99px}.routeStopsPretty{display:grid;gap:7px;margin-top:11px}.routeStopPretty{display:flex;align-items:center;gap:9px}.routeStopPretty .dot{width:8px;height:8px;border-radius:50%;background:var(--blue)}
+.routeQuest{margin-top:11px;padding-top:10px;border-top:1px solid rgba(255,255,255,.07);color:var(--muted);font-size:12px}
+
+
+.logGrid{display:grid;gap:10px;margin-top:10px}.logCard{display:grid;grid-template-columns:86px 1fr;gap:11px;align-items:stretch;border:1px solid var(--line);border-radius:15px;overflow:hidden;background:#0a1b25;min-height:86px}.logCard.noimg{grid-template-columns:1fr}.logThumb{width:86px;height:100%;min-height:86px;object-fit:cover;background:#17313e}.logBody{padding:10px;min-width:0}.logType{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);margin-bottom:4px}.photoPrompt{display:grid;grid-template-columns:1fr auto;gap:8px}.photoPrompt input[type=text]{min-width:0}.logicNote{padding:10px 12px;background:#0a1b25;border-left:3px solid var(--gold);border-radius:10px;color:#b9cbd4;font-size:12px;margin-top:10px}.countryCard.hasPhoto:before{opacity:.24}.countryCard .cardBackdrop{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.28;z-index:0}.countryCard .cardShade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,15,23,.94),rgba(5,15,23,.58),rgba(5,15,23,.84));z-index:0}.mapHeroDetailed{margin:0 16px 14px;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:#071018}.mapHeroDetailed img{width:100%;height:auto;display:block}.mapLegend{display:flex;gap:11px;flex-wrap:wrap;padding:10px 13px;color:#9fb3bf;font-size:11px}.legendDot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}.profitRows{display:grid;gap:7px;margin-top:12px}.profitRow{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:center}.profitRow input{min-width:0}.warningCard{border-color:#5a4930;background:linear-gradient(180deg,#1c211f,#101a20)}
+
+
+.astraMapWrap{margin:0 16px 14px;border:1px solid #274653;border-radius:22px;overflow:hidden;background:radial-gradient(circle at 28% 18%,rgba(52,136,175,.18),transparent 34%),linear-gradient(180deg,#071b27,#06131c)}
+.astraMapHead{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:14px 15px 6px}
+.astraMapCanvas{position:relative;min-height:280px;padding:0 8px 8px}
+#astraInteractiveMap{width:100%;height:auto;display:block;touch-action:manipulation}
+.mapCountry{stroke:#061119;stroke-width:.5;cursor:pointer;transition:filter .15s,opacity .15s,stroke-width .15s}
+.mapCountry:hover,.mapCountry.selected{filter:brightness(1.25);stroke:#fff;stroke-width:1.15}
+.mapTooltip{position:absolute;z-index:5;pointer-events:none;background:rgba(5,14,21,.96);border:1px solid #345969;border-radius:12px;padding:8px 10px;display:none;max-width:190px;box-shadow:0 10px 26px rgba(0,0,0,.38)}
+.mapTooltip b{display:block}.mapToolbar{display:flex;gap:6px;flex-wrap:wrap;padding:0 14px 12px}
+.mapKey{display:inline-flex;gap:6px;align-items:center;font-size:11px;color:#9fb4c1;background:#0c202b;border:1px solid #254653;border-radius:99px;padding:5px 8px}
+.mapKey i{width:9px;height:9px;border-radius:50%;display:inline-block}.mapLoading{padding:78px 15px;text-align:center;color:#8fa6b5}
+.peopleCard{display:grid;grid-template-columns:58px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.peopleAvatar{width:58px;height:58px;border-radius:15px;object-fit:cover;background:#18323f;border:1px solid #315567}
+.peopleContact{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}.contactPill{font-size:11px;border:1px solid #2c5262;background:#0a202b;border-radius:99px;padding:5px 8px;color:#c6d8e0}
+
+
+.worldCalling{background:
+linear-gradient(180deg,rgba(4,11,18,.03),rgba(4,11,18,.56)),
+url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=88") center/cover!important;min-height:275px}
+.mapControlStack{position:absolute;right:12px;bottom:16px;display:grid;gap:8px;z-index:8}
+.mapCtl{width:44px;height:44px;border-radius:13px;border:1px solid #315667;background:rgba(6,19,28,.92);color:white;font-size:21px;font-weight:900;display:grid;place-items:center;box-shadow:0 10px 20px rgba(0,0,0,.25)}
+.mapCtl.smallText{font-size:15px}
+.mapFitMsg{padding:0 14px 12px;color:#8fa7b5;font-size:11px}
+.fullMapOverlay{position:fixed;inset:0;z-index:500;background:#061018;display:none;flex-direction:column}
+.fullMapOverlay.show{display:flex}
+.fullMapBar{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid #264553;background:#07151f;color:white}
+.fullMapStage{position:relative;flex:1;min-height:0;overflow:hidden;background:radial-gradient(circle at 40% 25%,rgba(47,127,162,.18),transparent 38%),#061018}
+.fullMapStage svg{width:100%;height:100%;display:block;touch-action:none}
+.fullMapControls{position:absolute;right:14px;bottom:18px;display:grid;gap:8px}
+.rotateHint{font-size:11px;color:#8fa6b5}
+@media (orientation:portrait){
+  .fullMapOverlay.show .fullMapStage{min-height:68vw}
+}
+.routeDone{display:inline-flex;align-items:center;gap:6px;background:rgba(66,227,180,.13);color:#42e3b4;border:1px solid rgba(66,227,180,.28);padding:5px 8px;border-radius:999px;font-size:11px}
+.routeStopPretty.done .dot{background:#42e3b4;box-shadow:0 0 0 4px rgba(66,227,180,.12)}
+.routeStopPretty.done span:last-child{text-decoration:none;color:#c8f7ea}
+
+
+/* V9 RESTORATION — cinematic source-of-truth + professional polish */
+:root{
+  --bg:#071018;
+  --panel:#0d1b24;
+  --panel2:#102833;
+  --line:rgba(132,176,197,.14);
+  --text:#f7fafc;
+  --muted:#8fa4b0;
+  --green:#43ddb1;
+  --blue:#6cb8ff;
+  --gold:#f3c85f;
+  --red:#ff786c;
+}
+body{
+  background:
+    radial-gradient(circle at 50% -10%, rgba(28,76,98,.18), transparent 34%),
+    linear-gradient(180deg,#071018 0%,#08151d 60%,#061018 100%);
+}
+.app{max-width:500px}
+.topbar{
+  background:rgba(7,16,24,.92);
+  border-bottom:1px solid rgba(255,255,255,.035);
+  padding:15px 18px 11px;
+}
+.brandmark{
+  width:40px;height:40px;border-radius:14px;
+  background:linear-gradient(145deg,#173140,#0a1720);
+  border:1px solid rgba(255,255,255,.07);
+}
+.brand h1{font-size:17px;letter-spacing:.18em}
+.brand small{font-size:10px;letter-spacing:.17em}
+
+.hero,.worldCalling{
+  margin:14px 16px 18px;
+  min-height:250px;
+  border-radius:26px;
+  border:1px solid rgba(255,255,255,.06);
+  box-shadow:0 24px 60px rgba(0,0,0,.24);
+}
+.heroContent{left:20px;right:20px;bottom:20px}
+.heroTitle{font-size:32px}
+.heroQuote{font-size:16px;max-width:88%}
+.kicker{font-size:10px;letter-spacing:.19em}
+
+.section{padding:0 16px 18px}
+.card{
+  background:linear-gradient(180deg,rgba(16,37,48,.93),rgba(9,26,35,.96));
+  border:1px solid rgba(154,194,210,.10);
+  border-radius:18px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+.progress{height:7px;background:#1a323f}
+.progress>i{background:linear-gradient(90deg,#43ddb1,#7ae4c7)}
+
+.requirement{
+  grid-template-columns:34px minmax(0,1fr) auto;
+  padding:15px 0;
+  border-bottom:1px solid rgba(255,255,255,.055);
+}
+.requirement .num{
+  border-radius:11px;background:#16313d;border:0;
+}
+.trailbtn{font-size:11px}
+
+.btn{
+  border-radius:14px;min-height:46px;
+  font-weight:800;
+}
+.btn-primary{background:#e7edf8;color:#071018}
+.btn-gold{background:linear-gradient(135deg,#f6d372,#e8b849);color:#171107}
+.btn-dark{background:#112630;border:1px solid rgba(156,195,210,.12)}
+
+.stats{grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{
+  border:1px solid rgba(156,195,210,.08);
+  background:rgba(11,27,36,.92);
+  border-radius:15px;
+  padding:12px 6px;
+}
+.stat b{font-size:20px}
+
+.astraMapWrap{
+  border-radius:22px;
+  border:1px solid rgba(156,195,210,.10);
+  box-shadow:0 18px 46px rgba(0,0,0,.18);
+}
+.mapCtl{
+  border:1px solid rgba(156,195,210,.11);
+  background:rgba(6,18,27,.92);
+}
+.mapKey{border:0;background:#10242e}
+
+.countryGrid{gap:10px}
+.countryCard{
+  border-radius:17px;
+  border:1px solid rgba(255,255,255,.05);
+  box-shadow:none;
+}
+.countryCard:before{opacity:.48}
+.flag{border-radius:9px}
+.miniTag{background:rgba(255,255,255,.055)}
+.status{font-weight:750}
+
+.detailHero{
+  height:238px;
+  border-radius:24px;
+  box-shadow:0 22px 50px rgba(0,0,0,.22);
+}
+
+.tabs{gap:7px}
+.chip{
+  border:0;
+  background:#0f222c;
+  color:#9fb2bc;
+}
+.chip.active{background:#e8eef6;color:#071018}
+
+.routeCard{
+  background:linear-gradient(145deg,rgba(17,39,51,.95),rgba(8,23,31,.96));
+  border:1px solid rgba(150,190,207,.09);
+  border-radius:18px;
+  box-shadow:none;
+}
+.routeCard:before{
+  box-shadow:0 0 0 5px #071018,0 0 16px rgba(243,200,95,.30)
+}
+
+.formgrid input,.formgrid textarea,.formgrid select{
+  background:#0a1c25;
+  border:1px solid rgba(155,194,210,.10);
+  border-radius:13px;
+}
+.sheet{
+  background:#0a1820;
+  border:1px solid rgba(155,194,210,.10);
+  border-radius:24px 24px 0 0;
+}
+.bottomnav{
+  background:rgba(7,16,24,.96);
+  border-top:1px solid rgba(142,180,197,.09);
+}
+.navbtn.active{color:var(--gold)}
+
+.phxLaunchCard{
+  margin:0 16px 18px;
+  padding:16px 17px;
+  border-radius:20px;
+  background:linear-gradient(135deg,rgba(18,40,51,.96),rgba(9,26,34,.96));
+  border:1px solid rgba(150,190,207,.10);
+}
+.phxLaunchHead{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:14px;margin-bottom:12px
+}
+.phxLaunchHead .big{font-size:32px}
+.phxCountdown{
+  display:flex;justify-content:space-between;align-items:end;gap:16px;
+  margin:0 16px 14px;
+  padding:0 2px;
+}
+.phxCountdown .days{font-size:34px;font-weight:900;letter-spacing:-.04em}
+.phxReqWrap{
+  margin:0 16px 18px;
+  padding:0 16px;
+  border-radius:20px;
+  background:linear-gradient(180deg,rgba(15,34,44,.93),rgba(9,26,35,.96));
+  border:1px solid rgba(150,190,207,.10);
+}
+.phxGate{
+  margin:0 16px 22px;
+  padding:17px;
+  border-radius:20px;
+  background:rgba(10,27,36,.86);
+  border:1px solid rgba(150,190,207,.08);
+}
+
+
+.uiIcon{width:20px;height:20px;display:inline-block;vertical-align:middle;object-fit:contain}
+.brandmark img{width:25px;height:25px}.navbtn .ico img{width:19px;height:19px;display:block;margin:auto}
+.questIcon{width:30px;height:30px;border-radius:9px;object-fit:cover}
+.wonderThumb{width:76px;height:52px;border-radius:12px;object-fit:cover;box-shadow:0 8px 18px rgba(0,0,0,.2)}
+.wonderQuest{grid-template-columns:80px 1fr auto}
+.scenicStrip{margin:0 16px 18px;display:grid;grid-template-columns:1.1fr .9fr;gap:9px}
+.scenicCard{min-height:120px;border-radius:18px;background-size:cover;background-position:center;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+.scenicCard:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,0,0,.62))}
+.scenicCard span{position:absolute;z-index:1;left:12px;bottom:10px;font-weight:800;font-size:13px}
+
+.fullMapTooltip{z-index:20;max-width:220px}.fullMapOverlay.show .mapTooltip{font-size:13px}
+
+
+/* V12 REAL PHOTOGRAPHY */
+.hero{
+ background:linear-gradient(180deg,rgba(4,12,18,.05),rgba(4,12,18,.78)),
+ url("https://images.unsplash.com/photo-1469521669194-babb45599def?auto=format&fit=crop&w=1400&q=85") center/cover!important;
+}
+.worldCalling{
+ background:linear-gradient(180deg,rgba(4,11,18,.05),rgba(4,11,18,.72)),
+ url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=85") center/cover!important;
+ min-height:300px!important;
+}
+.wonderThumb{width:96px;height:66px;border-radius:12px;object-fit:cover;background:#0e2029}
+.wonderQuest{grid-template-columns:100px minmax(0,1fr) auto;align-items:center}
+@media(max-width:430px){.wonderQuest{grid-template-columns:84px minmax(0,1fr)}.wonderQuest .status{grid-column:2}.wonderThumb{width:82px;height:58px}}
+
+
+.countryJourneyBanner{margin:0 16px 16px;min-height:145px;border-radius:22px;overflow:hidden;position:relative;background:linear-gradient(180deg,rgba(5,14,20,.06),rgba(5,14,20,.72)),url("https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1400&q=84") center/cover;border:1px solid rgba(255,255,255,.06)}
+.countryJourneyBanner .bannerText{position:absolute;left:16px;right:16px;bottom:14px}
+.routeIntro{margin:0 16px 18px;padding:18px;border-radius:22px;background:linear-gradient(100deg,rgba(7,18,26,.92),rgba(7,18,26,.58)),url("https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=1400&q=84") center/cover;border:1px solid rgba(255,255,255,.06);min-height:150px;display:flex;align-items:flex-end}
+.routeIntro h2{margin:4px 0 4px} .routeIntro .small{max-width:80%}
+.inlineBrandIcon{width:25px;height:25px;color:var(--gold)}
+.navbtn .ico svg{width:19px;height:19px;display:block;margin:auto}
+.brandmark svg{width:25px;height:25px;color:var(--gold)}
+
+
+/* V15 Countries + Route Card Redesign */
+.countryGrid{display:grid;gap:12px}
+.countryCard{
+  position:relative;
+  min-height:118px;
+  border-radius:22px;
+  overflow:hidden;
+  padding:0;
+  display:block;
+  border:1px solid rgba(255,255,255,.07);
+  background:#0b1b24;
+  box-shadow:0 12px 28px rgba(0,0,0,.16);
+}
+.countryCard .cardBackdrop{
+  position:absolute;inset:0;background-size:cover;background-position:center;
+  opacity:.78;transform:scale(1.01);
+}
+.countryCard .cardShade{
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(5,15,22,.95) 0%,rgba(5,15,22,.78) 48%,rgba(5,15,22,.26) 100%);
+}
+.countryCard.noPhoto{
+  background:
+    radial-gradient(circle at 82% 18%,rgba(255,255,255,.05),transparent 28%),
+    linear-gradient(135deg,var(--countryA),var(--countryB));
+}
+.countryCardInner{
+  position:relative;z-index:2;
+  min-height:118px;padding:15px 15px 14px;
+  display:grid;grid-template-columns:54px minmax(0,1fr) auto;
+  gap:13px;align-items:center;
+}
+.countryFlagWrap{
+  width:52px;height:52px;border-radius:15px;
+  background:rgba(255,255,255,.10);
+  backdrop-filter:blur(10px);
+  display:grid;place-items:center;
+  border:1px solid rgba(255,255,255,.08);
+}
+.countryFlagWrap .flag{
+  width:auto;height:auto;background:none;box-shadow:none;font-size:31px;
+}
+.countryTitle{font-size:18px;font-weight:900;line-height:1.05;margin-bottom:5px}
+.countrySubtitle{font-size:11px;color:#c4d0d6;line-height:1.35}
+.countryMeta{margin-top:8px;gap:5px}
+.miniTag{
+  background:rgba(5,16,23,.48);
+  border:1px solid rgba(255,255,255,.07);
+  backdrop-filter:blur(6px);
+  color:#cbd7dd;
+}
+.countryCard .status{
+  align-self:start;margin-top:2px;
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.07);
+}
+.countryCard.hasPhoto .visited{background:rgba(34,158,119,.88);color:white}
+.countryCard.hasPhoto .planned{background:rgba(48,118,193,.88);color:white}
+.countryCard.hasPhoto .notvisited{background:rgba(19,34,44,.76);color:#d1dde2}
+.countryCard:hover{transform:translateY(-1px)}
+.countryCard{transition:transform .16s ease,box-shadow .16s ease}
+.countryCard:hover{box-shadow:0 16px 34px rgba(0,0,0,.22)}
+
+.routeHeroLine{
+  margin:0 16px 14px;
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+}
+.routeHeroLine .routeSummaryMain{font-size:26px;font-weight:900;letter-spacing:-.04em}
+.routeHeroLine .small{text-align:right}
+
+.routeTimeline{
+  padding-left:0;
+  display:grid;
+  gap:12px;
+}
+.routeTimeline:before{display:none}
+.routeCard{
+  margin:0;
+  border-radius:22px;
+  padding:0;
+  overflow:hidden;
+  position:relative;
+  background:linear-gradient(145deg,rgba(14,32,42,.97),rgba(8,23,31,.98));
+  border:1px solid rgba(255,255,255,.07);
+  box-shadow:0 12px 28px rgba(0,0,0,.14);
+}
+.routeCard:before{display:none}
+.routeCardTop{
+  padding:15px 16px 13px;
+  display:grid;grid-template-columns:46px minmax(0,1fr) auto;
+  gap:12px;align-items:center;
+  border-bottom:1px solid rgba(255,255,255,.055);
+}
+.routeLegNo{
+  width:44px;height:44px;border-radius:14px;
+  display:grid;place-items:center;
+  background:linear-gradient(145deg,rgba(240,197,99,.16),rgba(240,197,99,.05));
+  border:1px solid rgba(240,197,99,.15);
+  color:var(--gold);
+  font-weight:900;font-size:13px;
+}
+.routeCardTitle{font-size:17px;font-weight:900;line-height:1.1}
+.routeMode{
+  margin-top:5px;
+  background:transparent;
+  padding:0;
+  color:#8fa6b3;
+  font-size:11px;
+}
+.routeCardBody{padding:14px 16px 15px}
+.routeProgressLine{
+  display:flex;justify-content:space-between;gap:10px;align-items:center;
+  margin-bottom:11px;
+}
+.routeProgressLine b{font-size:13px}
+.routeProgressBar{
+  height:5px;background:#162b36;border-radius:99px;overflow:hidden;
+  margin-bottom:13px;
+}
+.routeProgressBar i{
+  display:block;height:100%;border-radius:99px;
+  background:linear-gradient(90deg,#43ddb1,#6cb8ff);
+}
+.routeStopsPretty{
+  display:flex;flex-wrap:wrap;gap:7px;margin-top:0
+}
+.routeStopPretty{
+  min-height:auto;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 9px;
+  border-radius:999px;
+  background:#0c2029;
+  border:1px solid rgba(255,255,255,.055);
+  font-size:11px;
+}
+.routeStopPretty .dot{width:7px;height:7px}
+.routeStopPretty.done{
+  background:rgba(67,221,177,.08);
+  border-color:rgba(67,221,177,.16);
+}
+.routeDone{
+  background:transparent;border:0;padding:0;font-size:10px
+}
+.routeQuest{
+  margin-top:13px;padding-top:11px;
+  border-top:1px solid rgba(255,255,255,.055);
+  line-height:1.5
+}
+.routeCard .status{align-self:start}
+@media(max-width:430px){
+  .countryCardInner{grid-template-columns:48px minmax(0,1fr);padding:14px}
+  .countryCardInner>.status{grid-column:2;justify-self:start;margin-top:2px}
+  .countryFlagWrap{width:46px;height:46px;border-radius:13px}
+  .countryFlagWrap .flag{font-size:28px}
+  .routeCardTop{grid-template-columns:42px minmax(0,1fr)}
+  .routeCardTop>.status{grid-column:2;justify-self:start}
+}
+
+
+/* V16 World Archive scenery */
+.countryJourneyBanner{
+ min-height:190px!important;
+ background:
+   linear-gradient(180deg,rgba(4,12,18,.04),rgba(4,12,18,.78)),
+   url("https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1600&q=88") center/cover!important;
+}
+.countryJourneyBanner .bannerText{bottom:16px!important}
+
+
+/* V17 Firebase */
+.firebaseStatus{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:#90a5b0}
+.firebaseDot{width:9px;height:9px;border-radius:50%;background:#6e8591;box-shadow:0 0 0 4px rgba(110,133,145,.08)}
+.firebaseDot.online{background:#43ddb1;box-shadow:0 0 0 4px rgba(67,221,177,.10)}
+.firebaseDot.offline{background:#ff786c;box-shadow:0 0 0 4px rgba(255,120,108,.10)}
+.firebasePanel{margin-top:12px;padding:14px;border-radius:16px;background:#0a1d26;border:1px solid rgba(255,255,255,.06)}
+
+
+/* V20 Authentication + Sync */
+.authGate{position:fixed;inset:0;z-index:9999;background:#061018;display:none;overflow:auto}
+.authGate.show{display:block}
+.authBackdrop{position:absolute;inset:0;background:
+ linear-gradient(180deg,rgba(4,12,18,.08),rgba(4,12,18,.92)),
+ url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=88") center/cover}
+.authShell{position:relative;z-index:2;min-height:100dvh;display:flex;align-items:flex-end;justify-content:center;padding:28px 18px}
+.authCard{width:min(100%,440px);border-radius:30px 30px 22px 22px;padding:24px 20px 20px;background:rgba(7,20,28,.94);border:1px solid rgba(255,255,255,.09);box-shadow:0 -22px 60px rgba(0,0,0,.35);backdrop-filter:blur(18px)}
+.authMark{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(145deg,rgba(240,197,99,.20),rgba(240,197,99,.06));border:1px solid rgba(240,197,99,.18);color:var(--gold);margin-bottom:16px}
+.authMark svg{width:27px;height:27px}
+.authEyebrow{font-size:10px;letter-spacing:.18em;color:var(--gold);font-weight:900}
+.authTitle{font-size:29px;line-height:1.02;letter-spacing:-.04em;margin:6px 0 8px}
+.authSub{color:#a7b8c0;font-size:13px;line-height:1.55;margin-bottom:20px}
+.authField{margin-bottom:11px}
+.authField label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.10em;color:#7f96a2;font-weight:800;margin:0 0 6px 3px}
+.authField input{width:100%;box-sizing:border-box;background:#0b202a;border:1px solid rgba(255,255,255,.07);border-radius:15px;padding:14px 14px;color:white;font:inherit;outline:none}
+.authField input:focus{border-color:rgba(240,197,99,.42);box-shadow:0 0 0 3px rgba(240,197,99,.07)}
+.authSubmit{width:100%;margin-top:5px;border:0;border-radius:15px;padding:14px;background:linear-gradient(135deg,#f1c76a,#dca84d);color:#111820;font-weight:950;font-size:14px;cursor:pointer}
+.authSubmit:disabled{opacity:.55}
+.authMessage{min-height:20px;margin-top:11px;text-align:center;font-size:11px;color:#91a5af}
+.authMessage.error{color:#ff8f86}
+.authFooter{margin-top:15px;padding-top:14px;border-top:1px solid rgba(255,255,255,.055);display:flex;justify-content:space-between;align-items:center;gap:12px;color:#6f8793;font-size:10px}
+.syncPill{position:fixed;right:14px;top:14px;z-index:5000;padding:8px 10px;border-radius:999px;background:rgba(7,21,29,.88);border:1px solid rgba(255,255,255,.07);backdrop-filter:blur(10px);font-size:10px;color:#9cb0ba;display:none;align-items:center;gap:7px}
+.syncPill.show{display:flex}.syncPill i{width:7px;height:7px;border-radius:50%;background:#728995}.syncPill.synced i{background:#43ddb1}.syncPill.syncing i{background:#f1c76a}.syncPill.offline i{background:#ff786c}
+.authUserPanel{margin:12px 16px 18px;padding:14px;border-radius:18px;background:#0b2029;border:1px solid rgba(255,255,255,.06)}
+.authUserPanel button{margin-top:10px}
+@media(min-width:700px){.authShell{align-items:center}.authCard{border-radius:28px;padding:28px}}
+
+</style>
+</head>
+<body>
+
+<div id="authGate" class="authGate">
+  <div class="authBackdrop"></div>
+  <div class="authShell">
+    <div class="authCard">
+      <div class="authMark">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 10l9 20-9-5-9 5 9-20ZM19 38l13-8 13 8-13 16-13-16ZM32 30v17" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="authEyebrow">DANIAL ROUND THE WORLD</div>
+      <h1 class="authTitle">Your world is waiting.</h1>
+      <div class="authSub">Sign in to continue Phoenix and keep your journey state protected in the cloud.</div>
+      <form id="authForm">
+        <div class="authField"><label>Email</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+        <div class="authField"><label>Password</label><input id="authPassword" type="password" autocomplete="current-password" placeholder="••••••••" required></div>
+        <button id="authSubmit" class="authSubmit" type="submit">ENTER PHOENIX</button>
+      </form>
+      <div id="authMessage" class="authMessage">Use the account created in Firebase Authentication.</div>
+      <div class="authFooter"><span>PHOENIX → ASTRA</span><span>Private account</span></div>
+    </div>
+  </div>
+</div>
+<div id="syncPill" class="syncPill"><i></i><span id="syncText">Local</span></div>
+
+<div class="app">
+  <div id="phoenixScreen" class="screen active"></div>
+  <div id="astraHome" class="screen"></div>
+  <div id="countriesScreen" class="screen"></div>
+  <div id="countryDetail" class="screen"></div>
+  <div id="questsScreen" class="screen"></div>
+  <div id="routeScreen" class="screen"></div>
+  <div id="journalScreen" class="screen"></div>
+</div>
+
+
+<div id="fullMapOverlay" class="fullMapOverlay" aria-hidden="true">
+  <div class="fullMapBar">
+    <div><b>World Map</b><div class="rotateHint">Fullscreen · landscape-friendly · pinch/drag to explore</div></div>
+    <button class="btn btn-dark" onclick="closeFullMap()">✕ Close</button>
+  </div>
+  <div class="fullMapStage" id="fullMapStage">
+    <svg id="astraFullMap" viewBox="0 0 960 500" aria-label="Fullscreen interactive world map"></svg>
+    <div id="fullMapTooltip" class="mapTooltip fullMapTooltip"></div>
+    <div class="fullMapControls">
+      <button class="mapCtl" onclick="fullMapZoom(1.35)">+</button>
+      <button class="mapCtl" onclick="fullMapZoom(0.74)">−</button>
+      <button class="mapCtl smallText" onclick="fullMapReset()">Fit</button>
+    </div>
+  </div>
+</div>
+
+<nav class="bottomnav">
+  <button class="navbtn active" data-nav="phoenix"><span class="ico"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M18 42c7-4 9-12 14-23 5 11 7 19 14 23M17 26c7 0 10 3 15 8 5-5 8-8 15-8M22 45l10 7 10-7" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Phoenix</button>
+  <button class="navbtn" data-nav="astra"><span class="ico"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 10l9 20-9-5-9 5 9-20ZM19 38l13-8 13 8-13 16-13-16ZM32 30v17" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Astra</button>
+  <button class="navbtn" data-nav="countries"><span class="ico"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M14 30a18 18 0 1 0 36 0 18 18 0 1 0-36 0ZM14 30h36M32 12c5 5 8 11 8 18s-3 13-8 18M32 12c-5 5-8 11-8 18s3 13 8 18" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Countries</button>
+  <button class="navbtn" data-nav="quests"><span class="ico"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 11l6 12 13 2-9 9 2 13-12-6-12 6 2-13-9-9 13-2 6-12Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Quests</button>
+  <button class="navbtn" data-nav="route"><span class="ico"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M15 15h10v10H15V15Zm24 24h10v10H39V39ZM25 20c16 0 4 24 18 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Route</button>
+</nav>
+<div class="toast" id="toast"></div>
+<div style="display:none"><span data-fb-dot class="firebaseDot"></span><span data-fb-status>Firebase loading…</span></div>
+<div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+<input type="file" id="photoInput" accept="image/*" multiple hidden>
+
+<script>
+const TARGET_DATE='2027-12-31T23:59:59+08:00';
+const defaultPhoenix={cash:0,weight:120,days90:0,profitAvg:0,profitHistory:[],testStart:null,degree:false,graduated:false,convocation:false,launched:false,history:[],cashHistory:[],weightHistory:[]};
+let P=JSON.parse(localStorage.getItem('phoenix')||'null')||defaultPhoenix;
+P.cashHistory=P.cashHistory||P.history||[]; P.weightHistory=P.weightHistory||[]; P.profitHistory=P.profitHistory||[]; P.testStart=P.testStart||null;
+let journal=JSON.parse(localStorage.getItem('astraJournal')||'[]');
+let countryNotes=JSON.parse(localStorage.getItem('countryNotes')||'{}');
+let visited=JSON.parse(localStorage.getItem('visitedCountries')||'["Thailand","China","New Zealand"]');
+let planned=JSON.parse(localStorage.getItem('plannedCountries')||'[]');
+let questDone=JSON.parse(localStorage.getItem('questDone')||'[]');
+let wonderDone=JSON.parse(localStorage.getItem('wonderDone')||'[]');
+let currentCountry=null;
+
+const countries=[
+["Malaysia","🇲🇾","Asia"],["Singapore","🇸🇬","Asia"],["Brunei","🇧🇳","Asia"],["Indonesia","🇮🇩","Asia"],["Timor-Leste","🇹🇱","Asia"],["Philippines","🇵🇭","Asia"],["Thailand","🇹🇭","Asia"],["Laos","🇱🇦","Asia"],["Cambodia","🇰🇭","Asia"],["Vietnam","🇻🇳","Asia"],["Myanmar","🇲🇲","Asia"],["Japan","🇯🇵","Asia"],["South Korea","🇰🇷","Asia"],["North Korea","🇰🇵","Asia"],["China","🇨🇳","Asia"],["Mongolia","🇲🇳","Asia"],["Nepal","🇳🇵","Asia"],["Bhutan","🇧🇹","Asia"],["India","🇮🇳","Asia"],["Bangladesh","🇧🇩","Asia"],["Sri Lanka","🇱🇰","Asia"],["Maldives","🇲🇻","Asia"],["Pakistan","🇵🇰","Asia"],["Afghanistan","🇦🇫","Asia"],["Kazakhstan","🇰🇿","Asia"],["Kyrgyzstan","🇰🇬","Asia"],["Uzbekistan","🇺🇿","Asia"],["Tajikistan","🇹🇯","Asia"],["Turkmenistan","🇹🇲","Asia"],["Saudi Arabia","🇸🇦","Asia"],["Jordan","🇯🇴","Asia"],["Türkiye","🇹🇷","Asia"],["United Arab Emirates","🇦🇪","Asia"],["Qatar","🇶🇦","Asia"],["Bahrain","🇧🇭","Asia"],["Kuwait","🇰🇼","Asia"],["Oman","🇴🇲","Asia"],["Yemen","🇾🇪","Asia"],["Iraq","🇮🇶","Asia"],["Iran","🇮🇷","Asia"],["Israel","🇮🇱","Asia"],["Palestine","🇵🇸","Asia"],["Lebanon","🇱🇧","Asia"],["Syria","🇸🇾","Asia"],["Armenia","🇦🇲","Asia"],["Azerbaijan","🇦🇿","Asia"],["Georgia","🇬🇪","Asia"],["Cyprus","🇨🇾","Europe"],
+["Italy","🇮🇹","Europe"],["Switzerland","🇨🇭","Europe"],["Austria","🇦🇹","Europe"],["Germany","🇩🇪","Europe"],["Netherlands","🇳🇱","Europe"],["Belgium","🇧🇪","Europe"],["France","🇫🇷","Europe"],["Spain","🇪🇸","Europe"],["Portugal","🇵🇹","Europe"],["Norway","🇳🇴","Europe"],["Sweden","🇸🇪","Europe"],["Finland","🇫🇮","Europe"],["Denmark","🇩🇰","Europe"],["Iceland","🇮🇸","Europe"],["United Kingdom","🇬🇧","Europe"],["Ireland","🇮🇪","Europe"],["Poland","🇵🇱","Europe"],["Czechia","🇨🇿","Europe"],["Slovakia","🇸🇰","Europe"],["Hungary","🇭🇺","Europe"],["Slovenia","🇸🇮","Europe"],["Croatia","🇭🇷","Europe"],["Bosnia and Herzegovina","🇧🇦","Europe"],["Serbia","🇷🇸","Europe"],["Montenegro","🇲🇪","Europe"],["Albania","🇦🇱","Europe"],["North Macedonia","🇲🇰","Europe"],["Greece","🇬🇷","Europe"],["Bulgaria","🇧🇬","Europe"],["Romania","🇷🇴","Europe"],["Moldova","🇲🇩","Europe"],["Ukraine","🇺🇦","Europe"],["Belarus","🇧🇾","Europe"],["Lithuania","🇱🇹","Europe"],["Latvia","🇱🇻","Europe"],["Estonia","🇪🇪","Europe"],["Luxembourg","🇱🇺","Europe"],["Liechtenstein","🇱🇮","Europe"],["Monaco","🇲🇨","Europe"],["Andorra","🇦🇩","Europe"],["San Marino","🇸🇲","Europe"],["Vatican City","🇻🇦","Europe"],["Malta","🇲🇹","Europe"],["Russia","🇷🇺","Europe"],
+["Morocco","🇲🇦","Africa"],["Algeria","🇩🇿","Africa"],["Tunisia","🇹🇳","Africa"],["Libya","🇱🇾","Africa"],["Egypt","🇪🇬","Africa"],["Sudan","🇸🇩","Africa"],["South Sudan","🇸🇸","Africa"],["Ethiopia","🇪🇹","Africa"],["Eritrea","🇪🇷","Africa"],["Djibouti","🇩🇯","Africa"],["Somalia","🇸🇴","Africa"],["Kenya","🇰🇪","Africa"],["Uganda","🇺🇬","Africa"],["Rwanda","🇷🇼","Africa"],["Burundi","🇧🇮","Africa"],["Tanzania","🇹🇿","Africa"],["DR Congo","🇨🇩","Africa"],["Republic of the Congo","🇨🇬","Africa"],["Gabon","🇬🇦","Africa"],["Equatorial Guinea","🇬🇶","Africa"],["Cameroon","🇨🇲","Africa"],["Central African Republic","🇨🇫","Africa"],["Chad","🇹🇩","Africa"],["Niger","🇳🇪","Africa"],["Nigeria","🇳🇬","Africa"],["Benin","🇧🇯","Africa"],["Togo","🇹🇬","Africa"],["Ghana","🇬🇭","Africa"],["Côte d’Ivoire","🇨🇮","Africa"],["Liberia","🇱🇷","Africa"],["Sierra Leone","🇸🇱","Africa"],["Guinea","🇬🇳","Africa"],["Guinea-Bissau","🇬🇼","Africa"],["Senegal","🇸🇳","Africa"],["Gambia","🇬🇲","Africa"],["Mauritania","🇲🇷","Africa"],["Mali","🇲🇱","Africa"],["Burkina Faso","🇧🇫","Africa"],["Cabo Verde","🇨🇻","Africa"],["São Tomé and Príncipe","🇸🇹","Africa"],["Angola","🇦🇴","Africa"],["Zambia","🇿🇲","Africa"],["Zimbabwe","🇿🇼","Africa"],["Malawi","🇲🇼","Africa"],["Mozambique","🇲🇿","Africa"],["Madagascar","🇲🇬","Africa"],["Mauritius","🇲🇺","Africa"],["Seychelles","🇸🇨","Africa"],["Comoros","🇰🇲","Africa"],["Botswana","🇧🇼","Africa"],["Namibia","🇳🇦","Africa"],["South Africa","🇿🇦","Africa"],["Lesotho","🇱🇸","Africa"],["Eswatini","🇸🇿","Africa"],
+["United States","🇺🇸","North America"],["Canada","🇨🇦","North America"],["Mexico","🇲🇽","North America"],["Guatemala","🇬🇹","North America"],["Belize","🇧🇿","North America"],["Honduras","🇭🇳","North America"],["El Salvador","🇸🇻","North America"],["Nicaragua","🇳🇮","North America"],["Costa Rica","🇨🇷","North America"],["Panama","🇵🇦","North America"],["Cuba","🇨🇺","North America"],["Jamaica","🇯🇲","North America"],["Haiti","🇭🇹","North America"],["Dominican Republic","🇩🇴","North America"],["Bahamas","🇧🇸","North America"],["Barbados","🇧🇧","North America"],["Trinidad and Tobago","🇹🇹","North America"],["Grenada","🇬🇩","North America"],["Dominica","🇩🇲","North America"],["Saint Lucia","🇱🇨","North America"],["Saint Vincent and the Grenadines","🇻🇨","North America"],["Antigua and Barbuda","🇦🇬","North America"],["Saint Kitts and Nevis","🇰🇳","North America"],
+["Colombia","🇨🇴","South America"],["Venezuela","🇻🇪","South America"],["Guyana","🇬🇾","South America"],["Suriname","🇸🇷","South America"],["Ecuador","🇪🇨","South America"],["Peru","🇵🇪","South America"],["Brazil","🇧🇷","South America"],["Bolivia","🇧🇴","South America"],["Paraguay","🇵🇾","South America"],["Uruguay","🇺🇾","South America"],["Argentina","🇦🇷","South America"],["Chile","🇨🇱","South America"],
+["Australia","🇦🇺","Oceania"],["New Zealand","🇳🇿","Oceania"],["Papua New Guinea","🇵🇬","Oceania"],["Fiji","🇫🇯","Oceania"],["Solomon Islands","🇸🇧","Oceania"],["Vanuatu","🇻🇺","Oceania"],["Samoa","🇼🇸","Oceania"],["Tonga","🇹🇴","Oceania"],["Tuvalu","🇹🇻","Oceania"],["Kiribati","🇰🇮","Oceania"],["Nauru","🇳🇷","Oceania"],["Palau","🇵🇼","Oceania"],["Micronesia","🇫🇲","Oceania"],["Marshall Islands","🇲🇭","Oceania"]
+];
+
+const wonders=[
+["Great Wall of China","China","🇨🇳"],["Petra","Jordan","🇯🇴"],["Christ the Redeemer","Brazil","🇧🇷"],["Machu Picchu","Peru","🇵🇪"],["Chichén Itzá","Mexico","🇲🇽"],["Colosseum","Italy","🇮🇹"],["Taj Mahal","India","🇮🇳"]
+];
+const continents=["Asia","Europe","Africa","North America","South America","Oceania","Antarctica"];
+const first100=[
+["Everest Base Camp","Nepal","Adventure"],["Mount Kinabalu","Malaysia","Adventure"],["Mount Fuji","Japan","Adventure"],["Trek Patagonia","Argentina / Chile","Adventure"],["Hike the Alps","Switzerland","Adventure"],["Climb a volcano","Indonesia","Adventure"],["Walk on a glacier","Iceland","Adventure"],["Via ferrata","Switzerland","Adventure"],["Multi-day wilderness trek","Nepal","Adventure"],["Wilderness survival course","Canada","Adventure"],
+["Scuba certification","Malaysia","Ocean"],["Open-water dive abroad","Malaysia","Ocean"],["Freediving","Philippines","Ocean"],["Learn surfing","South Africa","Ocean"],["Swim with whale sharks","Philippines","Ocean"],["Whale watching","Iceland","Ocean"],["See bioluminescent water","Maldives","Ocean"],["Learn sailing","Greece","Ocean"],["Multi-day sailing voyage","Greece","Ocean"],["Sea kayaking","Canada","Ocean"],
+["Skydive","New Zealand","Adrenaline"],["Paragliding","Switzerland","Adrenaline"],["Hot-air balloon Cappadocia","Türkiye","Adrenaline"],["White-water rafting","Nepal","Adrenaline"],["Sandboarding","Morocco","Adrenaline"],["Snowmobile","Norway","Adrenaline"],["Snowboarding","Japan","Adrenaline"],["Ice climbing","Iceland","Adrenaline"],["Performance driving","Germany","Adrenaline"],["Scenic helicopter flight","New Zealand","Adrenaline"],
+["Muay Thai camp","Thailand","Warrior"],["Japanese martial art","Japan","Warrior"],["BJJ session","Brazil","Warrior"],["Boxing training","Thailand","Warrior"],["Traditional archery","Japan","Warrior"],["Train despite language barrier","Japan","Warrior"],["Friendly spar abroad","Thailand","Warrior"],["Horseback riding","Kyrgyzstan","Warrior"],["Central Asia horse trek","Kyrgyzstan","Warrior"],["Train above 2,000m","Nepal","Warrior"],
+["African safari","Tanzania","Wildlife"],["Great Migration","Tanzania","Wildlife"],["Gorilla trekking","Uganda","Wildlife"],["Penguins in Antarctica","Antarctica","Wildlife"],["Wild elephants","Tanzania","Wildlife"],["Borneo wildlife expedition","Malaysia","Wildlife"],["Conservation project","Costa Rica","Wildlife"],["Wildlife photography","Tanzania","Wildlife"],["Sleep near safari reserve","Tanzania","Wildlife"],["Day with conservation guide","Tanzania","Wildlife"],
+["Aurora Borealis","Norway","Nature"],["Set foot on Antarctica","Antarctica","Nature"],["Midnight sun","Norway","Nature"],["Milky Way dark sky","Chile","Nature"],["Sleep under desert stars","Jordan","Nature"],["Cross part of Sahara","Morocco","Nature"],["Stay in yurt","Kyrgyzstan","Nature"],["Proper snowfall","Japan","Nature"],["Swim in alpine lake","Switzerland","Nature"],["Truly remote landscape","Mongolia","Nature"],
+["International sleeper train","Uzbekistan","Journey"],["European rail journey","Europe","Journey"],["Central Asia overland","Central Asia","Journey"],["International motorcycle journey","Vietnam","Journey"],["Live from campervan","New Zealand","Journey"],["European road trip","Europe","Journey"],["North American road trip","USA / Canada","Journey"],["Patagonia road trip","Argentina / Chile","Journey"],["International ship journey","Antarctica","Journey"],["Enter a country without flying","Thailand","Journey"],
+["Great Wall","China","Wonder"],["Petra","Jordan","Wonder"],["Colosseum","Italy","Wonder"],["Taj Mahal","India","Wonder"],["Chichén Itzá","Mexico","Wonder"],["Machu Picchu","Peru","Wonder"],["Christ the Redeemer","Brazil","Wonder"],["Pyramids of Giza","Egypt","Culture"],["Traditional festival abroad","Japan","Culture"],["Major global sporting event","Europe / USA","Culture"],
+["Live 30+ days abroad","Japan","Human"],["Stay with local family","Any","Human"],["Eat in local home","Any","Human"],["Cook with local","Italy","Human"],["Volunteer with community","Any","Human"],["Friend despite language barrier","Any","Human"],["No-English Japanese day","Japan","Language"],["Mandarin-only day","China","Language"],["Learn traditional craft","Japan","Culture"],["Learn local music/dance","Brazil","Culture"],
+["Travel solo 30 days","Any","Personal"],["Silent/reflective retreat","Any","Personal"],["Perform Umrah","Saudi Arabia","Spiritual"],["Visit foreign founder company","Any","Business"],["International startup event","Any","Business"],["First international business deal","Any","Business"],["Meaningful give-back project","Any","Human"],["Give a talk outside Malaysia","Any","Personal"],["Final sunset of a major Astra chapter","Any","Personal"],["Return home after a major Astra chapter","Malaysia","Personal"]
+];
+
+const routeLegs=[
+["Southeast Asia","Malaysia → Singapore → Brunei → Indonesia → Timor-Leste → Philippines → Thailand → Laos → Vietnam → Cambodia → Myanmar","Mostly overland + regional flights"],
+["East Asia","Japan → South Korea → China → Mongolia → North Korea (defer until lawful/safe)","Rail + flights"],
+["South Asia & Himalaya","Nepal → Bhutan → India → Bangladesh → Sri Lanka → Maldives → Pakistan → Afghanistan (defer until lawful/safe)","Flights + overland"],
+["Central Asia","Kazakhstan → Kyrgyzstan → Uzbekistan → Tajikistan → Turkmenistan","Rail + road"],
+["Middle East & Caucasus","Saudi Arabia → Jordan → Türkiye → UAE → Qatar → Bahrain → Kuwait → Oman → Iran → Iraq → Israel/Palestine → Lebanon → Armenia → Azerbaijan → Georgia; Yemen/Syria deferred until lawful/safe","Flights + road"],
+["Western & Central Europe","Italy → Switzerland → Austria → Germany → Netherlands → Belgium → France → Spain → Portugal","Rail"],
+["Northern & Eastern Europe","Norway → Sweden → Finland → Denmark → Iceland → UK → Ireland → Baltics → Central/Eastern Europe","Rail + flights"],
+["North Africa","Morocco → Algeria → Tunisia → Egypt; Libya/Sudan based on safety","Flights + road"],
+["East Africa","Ethiopia → Kenya → Uganda → Rwanda → Tanzania → Indian Ocean islands","Flights + road"],
+["Southern Africa","South Africa → Namibia → Botswana → Zimbabwe → Zambia → Malawi → Mozambique → Eswatini → Lesotho","Road trip"],
+["West & Central Africa","Regional loop through coastal West Africa then Central Africa; defer unstable borders as needed","Flights + road"],
+["North America","Canada → United States → Mexico","Road + rail + flights"],
+["Central America","Guatemala → Belize → Honduras → El Salvador → Nicaragua → Costa Rica → Panama","Overland"],
+["Caribbean","Island-hop through sovereign Caribbean states","Flights + ferries"],
+["Northern South America","Colombia → Venezuela → Guyana → Suriname → Ecuador","Flights + overland"],
+["Andes & Southern Cone","Peru → Bolivia → Chile → Argentina → Uruguay → Paraguay → Brazil","Flights + road"],
+["Pacific","Australia → New Zealand → Papua New Guinea → Fiji → Melanesia → Polynesia → Micronesia","Flights + ferries"],
+["Antarctica","Ushuaia → Drake Passage → Antarctica → Ushuaia","Expedition ship"]
+];
+
+function save(){localStorage.setItem('phoenix',JSON.stringify(P));localStorage.setItem('astraJournal',JSON.stringify(journal));localStorage.setItem('countryNotes',JSON.stringify(countryNotes));localStorage.setItem('visitedCountries',JSON.stringify(visited));localStorage.setItem('plannedCountries',JSON.stringify(planned));localStorage.setItem('questDone',JSON.stringify(questDone));localStorage.setItem('wonderDone',JSON.stringify(wonderDone))}
+function daysRemaining(){return Math.max(0,Math.ceil((new Date(TARGET_DATE)-new Date())/86400000))}
+function rollingProfitAvg(){
+ const rows=(P.profitHistory||[]).slice().sort((a,b)=>String(b.month).localeCompare(String(a.month))).slice(0,6);
+ if(rows.length) return Math.round(rows.reduce((a,b)=>a+(+b.value||0),0)/rows.length);
+ return +P.profitAvg||0;
+
+ if(window.astraQueueCloudSync) window.astraQueueCloudSync();
+}
+function liveTestDays(){
+ if(!P.testStart)return +P.days90||0;
+ return Math.min(90,Math.max(0,Math.floor((new Date()-new Date(P.testStart))/86400000)));
+}
+function phoenixReqs(){
+ return [
+  {ok:P.cash>=1000000,name:"RM 1,000,000 Cash Savings",sub:`RM ${P.cash.toLocaleString()} / RM 1,000,000`,pct:Math.min(100,P.cash/10000)},
+  {ok:P.weight<=70,name:"Reach 70 KG",sub:`Current: ${P.weight.toFixed(1)} kg · Target: 70.0 kg`,pct:Math.max(0,Math.min(100,(120-P.weight)/50*100))},
+  {ok:liveTestDays()>=90,name:"Meney 90-Day Independence",sub:`${liveTestDays()} / 90 days${P.testStart?' · test active':''}`,pct:Math.min(100,liveTestDays()/90*100)},
+  {ok:rollingProfitAvg()>=30000,name:"Meney ≥ RM 30,000 Avg Profit",sub:`rolling average: RM ${rollingProfitAvg().toLocaleString()}${P.profitHistory.length?' · '+Math.min(6,P.profitHistory.length)+' month data':''}`,pct:Math.min(100,rollingProfitAvg()/300)},
+  {ok:P.degree&&P.graduated&&P.convocation,name:"Complete Degree + Convocation",sub:`Degree ${P.degree?'✓':'○'} · Graduated ${P.graduated?'✓':'○'} · Convocation ${P.convocation?'✓':'○'}`,pct:(+P.degree+ +P.graduated+ +P.convocation)/3*100}
+ ]
+}
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1800)}
+function openModal(html){document.getElementById('sheet').innerHTML=html;document.getElementById('modal').classList.add('show')}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')e.currentTarget.classList.remove('show')})
+
+function renderPhoenix(){
+ let r=phoenixReqs(),done=r.filter(x=>x.ok).length,all=done===5;
+ document.getElementById('phoenixScreen').innerHTML=`
+ <div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M18 42c7-4 9-12 14-23 5 11 7 19 14 23M17 26c7 0 10 3 15 8 5-5 8-8 15-8M22 45l10 7 10-7" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><small>PROJECT</small><h1>PHOENIX</h1></div></div></div>
+
+ <div class="worldCalling">
+  <div class="heroContent">
+   <div class="kicker">BUILD YOUR FREEDOM</div>
+   <div class="heroTitle">PHOENIX</div>
+   <div class="heroQuote">“The world is calling. Discipline is the ticket.”</div>
+  </div>
+ </div>
+ <div class="scenicStrip">
+   <div class="scenicCard" style="background-image:url('https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=82')"><span>Everest waits.</span></div>
+   <div class="scenicCard" style="background-image:url('https://images.unsplash.com/photo-1579033461380-adb47c3eb938?auto=format&fit=crop&w=1200&q=82')"><span>Freedom has a horizon.</span></div>
+ </div>
+
+ <div class="phxCountdown">
+   <div><div class="label">Target completion</div><b>31 December 2027</b></div>
+   <div style="text-align:right"><div class="label">Time remaining</div><div class="days">${daysRemaining()}</div><div class="small muted">days</div></div>
+ </div>
+
+ <div class="phxLaunchCard">
+   <div class="phxLaunchHead">
+    <div><div class="label">Astra launch progress</div><div class="big">${done} / 5</div></div>
+    <b>${done*20}%</b>
+   </div>
+   <div class="progress"><i style="width:${done*20}%"></i></div>
+ </div>
+
+ <div class="phxReqWrap">
+  ${r.map((x,i)=>`
+   <div class="requirement" onclick="editReq(${i})">
+    <div class="num">${x.ok?'✓':i+1}</div>
+    <div>
+      <b>${x.name}</b>
+      <div class="small muted">${x.sub}</div>
+      <div class="progress" style="margin-top:8px"><i style="width:${x.pct}%"></i></div>
+      ${i<2?`<button class="trailbtn" onclick="event.stopPropagation();showTrail(${i})">View progress trail →</button>`:''}
+    </div>
+    <div>${x.ok?'<span class="ok">✓</span>':'›'}</div>
+   </div>`).join('')}
+ </div>
+
+ ${all?`
+  <div class="phxGate">
+   <div class="kicker">ALL SYSTEMS GREEN</div>
+   <h2 style="margin:6px 0 5px">Phoenix complete.</h2>
+   <div class="small muted" style="margin-bottom:14px;line-height:1.5">You built the cash, body, independence, income engine and education required to open Astra.</div>
+   <button class="btn btn-gold" style="width:100%" onclick="launchAstra()">LAUNCH PROJECT ASTRA</button>
+  </div>`:`
+  <div class="phxGate">
+   <div style="margin-bottom:8px"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M16 18h32v34H16V18Zm-4-8h40v8H12v-8Zm14 18h12" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+   <b>Project Astra is locked</b>
+   <div class="small muted" style="margin:5px 0 13px">${5-done} requirement${5-done===1?'':'s'} remaining. Preview stays available for review.</div>
+   <button class="btn btn-dark" style="width:100%" onclick="showScreen('astra')">Preview Astra</button>
+  </div>`}
+ `;
+}
+function editReq(i){
+ const forms=[
+  `<h2>💰 Cash Savings</h2><div class="formgrid"><input id="v" type="number" value="${P.cash}"><button class="btn btn-gold" onclick="setReq(0)">Save amount</button></div>`,
+  `<h2>⚖️ Weight</h2><div class="formgrid"><input id="v" type="number" step="0.1" value="${P.weight}"><button class="btn btn-gold" onclick="setReq(1)">Save weight</button></div>`,
+  `<h2>⚙️ Meney 90-Day Test</h2><div class="card"><div class="big">${liveTestDays()} / 90</div><div class="muted small">${P.testStart?'Started '+new Date(P.testStart).toLocaleDateString():'Test not started'}</div></div><div style="height:10px"></div><div class="formgrid"><button class="btn btn-gold" onclick="start90Test()">${P.testStart?'Restart 90-Day Test':'Start 90-Day Test'}</button><button class="btn btn-dark" onclick="fail90Test()">Owner interfered · Reset</button></div><div class="logicNote">The app counts calendar days automatically. If Danial directly interferes with day-to-day operations, reset the test.</div>`,
+  `<h2>📈 Meney Monthly Profit</h2><div class="card"><div class="label">Rolling average</div><div class="big">RM ${rollingProfitAvg().toLocaleString()}</div><div class="small muted">Latest up to 6 monthly entries</div></div><div style="height:10px"></div><div class="formgrid"><input id="profitMonth" type="month" value="${new Date().toISOString().slice(0,7)}"><input id="profitValue" type="number" placeholder="Monthly profit (RM)"><button class="btn btn-gold" onclick="addProfitEntry()">Add / replace month</button></div><div class="profitRows">${(P.profitHistory||[]).slice().sort((a,b)=>String(b.month).localeCompare(String(a.month))).map((x,i)=>`<div class="historyItem"><span>${x.month}</span><b>RM ${Number(x.value).toLocaleString()}</b></div>`).join('')}</div>`,
+  `<h2>🎓 Education</h2><div class="formgrid">
+   <label><input id="deg" type="checkbox" ${P.degree?'checked':''}> Degree requirements completed</label>
+   <label><input id="grad" type="checkbox" ${P.graduated?'checked':''}> Graduated</label>
+   <label><input id="conv" type="checkbox" ${P.convocation?'checked':''}> Convocation completed</label>
+   <button class="btn btn-gold" onclick="setReq(4)">Save education</button></div>`
+ ];openModal(forms[i])
+}
+function setReq(i){
+ const now=new Date().toISOString();
+ if(i===0){P.cash=+document.getElementById('v').value||0;P.cashHistory.unshift({date:now,value:P.cash})}
+ if(i===1){P.weight=+document.getElementById('v').value||120;P.weightHistory.unshift({date:now,value:P.weight})}
+ if(i===2)P.days90=liveTestDays();
+ if(i===3)P.profitAvg=rollingProfitAvg();
+ if(i===4){P.degree=deg.checked;P.graduated=grad.checked;P.convocation=conv.checked}
+ save();document.getElementById('modal').classList.remove('show');renderPhoenix();toast('Updated')
+}
+function showTrail(i){
+ const arr=(i===0?P.cashHistory:P.weightHistory).slice().reverse();
+ const title=i===0?'Cash Savings Trail':'Weight Trail';
+ const unit=i===0?'RM ':' kg';
+ const vals=arr.map(x=>+x.value);
+ const min=vals.length?Math.min(...vals):0, max=vals.length?Math.max(...vals):1, span=(max-min)||1;
+ let pts=arr.map((x,idx)=>`${20+(idx*Math.max(1,320/(Math.max(1,arr.length-1))))},${155-((x.value-min)/span)*120}`).join(' ');
+ const svg=arr.length?`<svg class="historyChart" viewBox="0 0 360 180" aria-label="${title}"><line x1="20" y1="155" x2="340" y2="155" stroke="#294655"/><polyline points="${pts}" fill="none" stroke="#42e3b4" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/></svg>`:`<div class="muted">No history yet. Update this requirement to start the trail.</div>`;
+ openModal(`<h2>${title}</h2>${svg}<div class="historyList">${arr.slice().reverse().map((x,idx)=>{let previous=arr.slice().reverse()[idx+1];let days=previous?Math.max(0,Math.round((new Date(x.date)-new Date(previous.date))/86400000)):null;return `<div class="historyItem"><div><b>${i===0?unit+Number(x.value).toLocaleString():Number(x.value).toFixed(1)+unit}</b><div class="small muted">${new Date(x.date).toLocaleString()}${days!==null?` · ${Math.abs(days)} days from previous`:''}</div></div></div>`}).join('')}</div>`)
+}
+function start90Test(){P.testStart=new Date().toISOString();P.days90=0;save();document.getElementById('modal').classList.remove('show');renderPhoenix();toast('90-day test started')}
+function fail90Test(){P.testStart=null;P.days90=0;save();document.getElementById('modal').classList.remove('show');renderPhoenix();toast('Test reset')}
+function addProfitEntry(){let m=profitMonth.value,v=+profitValue.value||0;if(!m)return;P.profitHistory=P.profitHistory.filter(x=>x.month!==m);P.profitHistory.push({month:m,value:v});P.profitAvg=rollingProfitAvg();save();document.getElementById('modal').classList.remove('show');renderPhoenix();editReq(3);toast('Profit month saved')}
+function launchAstra(){if(phoenixReqs().every(x=>x.ok)){P.launched=true;save();toast('ASTRA UNLOCKED');showScreen('astra')}}
+
+function continentCount(){
+ let regs=new Set(countries.filter(c=>visited.includes(c[0])).map(c=>c[2]));
+ if(questDone.includes(52)) regs.add("Antarctica");
+ return regs.size
+}
+function wonderCount(){return wonderDone.length}
+
+
+function astraMapMarkup(){
+ return `<div class="astraMapWrap">
+   <div class="astraMapHead">
+     <div><b>Interactive World Map</b><div class="small muted">Tap, zoom and drag to explore.</div></div>
+     <span class="badge">${visited.length}/195</span>
+   </div>
+   <div class="astraMapCanvas">
+     <div id="mapLoading" class="mapLoading">Loading world map…</div>
+     <svg id="astraInteractiveMap" viewBox="0 0 960 500" aria-label="Interactive world map"></svg>
+     <div id="mapTooltip" class="mapTooltip"></div>
+     <div class="mapControlStack">
+       <button class="mapCtl" onclick="astraMapZoomBy(1.35)">+</button>
+       <button class="mapCtl" onclick="astraMapZoomBy(0.74)">−</button>
+       <button class="mapCtl smallText" onclick="astraMapReset()">Fit</button>
+       <button class="mapCtl smallText" onclick="openFullMap()">⛶</button>
+     </div>
+   </div>
+   <div class="mapToolbar">
+    <span class="mapKey"><i style="background:#f7c65b"></i>Malaysia / Home</span>
+    <span class="mapKey"><i style="background:#42e3b4"></i>Visited</span>
+    <span class="mapKey"><i style="background:#6bb9ff"></i>Planned</span>
+    <span class="mapKey"><i style="background:#9b7cff"></i>Asia</span>
+    <span class="mapKey"><i style="background:#ff9e64"></i>Europe</span>
+    <span class="mapKey"><i style="background:#e96b77"></i>Africa</span>
+    <span class="mapKey"><i style="background:#53c58c"></i>Americas</span>
+   </div>
+   <div class="mapFitMsg">Tip: zoom in for microstates and small island countries.</div>
+ </div>`;
+}
+const continentPalette={"Asia":"#9b7cff","Europe":"#ff9e64","Africa":"#e96b77","North America":"#4cb7dd","South America":"#53c58c","Oceania":"#b87cff","Antarctica":"#bfe5f5"};
+const mapNames={"004":"Afghanistan","008":"Albania","010":"Antarctica","012":"Algeria","016":"American Samoa","020":"Andorra","024":"Angola","028":"Antigua and Barbuda","031":"Azerbaijan","032":"Argentina","036":"Australia","040":"Austria","044":"Bahamas","048":"Bahrain","050":"Bangladesh","051":"Armenia","052":"Barbados","056":"Belgium","060":"Bermuda","064":"Bhutan","068":"Bolivia","070":"Bosnia and Herzegovina","072":"Botswana","074":"Bouvet Island","076":"Brazil","084":"Belize","086":"British Indian Ocean Territory","090":"Solomon Islands","092":"Virgin Islands, British","096":"Brunei","100":"Bulgaria","104":"Myanmar","108":"Burundi","112":"Belarus","116":"Cambodia","120":"Cameroon","124":"Canada","132":"Cabo Verde","136":"Cayman Islands","140":"Central African Republic","144":"Sri Lanka","148":"Chad","152":"Chile","156":"China","158":"Taiwan","162":"Christmas Island","166":"Cocos (Keeling) Islands","170":"Colombia","174":"Comoros","175":"Mayotte","178":"Republic of the Congo","180":"DR Congo","184":"Cook Islands","188":"Costa Rica","191":"Croatia","192":"Cuba","196":"Cyprus","203":"Czechia","204":"Benin","208":"Denmark","212":"Dominica","214":"Dominican Republic","218":"Ecuador","222":"El Salvador","226":"Equatorial Guinea","231":"Ethiopia","232":"Eritrea","233":"Estonia","234":"Faroe Islands","238":"Falkland Islands (Malvinas)","239":"South Georgia and the South Sandwich Islands","242":"Fiji","246":"Finland","248":"Åland Islands","250":"France","254":"French Guiana","258":"French Polynesia","260":"French Southern Territories","262":"Djibouti","266":"Gabon","268":"Georgia","270":"Gambia","275":"Palestine","276":"Germany","288":"Ghana","292":"Gibraltar","296":"Kiribati","300":"Greece","304":"Greenland","308":"Grenada","312":"Guadeloupe","316":"Guam","320":"Guatemala","324":"Guinea","328":"Guyana","332":"Haiti","334":"Heard Island and McDonald Islands","336":"Vatican City","340":"Honduras","344":"Hong Kong","348":"Hungary","352":"Iceland","356":"India","360":"Indonesia","364":"Iran","368":"Iraq","372":"Ireland","376":"Israel","380":"Italy","384":"Côte d’Ivoire","388":"Jamaica","392":"Japan","398":"Kazakhstan","400":"Jordan","404":"Kenya","408":"North Korea","410":"South Korea","414":"Kuwait","417":"Kyrgyzstan","418":"Laos","422":"Lebanon","426":"Lesotho","428":"Latvia","430":"Liberia","434":"Libya","438":"Liechtenstein","440":"Lithuania","442":"Luxembourg","446":"Macao","450":"Madagascar","454":"Malawi","458":"Malaysia","462":"Maldives","466":"Mali","470":"Malta","474":"Martinique","478":"Mauritania","480":"Mauritius","484":"Mexico","492":"Monaco","496":"Mongolia","498":"Moldova","499":"Montenegro","500":"Montserrat","504":"Morocco","508":"Mozambique","512":"Oman","516":"Namibia","520":"Nauru","524":"Nepal","528":"Netherlands","531":"Curaçao","533":"Aruba","534":"Sint Maarten (Dutch part)","535":"Bonaire, Sint Eustatius and Saba","540":"New Caledonia","548":"Vanuatu","554":"New Zealand","558":"Nicaragua","562":"Niger","566":"Nigeria","570":"Niue","574":"Norfolk Island","578":"Norway","580":"Northern Mariana Islands","581":"United States Minor Outlying Islands","583":"Micronesia","584":"Marshall Islands","585":"Palau","586":"Pakistan","591":"Panama","598":"Papua New Guinea","600":"Paraguay","604":"Peru","608":"Philippines","612":"Pitcairn","616":"Poland","620":"Portugal","624":"Guinea-Bissau","626":"Timor-Leste","630":"Puerto Rico","634":"Qatar","638":"Réunion","642":"Romania","643":"Russia","646":"Rwanda","652":"Saint Barthélemy","654":"Saint Helena, Ascension and Tristan da Cunha","659":"Saint Kitts and Nevis","660":"Anguilla","662":"Saint Lucia","663":"Saint Martin (French part)","666":"Saint Pierre and Miquelon","670":"Saint Vincent and the Grenadines","674":"San Marino","678":"São Tomé and Príncipe","682":"Saudi Arabia","686":"Senegal","688":"Serbia","690":"Seychelles","694":"Sierra Leone","702":"Singapore","703":"Slovakia","704":"Vietnam","705":"Slovenia","706":"Somalia","710":"South Africa","716":"Zimbabwe","724":"Spain","728":"South Sudan","729":"Sudan","732":"Western Sahara","740":"Suriname","744":"Svalbard and Jan Mayen","748":"Eswatini","752":"Sweden","756":"Switzerland","760":"Syria","762":"Tajikistan","764":"Thailand","768":"Togo","772":"Tokelau","776":"Tonga","780":"Trinidad and Tobago","784":"United Arab Emirates","788":"Tunisia","792":"Türkiye","795":"Turkmenistan","796":"Turks and Caicos Islands","798":"Tuvalu","800":"Uganda","804":"Ukraine","807":"North Macedonia","818":"Egypt","826":"United Kingdom","831":"Guernsey","832":"Jersey","833":"Isle of Man","834":"Tanzania","840":"United States","850":"Virgin Islands, U.S.","854":"Burkina Faso","858":"Uruguay","860":"Uzbekistan","862":"Venezuela","876":"Wallis and Futuna","882":"Samoa","887":"Yemen","894":"Zambia"};
+
+let astraMapAPI=null, fullMapAPI=null;
+
+async function getMapLibs(){
+ if(window.__astraMapLibs)return window.__astraMapLibs;
+ window.__astraMapLibs=Promise.all([
+  import("https://cdn.jsdelivr.net/npm/d3@7.9.0/+esm"),
+  import("https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/+esm"),
+  import("https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json/+esm")
+ ]);
+ return window.__astraMapLibs;
+}
+async function buildInteractiveMap(svgId, tooltipId=null, isFullscreen=false){
+ const svg=document.getElementById(svgId); if(!svg)return null;
+ const loading=!isFullscreen?document.getElementById('mapLoading'):null;
+ const tip=tooltipId?document.getElementById(tooltipId):null;
+ try{
+  const [d3,topo,{default:world}]=await getMapLibs();
+  const features=topo.feature(world,world.objects.countries).features;
+  const projection=d3.geoNaturalEarth1().fitExtent([[8,8],[952,492]],{type:"Sphere"});
+  const path=d3.geoPath(projection);
+  svg.innerHTML='';
+  const root=d3.select(svg);
+  const g=root.append("g");
+  g.append("path").datum({type:"Sphere"}).attr("d",path).attr("fill","#071923");
+  const paths=g.selectAll("path.country").data(features).join("path")
+   .attr("class","mapCountry country")
+   .attr("d",path)
+   .attr("fill",d=>{
+     const id=String(d.id).padStart(3,"0"); const n=mapNames[id]||d.properties?.name||"";
+     if(n==="Malaysia")return "#f7c65b";
+     if(visited.includes(n))return "#42e3b4";
+     if(planned.includes(n))return "#6bb9ff";
+     const c=countries.find(x=>x[0]===n);
+     return continentPalette[c?.[2]]||"#4d6878";
+   })
+   .on("click",(ev,d)=>{
+     ev.stopPropagation();
+     const id=String(d.id).padStart(3,"0"); const n=mapNames[id]||d.properties?.name||"";
+     if(countries.some(x=>x[0]===n)){
+       if(isFullscreen)closeFullMap();
+       setTimeout(()=>openCountry(n),80);
+     } else toast("Country page not mapped yet");
+   });
+  if(tip){
+    paths.on("pointerenter",(ev,d)=>{
+      const id=String(d.id).padStart(3,"0");
+      const n=mapNames[id]||d.properties?.name||`Map area ${id}`;
+      const c=countries.find(x=>x[0]===n);
+      tip.style.display="block";
+      tip.innerHTML=`<b>${c?.[1]||""} ${n}</b><span class="small muted">${visited.includes(n)?"Visited":planned.includes(n)?"Planned":c?.[2]||"Outside the canonical 195-country tracker"}</span>`;
+    }).on("pointermove",ev=>{
+      const r=svg.getBoundingClientRect();
+      tip.style.left=Math.min(r.width-190,Math.max(6,ev.clientX-r.left+12))+"px";
+      tip.style.top=Math.max(6,ev.clientY-r.top-15)+"px";
+    }).on("pointerleave",()=>{ if(!isFullscreen) tip.style.display="none"; })
+     .on("pointerdown",(ev,d)=>{
+       const id=String(d.id).padStart(3,"0"); const n=mapNames[id]||d.properties?.name||`Map area ${id}`;
+       const c=countries.find(x=>x[0]===n); tip.style.display="block";
+       tip.innerHTML=`<b>${c?.[1]||""} ${n}</b><span class="small muted">${visited.includes(n)?"Visited":planned.includes(n)?"Planned":c?.[2]||"Outside the canonical 195-country tracker"}</span>`;
+     });
+  }
+
+  const zoom=d3.zoom().scaleExtent([1,12]).on("zoom",ev=>g.attr("transform",ev.transform));
+  root.call(zoom).on("dblclick.zoom",null);
+
+  // Double tap/click zooms into the tapped point
+  root.on("dblclick",(ev)=>{
+    const [x,y]=d3.pointer(ev,svg);
+    root.transition().duration(250).call(zoom.scaleBy,1.8,[x,y]);
+  });
+
+  if(loading)loading.style.display="none";
+
+  return {
+    zoomBy:(factor)=>root.transition().duration(220).call(zoom.scaleBy,factor),
+    reset:()=>root.transition().duration(260).call(zoom.transform,d3.zoomIdentity),
+    root,zoom,g
+  };
+ }catch(err){
+  if(loading)loading.innerHTML=`<div class="card" style="margin:12px"><b>Interactive map unavailable</b><div class="small muted" style="margin-top:6px">Connect to the internet once to load the geographic map data.</div></div>`;
+  return null;
+ }
+}
+async function renderInteractiveMap(){astraMapAPI=await buildInteractiveMap('astraInteractiveMap','mapTooltip',false)}
+function astraMapZoomBy(f){if(astraMapAPI)astraMapAPI.zoomBy(f)}
+function astraMapReset(){if(astraMapAPI)astraMapAPI.reset()}
+async function openFullMap(){
+ const o=document.getElementById('fullMapOverlay');o.classList.add('show');o.setAttribute('aria-hidden','false');
+ document.body.style.overflow='hidden';
+ fullMapAPI=await buildInteractiveMap('astraFullMap','fullMapTooltip',true);
+ try{ if(screen.orientation?.lock) await screen.orientation.lock('landscape'); }catch(e){}
+}
+function closeFullMap(){
+ const o=document.getElementById('fullMapOverlay');o.classList.remove('show');o.setAttribute('aria-hidden','true');
+ document.body.style.overflow='';
+ try{ if(screen.orientation?.unlock) screen.orientation.unlock(); }catch(e){}
+}
+function fullMapZoom(f){if(fullMapAPI)fullMapAPI.zoomBy(f)}
+function fullMapReset(){if(fullMapAPI)fullMapAPI.reset()}
+
+function renderAstra(){
+ const preview=!P.launched;
+ document.getElementById('astraHome').innerHTML=`
+ <div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 10l9 20-9-5-9 5 9-20ZM19 38l13-8 13 8-13 16-13-16ZM32 30v17" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><small>PROJECT</small><h1>ASTRA</h1><small>LIVE WIDE ${preview?'· PREVIEW MODE':''}</small></div></div></div>
+ <div class="hero"><div class="heroContent"><div class="kicker">${preview?'PREVIEW MODE':'ASTRA ACTIVE'}</div><div class="heroTitle">ASTRA</div><div class="heroQuote">“A wider you, a brighter world.”</div></div></div>
+ <div class="scenicStrip">
+   <div class="scenicCard" style="background-image:url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1200&q=82')"><span>Japan · Tradition meets tomorrow</span></div>
+   <div class="scenicCard" style="background-image:url('https://images.unsplash.com/photo-1469521669194-babb45599def?auto=format&fit=crop&w=1200&q=82')"><span>New Zealand · Roads into the wild</span></div>
+ </div>
+ <section class="section"><div class="stats">
+  <div class="stat"><b>${visited.length}</b><div class="small muted">/195 Countries</div></div>
+  <div class="stat"><b>${continentCount()}</b><div class="small muted">/7 Continents</div></div>
+  <div class="stat"><b>${wonderCount()}</b><div class="small muted">/7 Wonders</div></div>
+  <div class="stat"><b>${questDone.length}</b><div class="small muted">/100 First</div></div>
+ </div></section>
+ ${astraMapMarkup()}
+ <section class="section"><button class="btn btn-primary" style="width:100%" onclick="showScreen('route')">CONTINUE JOURNEY →</button></section>
+ <section class="section"><div class="between"><h3>Featured Journeys</h3><button class="chip" onclick="showScreen('quests')">View all</button></div><div class="featured">
+  <div class="journey" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Great_Wall_of_China%2C_Mutianyu_Section.jpg/1280px-Great_Wall_of_China%2C_Mutianyu_Section.jpg')"><span>Seven Wonders</span></div>
+  <div class="journey" style="background-image:url('https://images.unsplash.com/photo-1579033461380-adb47c3eb938?auto=format&fit=crop&w=1200&q=82')"><span>Northern Lights</span></div>
+  <div class="journey" style="background-image:url('https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=82')"><span>Everest</span></div>
+ </div></section>
+ <section class="section"><div class="card"><h3>Recent Memories</h3>${journal.slice(0,3).map(j=>`<div class="entry"><b>${j.country}</b><div class="small muted">${new Date(j.date).toLocaleDateString()}</div><div>${j.text}</div></div>`).join('')||'<div class="muted">No memories yet. Start adding them from a country page.</div>'}</div></section>`;
+}
+
+function countryCardImage(name,region){ const imgs={"Japan": "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1200&q=82", "New Zealand": "https://images.unsplash.com/photo-1469521669194-babb45599def?auto=format&fit=crop&w=1200&q=82", "Thailand": "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1200&q=82", "Egypt": "https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=1200&q=82", "Brazil": "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=1200&q=82", "Nepal": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=82", "Italy": "https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=82", "Morocco": "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?auto=format&fit=crop&w=1200&q=82", "Norway": "https://images.unsplash.com/photo-1520769669658-f07657f5a307?auto=format&fit=crop&w=1200&q=82", "Peru": "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=1200&q=82", "Malaysia": "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=1200&q=82", "China": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Great_Wall_of_China%2C_Mutianyu_Section.jpg/1280px-Great_Wall_of_China%2C_Mutianyu_Section.jpg", "Jordan": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Petra_Treasury.jpg", "India": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/Taj_Mahal_India.jpg/1280px-Taj_Mahal_India.jpg"}; return imgs[name]||'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1000&q=80'; }
+function countrySignature(name,region){
+ const special={
+ "Japan":"Fuji · Rail · Culture","Nepal":"Himalaya · EBC · Trekking","China":"Great Wall · Mandarin · Rail","Thailand":"Muay Thai · Food · Islands",
+ "New Zealand":"Road Trip · Skydive · Alps","Italy":"Rome · Colosseum · Food","Jordan":"Petra · Wadi Rum · Desert","India":"Taj Mahal · Rail · Food",
+ "Norway":"Aurora · Fjords · Midnight Sun","Tanzania":"Safari · Great Migration · Wildlife","Peru":"Machu Picchu · Andes · Culture","Brazil":"Rio · BJJ · Music",
+ "Argentina":"Patagonia · Road Trip · Culture","Chile":"Atacama · Patagonia · Dark Sky","Switzerland":"Alps · Via Ferrata · Paragliding",
+ "Morocco":"Sahara · Souks · Sandboarding","Saudi Arabia":"Umrah · Makkah · Madinah","Germany":"Autobahn · Nürburgring · Industry",
+ "Malaysia":"Home · Kinabalu · Scuba","Iceland":"Glacier · Aurora · Ice","Türkiye":"Cappadocia · Istanbul · Food","Uganda":"Gorillas · Nature · Community"
+ };
+ if(special[name])return special[name];
+ const fallback={"Asia":"Culture · Food · Local Life","Europe":"History · Rail · Cities","Africa":"Nature · Culture · Overland","North America":"Road Trips · Cities · Nature","South America":"Mountains · Culture · Food","Oceania":"Islands · Ocean · Adventure"};
+ return fallback[region]||"Explore · Connect · Remember";
+}
+function countryColors(name){
+ let h=0; for(const ch of name)h=(h*31+ch.charCodeAt(0))%360;
+ return [`hsl(${h} 38% 23%)`,`hsl(${(h+55)%360} 38% 12%)`];
+}
+function linkedQuestCount(name){return first100.filter(q=>q[1].includes(name)).length}
+function countryWonder(name){let w=wonders.find(x=>x[1]===name);return w?w[0]:null}
+
+
+function svgInline(name,cls='uiIcon'){
+ const paths={
+  countries:"M14 30a18 18 0 1 0 36 0 18 18 0 1 0-36 0ZM14 30h36M32 12c5 5 8 11 8 18s-3 13-8 18M32 12c-5 5-8 11-8 18s3 13 8 18"
+ };
+ const p=paths[name]||paths.countries;
+ return `<svg class="${cls}" viewBox="0 0 64 64" aria-hidden="true"><path d="${p}" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
+
+function renderCountries(filter=''){
+ let arr=countries.filter(c=>c[0].toLowerCase().includes(filter.toLowerCase()));
+ document.getElementById('countriesScreen').innerHTML=`
+ <div class="topbar"><div class="brand"><div class="brandmark">${svgInline('countries','inlineBrandIcon')}</div><div><h1>COUNTRIES</h1><small>${countries.length} countries · one world</small></div></div></div>
+ <div class="countryJourneyBanner"><div class="bannerText"><div class="kicker">WORLD ARCHIVE</div><h2 style="margin:5px 0 3px">${visited.length} of 195 visited</h2><div class="small muted">Every card becomes yours once the journey is real.</div></div></div>
+ <section class="section"><input class="search" placeholder="Search country..." value="${filter}" oninput="renderCountries(this.value)"></section>
+ <section class="section"><div class="countryGrid">${arr.map(c=>{
+   const st=visited.includes(c[0])?'visited':planned.includes(c[0])?'planned':'notvisited';
+   const label=st==='visited'?'Visited':st==='planned'?'Planned':'Not visited';
+   const colors=countryColors(c[0]); const q=linkedQuestCount(c[0]); const w=countryWonder(c[0]); const img=countryCardImage(c[0],c[2]);
+   return `<div class="countryCard ${img?'hasPhoto':'noPhoto'}" style="--countryA:${colors[0]};--countryB:${colors[1]}" onclick="openCountry('${c[0].replaceAll("'","\\'")}')">
+     ${img?`<div class="cardBackdrop" style="background-image:url('${img}')"></div><div class="cardShade"></div>`:''}
+     <div class="countryCardInner">
+       <div class="countryFlagWrap"><div class="flag">${c[1]}</div></div>
+       <div>
+         <div class="countryTitle">${c[0]}</div>
+         <div class="countrySubtitle">${countrySignature(c[0],c[2])}</div>
+         <div class="countryMeta">
+           <span class="miniTag">${c[2]}</span>
+           ${q?`<span class="miniTag">${q} linked quest${q===1?'':'s'}</span>`:''}
+           ${w?`<span class="miniTag">${w}</span>`:''}
+         </div>
+       </div>
+       <span class="status ${st}">${label}</span>
+     </div>
+   </div>`
+ }).join('')}</div></section>`;
+}
+function coverFor(name){ const map={"Japan": "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1200&q=82", "New Zealand": "https://images.unsplash.com/photo-1469521669194-babb45599def?auto=format&fit=crop&w=1200&q=82", "Thailand": "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1200&q=82", "Egypt": "https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=1200&q=82", "Brazil": "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=1200&q=82", "Nepal": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=82", "Italy": "https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=82", "Morocco": "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?auto=format&fit=crop&w=1200&q=82", "Norway": "https://images.unsplash.com/photo-1520769669658-f07657f5a307?auto=format&fit=crop&w=1200&q=82", "Peru": "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=1200&q=82", "Malaysia": "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=1200&q=82", "China": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Great_Wall_of_China%2C_Mutianyu_Section.jpg/1280px-Great_Wall_of_China%2C_Mutianyu_Section.jpg", "Jordan": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Petra_Treasury.jpg", "India": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/Taj_Mahal_India.jpg/1280px-Taj_Mahal_India.jpg"}; return map[name]||"https://images.unsplash.com/photo-1469521669194-babb45599def?auto=format&fit=crop&w=1400&q=85"; }
+function openCountry(name){
+ currentCountry=name;
+ const c=countries.find(x=>x[0]===name)||[name,"🏳️","Other"];
+ const st=visited.includes(name)?'visited':planned.includes(name)?'planned':'notvisited';
+ const notes=countryNotes[name]||{people:[],food:[],language:[],business:[],spiritual:[],reflection:"",expenses:0};
+ document.getElementById('countryDetail').innerHTML=`
+ <div class="topbar"><div class="between"><button class="back" onclick="showScreen('countries')">←</button><div><b>${c[1]} ${name}</b><div class="small muted">${c[2]}</div></div><span class="status ${st}">${st==='visited'?'Visited':st==='planned'?'Planned':'Not visited'}</span></div></div>
+ <div class="detailHero" style="background-image:url('${coverFor(name)}')"><div class="dtext"><div class="kicker">${c[1]} ${name}</div><div class="heroQuote">Collect moments, not things.</div></div></div>
+ <div class="tabs">
+  <button class="chip active" onclick="countryTab('overview',this)">Overview</button>
+  <button class="chip" onclick="countryTab('quests',this)">Quests</button>
+  <button class="chip" onclick="countryTab('photos',this)">Photos</button>
+  <button class="chip" onclick="countryTab('journal',this)">Journal</button>
+  <button class="chip" onclick="countryTab('more',this)">More</button>
+ </div>
+ <section class="section"><div id="countryTab"></div></section>`;
+ countryTab('overview');
+ showOnly('countryDetail')
+}
+function countryTab(tab,btn){
+ if(btn){document.querySelectorAll('#countryDetail .chip').forEach(x=>x.classList.remove('active'));btn.classList.add('active')}
+ const box=document.getElementById('countryTab'); const name=currentCountry; const notes=countryNotes[name]||{people:[],food:[],language:[],business:[],spiritual:[],reflection:"",expenses:0};
+ if(tab==='overview') box.innerHTML=`<div class="card">
+  <div class="between"><div><div class="label">Status</div><b>${visited.includes(name)?'Visited':planned.includes(name)?'Planned':'Not visited'}</b></div><div><div class="label">Total spend</div><b>RM ${(notes.expenses||0).toLocaleString()}</b></div></div>
+  <div style="height:10px"></div><button class="btn btn-primary" onclick="cycleCountryStatus('${name.replaceAll("'","\\'")}')">Change status</button>
+  <button class="btn btn-dark" onclick="editExpenses()" style="margin-left:6px">Edit spend</button></div>`;
+ if(tab==='quests'){
+  const qs=first100.map((q,i)=>({q,i})).filter(x=>x.q[1].includes(name)||x.q[1]==='Any');
+  box.innerHTML=`<div class="card">${qs.map(x=>`<label class="quest"><input type="checkbox" ${questDone.includes(x.i)?'checked':''} onchange="toggleQuest(${x.i},this.checked)"><div><b>${x.q[0]}</b><div class="small muted">${x.q[1]}</div></div><span class="badge">${x.q[2]}</span></label>`).join('')||'<div class="muted">No First 100 quest directly assigned here yet.</div>'}</div>`
+ }
+ if(tab==='photos'){box.innerHTML=`<div class="card"><div class="between"><h3>Photo Vault</h3><button class="btn btn-primary" onclick="pickPhotos()">+ Add photos</button></div><div class="small muted">Saved locally as compressed WebP in this browser. Max edge 1280px · quality 78%. Export your archive for backup.</div></div><div style="height:10px"></div><div class="gallery" id="gallery"></div>`;loadPhotos(name)}
+ if(tab==='journal'){box.innerHTML=`<div class="card"><div class="formgrid"><textarea id="jtext" placeholder="What happened in ${name}?"></textarea><button class="btn btn-primary" onclick="addJournal()">Add journal entry</button></div></div><div style="height:10px"></div><div class="card">${journal.filter(j=>j.country===name).map(j=>`<div class="entry"><div class="small muted">${new Date(j.date).toLocaleString()}</div><div>${j.text}</div></div>`).join('')||'<div class="muted">No journal entries yet.</div>'}</div>`}
+ if(tab==='more'){
+  box.innerHTML=`
+  ${renderPeopleSection()}
+  <br>${renderVisualLogSection('food','Food Diary','Dish / memory','Add food')}
+  <br>${renderVisualLogSection('language','Language Log','Phrase / lesson','Add phrase')}
+  <br>${renderVisualLogSection('business','Business Around The World','Founder / company / idea','Add business note')}
+  <br>${renderVisualLogSection('spiritual','Spiritual Log','Masjid / reflection / gratitude','Add reflection')}
+  <br><div class=\"card\"><h3>What changed me?</h3><div class=\"formgrid\"><textarea id=\"reflectionInput\">${notes.reflection||''}</textarea><button class=\"btn btn-primary\" onclick=\"saveReflection()\">Save reflection</button></div></div>`;
+  hydrateLogImages(); hydratePeopleImages();
+ }
+
+}
+function cycleCountryStatus(name){
+ if(visited.includes(name)){visited=visited.filter(x=>x!==name);if(!planned.includes(name))planned.push(name)}
+ else if(planned.includes(name)){planned=planned.filter(x=>x!==name)}
+ else visited.push(name);
+ save();openCountry(name)
+}
+function editExpenses(){let n=countryNotes[currentCountry]||{people:[],food:[],language:[],business:[],spiritual:[],reflection:"",expenses:0};openModal(`<h2>Expenses · ${currentCountry}</h2><div class="formgrid"><input id="exp" type="number" value="${n.expenses||0}"><button class="btn btn-gold" onclick="saveExpenses()">Save</button></div>`)}
+function saveExpenses(){let n=countryNotes[currentCountry]||{people:[],food:[],language:[],business:[],spiritual:[],reflection:"",expenses:0};n.expenses=+exp.value||0;countryNotes[currentCountry]=n;save();modal.classList.remove('show');openCountry(currentCountry)}
+function normalizeLogItem(x){return typeof x==='string'?{text:x,photoId:null,id:crypto.randomUUID()}:x}
+
+function normalizePerson(x){return typeof x==='string'?{id:crypto.randomUUID(),name:x,story:'',social:'',phone:'',photoId:null}:x}
+function renderPeopleSection(){
+ let n=countryNotes[currentCountry]||{people:[],food:[],language:[],business:[],spiritual:[],reflection:'',expenses:0};
+ n.people=(n.people||[]).map(normalizePerson); countryNotes[currentCountry]=n;
+ return `<div class="card"><div class="between"><h3>People of Astra</h3><span class="badge">${n.people.length}</span></div>
+  <div class="formgrid">
+   <input id="personName" placeholder="Name">
+   <input id="personStory" placeholder="How you met / memory">
+   <input id="personSocial" placeholder="Social media handle or link">
+   <input id="personPhone" placeholder="Phone / WhatsApp">
+   <input id="personFile" type="file" accept="image/*">
+   <button class="btn btn-dark" onclick="addPerson()">+ Add person</button>
+  </div>
+  <div>${n.people.map(p=>`<div class="peopleCard">${p.photoId?`<img class="peopleAvatar" id="personimg-${p.photoId}" alt="${p.name}">`:`<div class="peopleAvatar" style="display:grid;place-items:center;font-size:24px">👤</div>`}<div><b>${p.name}</b><div class="small muted">${p.story||''}</div><div class="peopleContact">${p.social?`<span class="contactPill">📱 ${p.social}</span>`:''}${p.phone?`<span class="contactPill">☎️ ${p.phone}</span>`:''}</div></div></div>`).join('')||`<div class="muted small">No people saved yet.</div>`}</div>
+ </div>`
+}
+async function addPerson(){
+ let n=countryNotes[currentCountry]||{people:[],food:[],language:[],business:[],spiritual:[],reflection:'',expenses:0};
+ n.people=(n.people||[]).map(normalizePerson);
+ const name=document.getElementById('personName')?.value.trim(); if(!name)return toast('Add a name first');
+ const story=document.getElementById('personStory')?.value.trim()||'', social=document.getElementById('personSocial')?.value.trim()||'', phone=document.getElementById('personPhone')?.value.trim()||'';
+ const file=document.getElementById('personFile')?.files?.[0]; let photoId=null;
+ if(file&&db){photoId=crypto.randomUUID();const data=await fileToDataURL(file);await new Promise(resolve=>{const tx=db.transaction('photos','readwrite');tx.objectStore('photos').put({id:photoId,country:currentCountry,name:file.name,data,kind:'person',created:Date.now()});tx.oncomplete=resolve})}
+ n.people.push({id:crypto.randomUUID(),name,story,social,phone,photoId});countryNotes[currentCountry]=n;save();countryTab('more');toast('Person saved')
+}
+function hydratePeopleImages(){
+ if(!db)return setTimeout(hydratePeopleImages,180); let n=countryNotes[currentCountry]||{};(n.people||[]).map(normalizePerson).filter(p=>p.photoId).forEach(p=>{const tx=db.transaction('photos','readonly'),r=tx.objectStore('photos').get(p.photoId);r.onsuccess=()=>{let el=document.getElementById('personimg-'+p.photoId);if(el&&r.result)el.src=r.result.data}})
+}
+
+function renderVisualLogSection(type,title,placeholder,buttonLabel){
+ let n=countryNotes[currentCountry]||{people:[],food:[],language:[],business:[],spiritual:[],reflection:'',expenses:0};
+ n[type]=(n[type]||[]).map(normalizeLogItem); countryNotes[currentCountry]=n;
+ return `<div class=\"card\"><div class=\"between\"><h3>${title}</h3><span class=\"badge\">${n[type].length}</span></div><div class=\"formgrid\"><input id=\"${type}Input\" placeholder=\"${placeholder}\"><input id=\"${type}File\" type=\"file\" accept=\"image/*\"><button class=\"btn btn-dark\" onclick=\"addVisualLog('${type}')\">+ ${buttonLabel}</button></div><div class=\"logGrid\">${n[type].map(x=>`<div class=\"logCard ${x.photoId?'':'noimg'}\">${x.photoId?`<img class=\"logThumb\" id=\"logimg-${x.photoId}\" alt=\"${title}\">`:''}<div class=\"logBody\"><div class=\"logType\">${title}</div><div>${x.text}</div></div></div>`).join('')||`<div class=\"muted small\">Nothing saved yet.</div>`}</div></div>`
+}
+async function addVisualLog(type){
+ let n=countryNotes[currentCountry]||{people:[],food:[],language:[],business:[],spiritual:[],reflection:'',expenses:0};
+ n[type]=(n[type]||[]).map(normalizeLogItem); let textEl=document.getElementById(type+'Input'), fileEl=document.getElementById(type+'File'); let v=textEl.value.trim(); if(!v)return;
+ let photoId=null; const file=fileEl.files&&fileEl.files[0]; if(file&&db){photoId=crypto.randomUUID();const data=await fileToDataURL(file);await new Promise(resolve=>{const tx=db.transaction('photos','readwrite');tx.objectStore('photos').put({id:photoId,country:currentCountry,name:file.name,data,kind:'log-'+type,created:Date.now()});tx.oncomplete=resolve})}
+ n[type].push({id:crypto.randomUUID(),text:v,photoId}); countryNotes[currentCountry]=n; save();countryTab('more');toast('Saved')
+}
+function hydrateLogImages(){
+ if(!db)return setTimeout(hydrateLogImages,180); let n=countryNotes[currentCountry]||{}; ['people','food','language','business','spiritual'].forEach(type=>(n[type]||[]).map(normalizeLogItem).filter(x=>x.photoId).forEach(x=>{const tx=db.transaction('photos','readonly'),r=tx.objectStore('photos').get(x.photoId);r.onsuccess=()=>{let el=document.getElementById('logimg-'+x.photoId);if(el&&r.result)el.src=r.result.data}}))
+}
+function saveReflection(){let n=countryNotes[currentCountry]||{people:[],food:[],language:[],business:[],spiritual:[],reflection:"",expenses:0};n.reflection=reflectionInput.value;countryNotes[currentCountry]=n;save();toast('Reflection saved')}
+function addJournal(){let t=jtext.value.trim();if(!t)return;journal.unshift({country:currentCountry,text:t,date:new Date().toISOString()});save();countryTab('journal');toast('Journal saved')}
+function toggleQuest(i,on){if(on&&!questDone.includes(i))questDone.push(i);if(!on)questDone=questDone.filter(x=>x!==i);save();renderAstra()}
+
+function renderQuests(mode='first'){
+ document.getElementById('questsScreen').innerHTML=`
+ <div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 11l6 12 13 2-9 9 2 13-12-6-12 6 2-13-9-9 13-2 6-12Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h1>ASTRA QUESTS</h1><small>Experiences worth remembering</small></div></div></div>
+ <div class="tabs"><button class="chip ${mode==='first'?'active':''}" onclick="renderQuests('first')">First 100</button><button class="chip ${mode==='continents'?'active':''}" onclick="renderQuests('continents')">7 Continents</button><button class="chip ${mode==='wonders'?'active':''}" onclick="renderQuests('wonders')">7 Wonders</button></div>
+ <section class="section"><div class="card">${mode==='first'?first100.map((q,i)=>`<label class="quest"><input type="checkbox" ${questDone.includes(i)?'checked':''} onchange="toggleQuest(${i},this.checked)"><div><b>${i+1}. ${q[0]}</b><div class="small muted">${q[1]}</div></div><span class="badge">${q[2]}</span></label>`).join(''):mode==='continents'?continents.map(c=>`<div class="quest"><div><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M15 31c0-10 8-18 17-18 10 0 18 8 18 18s-8 18-18 18c-9 0-17-8-17-18Zm2 0h30M32 13c5 5 8 11 8 18s-3 13-8 18M32 13c-5 5-8 11-8 18s3 13 8 18" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><b>${c}</b><div class="small muted">${c==='Antarctica'?(questDone.includes(52)?'Completed':'Not started'):(countries.some(x=>x[2]===c&&visited.includes(x[0]))?'Started / Completed':'Not started')}</div></div><span class="badge">${c==='Antarctica'?(questDone.includes(52)?'✓':'○'):(countries.some(x=>x[2]===c&&visited.includes(x[0]))?'✓':'○')}</span></div>`).join(''):wonders.map((w,i)=>`<label class="quest wonderQuest"><img class="wonderThumb" src="${wonderImages[i]}" alt="${w[0]}"><input type="checkbox" style="display:none" ${wonderDone.includes(i)?'checked':''} onchange="toggleWonder(${i},this.checked)"><div onclick="toggleWonder(${i},!wonderDone.includes(i));renderQuests('wonders')"><b>${w[0]}</b><div class="small muted">${w[1]} · visiting the country alone does not complete this Wonder</div></div><span class="status ${wonderDone.includes(i)?'visited':'notvisited'}">${wonderDone.includes(i)?'Completed':'Not started'}</span></label>`).join('')}</div></section>`;
+ showOnly('questsScreen')
+}
+
+const wonderImages=["https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Great_Wall_of_China%2C_Mutianyu_Section.jpg/1280px-Great_Wall_of_China%2C_Mutianyu_Section.jpg", "https://upload.wikimedia.org/wikipedia/commons/b/b9/Petra_Treasury.jpg", "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Christ_the_Redeemer_-_Cristo_Redentor_-_Rio.jpg/1280px-Christ_the_Redeemer_-_Cristo_Redentor_-_Rio.jpg", "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Machu_Picchu%2C_Peru_-_Laslovarga_%28161%29.jpg/1280px-Machu_Picchu%2C_Peru_-_Laslovarga_%28161%29.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Chichen-Itza.jpg/960px-Chichen-Itza.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/The_Colosseum_of_Rome.jpg/1280px-The_Colosseum_of_Rome.jpg", "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/Taj_Mahal_India.jpg/1280px-Taj_Mahal_India.jpg"];
+const routeQuestSummary={"Southeast Asia": "Muay Thai · diving · food · overland · local life", "East Asia": "Fuji · Japanese · Mandarin · Great Wall · martial arts", "South Asia & Himalaya": "EBC · Taj Mahal · trekking · altitude · spiritual reflection", "Central Asia": "Horse trek · yurt · sleeper train · overland", "Middle East & Caucasus": "Umrah · Petra · desert · Cappadocia · culture", "Western & Central Europe": "Colosseum · Alps · rail · paragliding · driving", "Northern & Eastern Europe": "Aurora · glacier · midnight sun · culture", "North Africa": "Sahara · pyramids · food · desert", "East Africa": "Safari · gorillas · Great Migration · wildlife", "Southern Africa": "Road trip · surfing · nature", "West & Central Africa": "Culture · community · long-form exploration", "North America": "Road trip · national parks · founder ecosystem", "Central America": "Overland · volcanoes · conservation", "Caribbean": "Island hopping · sailing · ocean", "Northern South America": "Culture · jungle · overland", "Andes & Southern Cone": "Machu Picchu · Patagonia · Atacama · road trip", "Pacific": "Campervan · skydive · ocean · islands", "Antarctica": "Expedition ship · penguins · seventh continent"};
+function toggleWonder(i,on){if(on&&!wonderDone.includes(i))wonderDone.push(i);if(!on)wonderDone=wonderDone.filter(x=>x!==i);save();renderAstra();renderQuests('wonders')}
+function renderRoute(){
+ const totalCountries=routeLegs.reduce((sum,r)=>sum+r[1].split('→').length,0);
+ const visitedInRoute=new Set(routeLegs.flatMap(r=>r[1].split('→').map(x=>x.replace(/\(.*?\)/g,"").trim())).filter(x=>visited.includes(x))).size;
+ document.getElementById('routeScreen').innerHTML=`
+ <div class="topbar"><div class="brand"><div class="brandmark"><svg class="inlineBrandIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M15 15h10v10H15V15Zm24 24h10v10H39V39ZM25 20c16 0 4 24 18 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h1>ROUTE PLANNER</h1><small>Plan smarter · travel deeper</small></div></div></div>
+
+ <div class="routeIntro"><div><div class="kicker">LIFETIME ROUTE · ${routeLegs.length} LEGS</div><h2>One spine. Infinite detours.</h2><div class="small">The route reduces unnecessary backtracking, but it never tells you how to live once you arrive.</div></div></div>
+
+ <div class="routeHeroLine">
+   <div><div class="label">Route progress</div><div class="routeSummaryMain">${visitedInRoute} visited</div></div>
+   <div class="small muted">${routeLegs.length} regional legs<br>${totalCountries} listed stops</div>
+ </div>
+
+ <section class="section"><div class="routeTimeline">${routeLegs.map((r,i)=>{
+   const stops=r[1].split('→').map(x=>x.trim());
+   const cleaned=stops.map(s=>s.replace(/\(.*?\)/g,"").trim());
+   const done=cleaned.filter(x=>visited.includes(x)).length;
+   const pct=Math.round(done/cleaned.length*100);
+   const state=done===cleaned.length?'visited':done>0?'planned':'notvisited';
+   const stateLabel=done===cleaned.length?'Completed':done>0?'In progress':i===0?'Next':'Future';
+   return `<article class="routeCard">
+     <div class="routeCardTop">
+       <div class="routeLegNo">${String(i+1).padStart(2,'0')}</div>
+       <div><div class="routeCardTitle">${r[0]}</div><div class="routeMode">${r[2]}</div></div>
+       <span class="status ${state}">${stateLabel}</span>
+     </div>
+     <div class="routeCardBody">
+       <div class="routeProgressLine"><b>${done} / ${cleaned.length} countries visited</b><span class="small muted">${pct}%</span></div>
+       <div class="routeProgressBar"><i style="width:${pct}%"></i></div>
+       <div class="routeStopsPretty">${stops.slice(0,9).map((stop,j)=>{
+         const clean=cleaned[j]; const isDone=visited.includes(clean);
+         return `<div class="routeStopPretty ${isDone?'done':''}"><span class="dot"></span><span>${stop}</span>${isDone?`<span class="routeDone">Visited</span>`:''}</div>`
+       }).join('')}${stops.length>9?`<div class="routeStopPretty"><span>+ ${stops.length-9} more</span></div>`:''}</div>
+       <div class="routeQuest"><b>Quest cluster:</b> ${routeQuestSummary[r[0]]||'Explore · connect · remember'}</div>
+     </div>
+   </article>`
+ }).join('')}</div></section>`;
+ showOnly('routeScreen')
+}
+function renderJournal(){
+ document.getElementById('journalScreen').innerHTML=`<div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M16 13h24a8 8 0 0 1 8 8v30H22a6 6 0 0 1-6-6V13Zm6 0v38M28 23h13M28 31h13" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h1>JOURNAL</h1><small>Interactive autobiography</small></div></div></div><section class="section"><div class="card">${journal.map(j=>`<div class="entry"><b>${j.country}</b><div class="small muted">${new Date(j.date).toLocaleString()}</div><div>${j.text}</div></div>`).join('')||'<div class="muted">Your story starts here.</div>'}</div></section>`;showOnly('journalScreen')
+}
+
+function showOnly(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+function showScreen(n){
+ document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.nav===n));
+ if(n==='phoenix'){renderPhoenix();showOnly('phoenixScreen')}
+ if(n==='astra'){renderAstra();showOnly('astraHome');setTimeout(renderInteractiveMap,0)}
+ if(n==='countries'){renderCountries();showOnly('countriesScreen')}
+ if(n==='quests'){renderQuests('first')}
+ if(n==='route'){renderRoute()}
+}
+document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>showScreen(b.dataset.nav)))
+
+/* IndexedDB Photo Vault */
+let db;
+const req=indexedDB.open('AstraMedia',1);
+req.onupgradeneeded=e=>{db=e.target.result;db.createObjectStore('photos',{keyPath:'id'})}
+req.onsuccess=e=>db=e.target.result;
+function pickPhotos(){document.getElementById('photoInput').click()}
+document.getElementById('photoInput').addEventListener('change',async e=>{
+ const files=[...e.target.files]; if(!files.length||!db)return;
+ const tx=db.transaction('photos','readwrite'),store=tx.objectStore('photos');
+ for(const f of files){const data=await fileToDataURL(f);store.put({id:crypto.randomUUID(),country:currentCountry,name:f.name,data,created:Date.now()})}
+ tx.oncomplete=()=>{loadPhotos(currentCountry);toast('Photos added')};e.target.value=''
+});
+
+async function fileToDataURL(file){
+  // Astra local-media pipeline: resize before IndexedDB storage.
+  // This keeps long-term photo storage dramatically smaller without using Firebase Storage.
+  const MAX_EDGE=1280;
+  const QUALITY=0.78;
+  if(!file || !String(file.type||"").startsWith("image/")){
+    return new Promise((res,rej)=>{
+      const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(file);
+    });
+  }
+  try{
+    const bitmap=await createImageBitmap(file);
+    const scale=Math.min(1,MAX_EDGE/Math.max(bitmap.width,bitmap.height));
+    const width=Math.max(1,Math.round(bitmap.width*scale));
+    const height=Math.max(1,Math.round(bitmap.height*scale));
+    const canvas=document.createElement("canvas");
+    canvas.width=width; canvas.height=height;
+    const ctx=canvas.getContext("2d",{alpha:false});
+    ctx.drawImage(bitmap,0,0,width,height);
+    if(bitmap.close) bitmap.close();
+    const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/webp",QUALITY));
+    if(!blob) throw new Error("Compression failed");
+    return await new Promise((res,rej)=>{
+      const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(blob);
+    });
+  }catch(err){
+    console.warn("Image compression fallback:",err);
+    return await new Promise((res,rej)=>{
+      const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(file);
+    });
+  }
+}
+
+function loadPhotos(country){
+ if(!db)return setTimeout(()=>loadPhotos(country),200);
+ const tx=db.transaction('photos','readonly'),store=tx.objectStore('photos'),r=store.getAll();
+ r.onsuccess=()=>{const arr=r.result.filter(x=>x.country===country);document.getElementById('gallery').innerHTML=arr.map(x=>`<div class="photo"><img src="${x.data}" alt="${x.name}"><button onclick="deletePhoto('${x.id}')">×</button></div>`).join('')||'<div class="muted">No photos yet.</div>'}
+}
+function deletePhoto(id){if(!db)return;const tx=db.transaction('photos','readwrite');tx.objectStore('photos').delete(id);tx.oncomplete=()=>loadPhotos(currentCountry)}
+
+/* Export backup */
+function exportData(){
+ const blob=new Blob([JSON.stringify({phoenix:P,journal,countryNotes,visited,planned,questDone,wonderDone},null,2)],{type:'application/json'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='astra-backup.json';a.click()
+}
+window.addEventListener('load',()=>{renderPhoenix();renderAstra();renderCountries();renderQuests();renderRoute();renderJournal()});
+if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import {
+  getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut,
+  setPersistence, browserLocalPersistence
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+import {
+  initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
+  doc, setDoc, getDoc, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
+import { firebaseConfig } from "./firebase-config.js";
+
+const FB={app:null,auth:null,db:null,user:null,ready:false};
+let syncTimer=null, restoring=false, lastCloudWrite=0;
+
+function el(id){return document.getElementById(id)}
+function syncStatus(text,state=""){
+  const pill=el("syncPill"),txt=el("syncText");
+  if(!pill||!txt)return;
+  pill.className="syncPill show "+state; txt.textContent=text;
+}
+function authMessage(text,error=false){
+  const m=el("authMessage"); if(!m)return;
+  m.textContent=text; m.className="authMessage"+(error?" error":"");
+}
+function showGate(show){el("authGate")?.classList.toggle("show",show)}
+function snapshot(){
+  return {
+    schemaVersion:3,
+    clientUpdatedAt:new Date().toISOString(),
+    phoenix:JSON.parse(localStorage.getItem("phoenix")||"{}"),
+    journal:JSON.parse(localStorage.getItem("astraJournal")||"[]"),
+    countryNotes:JSON.parse(localStorage.getItem("countryNotes")||"{}"),
+    visited:JSON.parse(localStorage.getItem("visitedCountries")||"[]"),
+    planned:JSON.parse(localStorage.getItem("plannedCountries")||"[]"),
+    questDone:JSON.parse(localStorage.getItem("questDone")||"[]"),
+    wonderDone:JSON.parse(localStorage.getItem("wonderDone")||"[]")
+  };
+}
+function restore(data){
+  if(!data)return;
+  restoring=true;
+  const map=[
+    ["phoenix",data.phoenix],["astraJournal",data.journal],["countryNotes",data.countryNotes],
+    ["visitedCountries",data.visited],["plannedCountries",data.planned],
+    ["questDone",data.questDone],["wonderDone",data.wonderDone]
+  ];
+  map.forEach(([k,v])=>{if(v!==undefined)localStorage.setItem(k,JSON.stringify(v))});
+  restoring=false;
+}
+async function pullCloud(){
+  if(!FB.user)return null;
+  syncStatus("Restoring…","syncing");
+  const snap=await getDoc(doc(FB.db,"users",FB.user.uid,"astra","state"));
+  if(!snap.exists()){
+    await pushCloud();
+    return null;
+  }
+  const data=snap.data();
+  restore(data);
+  syncStatus("Synced","synced");
+  return data;
+}
+async function pushCloud(){
+  if(restoring||!FB.user||!navigator.onLine)return;
+  syncStatus("Saving…","syncing");
+  const payload=snapshot();
+  await setDoc(doc(FB.db,"users",FB.user.uid,"astra","state"),{
+    ...payload,serverUpdatedAt:serverTimestamp()
+  },{merge:true});
+  lastCloudWrite=Date.now();
+  syncStatus("Synced","synced");
+}
+window.astraQueueCloudSync=()=>{
+  if(restoring||!FB.user)return;
+  syncStatus(navigator.onLine?"Saving…":"Saved locally",navigator.onLine?"syncing":"offline");
+  clearTimeout(syncTimer);
+  syncTimer=setTimeout(()=>pushCloud().catch(err=>{
+    console.error(err);syncStatus(navigator.onLine?"Sync error":"Saved locally",navigator.onLine?"offline":"offline");
+  }),900);
+};
+window.astraFirebase={
+  pushState:pushCloud,pullState:pullCloud,snapshot,
+  signOut:()=>FB.auth?signOut(FB.auth):Promise.resolve(),
+  status:()=>({ready:FB.ready,user:FB.user,mediaMode:"local-compressed-indexeddb"})
+};
+
+async function boot(){
+  try{
+    FB.app=initializeApp(firebaseConfig);
+    FB.auth=getAuth(FB.app);
+    await setPersistence(FB.auth,browserLocalPersistence);
+    FB.db=initializeFirestore(FB.app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})});
+    FB.ready=true;
+
+    el("authForm")?.addEventListener("submit",async e=>{
+      e.preventDefault();
+      const btn=el("authSubmit");btn.disabled=true;btn.textContent="SIGNING IN…";
+      authMessage("Checking your account…");
+      try{
+        await signInWithEmailAndPassword(FB.auth,el("authEmail").value.trim(),el("authPassword").value);
+      }catch(err){
+        console.error(err);
+        authMessage("Email or password is incorrect.",true);
+        btn.disabled=false;btn.textContent="ENTER PHOENIX";
+      }
+    });
+
+    onAuthStateChanged(FB.auth,async user=>{
+      FB.user=user||null;
+      if(!user){
+        showGate(true);syncStatus("Signed out","");
+        const btn=el("authSubmit");if(btn){btn.disabled=false;btn.textContent="ENTER PHOENIX"}
+        return;
+      }
+      showGate(false);
+      syncStatus("Restoring…","syncing");
+      try{
+        const cloud=await pullCloud();
+        if(cloud){
+          // Reload once so all legacy in-memory state is rebuilt from restored localStorage.
+          if(sessionStorage.getItem("astraCloudBoot")!=="1"){
+            sessionStorage.setItem("astraCloudBoot","1");
+            location.reload(); return;
+          }
+        }
+        sessionStorage.removeItem("astraCloudBoot");
+        syncStatus("Synced","synced");
+      }catch(err){
+        console.error(err);
+        syncStatus(navigator.onLine?"Cloud unavailable":"Offline","offline");
+      }
+    });
+
+    window.addEventListener("online",()=>{syncStatus("Syncing…","syncing");pushCloud().catch(()=>syncStatus("Sync error","offline"))});
+    window.addEventListener("offline",()=>syncStatus("Saved locally","offline"));
+  }catch(err){
+    console.error(err);showGate(true);authMessage("Firebase could not initialize. Check the project configuration.",true);
+  }
+}
+boot();
+</script>
+
+</body></html>
