@@ -1202,8 +1202,8 @@ function renderJournal(){
 function showOnly(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
 function showScreen(n){
  document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.nav===n));
- if(n==='phoenix'){renderPhoenix();showOnly('phoenixScreen')}
- if(n==='astra'){if(!P.launched && !phoenixComplete()){renderAstraLocked();return}renderAstra();showOnly('astraHome');setTimeout(renderInteractiveMap,0)}
+ if(n==='phoenix'){renderPhoenix();showOnly('phoenixScreen');return}
+ if(n==='astra'){if(!P.launched && !phoenixComplete()){renderAstraLocked();return}renderAstra();showOnly('astraHome');setTimeout(renderInteractiveMap,0);return}
  if(n==='countries'){renderCountries();showOnly('countriesScreen')}
  if(n==='quests'){renderQuests('first')}
  if(n==='route'){renderRoute()}
@@ -1272,6 +1272,17 @@ window.addEventListener('load',()=>{renderPhoenix();renderAstra();renderCountrie
 if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+  try{
+    if(!P.launched){
+      renderPhoenix();
+      showOnly("phoenixScreen");
+      document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.nav==="phoenix"));
+    }
+  }catch(e){console.error("Phoenix boot:",e)}
+});
+</script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 import {
@@ -1399,6 +1410,16 @@ async function boot(){
           }
         }
         sessionStorage.removeItem("astraCloudBoot");
+        // Phoenix is the canonical home until Astra has actually been launched.
+        if(!P.launched){
+          renderPhoenix();
+          showOnly("phoenixScreen");
+          document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.nav==="phoenix"));
+        } else {
+          renderAstra();
+          showOnly("astraHome");
+          document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.nav==="astra"));
+        }
         syncStatus("Synced","synced");
       }catch(err){
         console.error(err);

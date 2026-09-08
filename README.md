@@ -249,3 +249,10 @@ Firebase Storage is not required.
 - 64x64 favicon
 - Manifest points only to ASTRA icons
 - Service worker cache bumped to force a fresh PWA asset set
+
+## V25 Phoenix Entry Fix
+- Phoenix is now forced as the canonical home after authentication while Astra has not launched.
+- Cloud restore explicitly re-renders Phoenix after Firestore state loads.
+- Phoenix navigation now returns immediately to prevent another screen from superseding it.
+- Added a DOMContentLoaded safety boot for Phoenix.
+- V24 ASTRA PWA icon fix remains intact.
