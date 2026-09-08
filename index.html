@@ -522,9 +522,37 @@ body{
 .authUserPanel button{margin-top:10px}
 @media(min-width:700px){.authShell{align-items:center}.authCard{border-radius:28px;padding:28px}}
 
+
+.appSplash{position:fixed;inset:0;z-index:12000;background:#02080d;display:grid;place-items:center;overflow:hidden;transition:opacity .7s ease,visibility .7s}
+.appSplash.hide{opacity:0;visibility:hidden}
+.splashEarth{position:absolute;width:130vw;height:55vw;min-height:260px;bottom:-28vw;border-radius:50%;background:radial-gradient(circle at 50% 0,#23566a 0,#0b2a38 30%,#031018 63%,#02080d 74%);box-shadow:0 -4px 35px rgba(240,190,94,.34)}
+.splashHorizon{position:absolute;left:10%;right:10%;bottom:25%;height:2px;background:linear-gradient(90deg,transparent,#e7ad56,transparent);filter:blur(.2px);opacity:0;animation:horizon 3.2s ease forwards}
+.splashCenter{position:relative;z-index:2;text-align:center;transform:translateY(-6vh)}
+.splashLogo{width:150px;height:150px;margin:auto;opacity:0;transform:scale(.72);animation:logoIn 1s .65s cubic-bezier(.2,.8,.2,1) forwards;filter:drop-shadow(0 0 22px rgba(236,179,84,.25))}
+.splashName{font-family:Georgia,serif;letter-spacing:.28em;font-size:27px;margin:5px 0 7px;color:#f0c777;opacity:0;animation:fadeUp .8s 1.2s forwards}
+.splashTag{font-size:9px;letter-spacing:.18em;color:#d2aa62;opacity:0;animation:fadeUp .8s 1.45s forwards}
+.splashLine{width:150px;height:3px;background:#16242c;border-radius:99px;margin:24px auto 8px;overflow:hidden;opacity:0;animation:fadeUp .5s 1.7s forwards}
+.splashLine i{display:block;height:100%;width:0;background:linear-gradient(90deg,#e4ad52,#ffe0a0);animation:loadJourney 1.25s 1.8s ease forwards}
+.splashLoading{font-size:8px;letter-spacing:.16em;color:#a98b59;opacity:0;animation:fadeUp .5s 1.8s forwards}
+@keyframes logoIn{to{opacity:1;transform:scale(1)}}@keyframes fadeUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}@keyframes horizon{0%{opacity:0;transform:scaleX(.2)}45%,100%{opacity:1;transform:scaleX(1)}}@keyframes loadJourney{to{width:100%}}
+
 </style>
+<link rel="icon" href="./astra-icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./astra-icon.svg">
+<meta name="theme-color" content="#06111b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
+<div id="appSplash" class="appSplash">
+<div class="splashEarth"></div><div class="splashHorizon"></div>
+<div class="splashCenter">
+<img class="splashLogo" src="./astra-icon.svg" alt="Astra">
+<div class="splashName">ASTRA</div>
+<div class="splashTag">PLAN TODAY. LIVE FURTHER.</div>
+<div class="splashLine"><i></i></div>
+<div class="splashLoading">LOADING YOUR JOURNEY…</div>
+</div></div>
 
 <div id="authGate" class="authGate">
   <div class="authBackdrop"></div>
@@ -685,10 +713,6 @@ function renderPhoenix(){
    <div class="heroQuote">“The world is calling. Discipline is the ticket.”</div>
   </div>
  </div>
- <div class="scenicStrip">
-   <div class="scenicCard" style="background-image:url('https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=82')"><span>Everest waits.</span></div>
-   <div class="scenicCard" style="background-image:url('https://images.unsplash.com/photo-1579033461380-adb47c3eb938?auto=format&fit=crop&w=1200&q=82')"><span>Freedom has a horizon.</span></div>
- </div>
 
  <div class="phxCountdown">
    <div><div class="label">Target completion</div><b>31 December 2027</b></div>
@@ -726,9 +750,9 @@ function renderPhoenix(){
   </div>`:`
   <div class="phxGate">
    <div style="margin-bottom:8px"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M16 18h32v34H16V18Zm-4-8h40v8H12v-8Zm14 18h12" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-   <b>Project Astra is locked</b>
-   <div class="small muted" style="margin:5px 0 13px">${5-done} requirement${5-done===1?'':'s'} remaining. Preview stays available for review.</div>
-   <button class="btn btn-dark" style="width:100%" onclick="showScreen('astra')">Preview Astra</button>
+   <b>Project Astra remains locked</b>
+   <div class="small muted" style="margin:5px 0 13px">${5-done} requirement${5-done===1?'':'s'} remaining. Astra will unlock only after Phoenix is complete.</div>
+   
   </div>`}
  `;
 }
@@ -767,7 +791,8 @@ function showTrail(i){
 function start90Test(){P.testStart=new Date().toISOString();P.days90=0;save();document.getElementById('modal').classList.remove('show');renderPhoenix();toast('90-day test started')}
 function fail90Test(){P.testStart=null;P.days90=0;save();document.getElementById('modal').classList.remove('show');renderPhoenix();toast('Test reset')}
 function addProfitEntry(){let m=profitMonth.value,v=+profitValue.value||0;if(!m)return;P.profitHistory=P.profitHistory.filter(x=>x.month!==m);P.profitHistory.push({month:m,value:v});P.profitAvg=rollingProfitAvg();save();document.getElementById('modal').classList.remove('show');renderPhoenix();editReq(3);toast('Profit month saved')}
-function launchAstra(){if(phoenixReqs().every(x=>x.ok)){P.launched=true;save();toast('ASTRA UNLOCKED');showScreen('astra')}}
+function launchAstra(){
+ if(!phoenixComplete()){toast('Complete all 5 Phoenix requirements first');return}if(phoenixReqs().every(x=>x.ok)){P.launched=true;save();toast('ASTRA UNLOCKED');showScreen('astra')}}
 
 function continentCount(){
  let regs=new Set(countries.filter(c=>visited.includes(c[0])).map(c=>c[2]));
@@ -909,11 +934,37 @@ function closeFullMap(){
 function fullMapZoom(f){if(fullMapAPI)fullMapAPI.zoomBy(f)}
 function fullMapReset(){if(fullMapAPI)fullMapAPI.reset()}
 
+
+function phoenixComplete(){
+  return phoenixReqs().every(x=>x.ok);
+}
+function renderAstraLocked(){
+  document.getElementById('astraHome').innerHTML=`
+    <div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 10l9 20-9-5-9 5 9-20ZM19 38l13-8 13 8-13 16-13-16ZM32 30v17" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><small>PROJECT</small><h1>ASTRA</h1><small>LOCKED</small></div></div></div>
+    <div class="worldCalling" style="filter:saturate(.55) brightness(.65)">
+      <div class="heroContent">
+        <div class="kicker">NOT YET</div>
+        <div class="heroTitle">ASTRA</div>
+        <div class="heroQuote">Complete Phoenix first. Freedom is earned before it is lived.</div>
+      </div>
+    </div>
+    <section class="section">
+      <div class="card" style="text-align:center;padding:24px 18px">
+        <div style="font-size:30px;margin-bottom:8px">🔒</div>
+        <h2 style="margin:0 0 8px">Astra is locked.</h2>
+        <div class="small muted" style="line-height:1.6;margin-bottom:14px">All 5 Phoenix requirements must be completed before Project Astra can open.</div>
+        <button class="btn btn-dark" style="width:100%" onclick="showScreen('phoenix')">Back to Phoenix</button>
+      </div>
+    </section>`;
+  showOnly('astraHome');
+}
+
 function renderAstra(){
+ if(!P.launched && !phoenixComplete()){renderAstraLocked();return;}
  const preview=!P.launched;
  document.getElementById('astraHome').innerHTML=`
- <div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 10l9 20-9-5-9 5 9-20ZM19 38l13-8 13 8-13 16-13-16ZM32 30v17" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><small>PROJECT</small><h1>ASTRA</h1><small>LIVE WIDE ${preview?'· PREVIEW MODE':''}</small></div></div></div>
- <div class="hero"><div class="heroContent"><div class="kicker">${preview?'PREVIEW MODE':'ASTRA ACTIVE'}</div><div class="heroTitle">ASTRA</div><div class="heroQuote">“A wider you, a brighter world.”</div></div></div>
+ <div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 10l9 20-9-5-9 5 9-20ZM19 38l13-8 13 8-13 16-13-16ZM32 30v17" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><small>PROJECT</small><h1>ASTRA</h1><small>LIVE WIDE ${preview?'· LOCKED':''}</small></div></div></div>
+ <div class="hero"><div class="heroContent"><div class="kicker">${preview?'LOCKED':'ASTRA ACTIVE'}</div><div class="heroTitle">ASTRA</div><div class="heroQuote">“A wider you, a brighter world.”</div></div></div>
  <div class="scenicStrip">
    <div class="scenicCard" style="background-image:url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1200&q=82')"><span>Japan · Tradition meets tomorrow</span></div>
    <div class="scenicCard" style="background-image:url('https://images.unsplash.com/photo-1469521669194-babb45599def?auto=format&fit=crop&w=1200&q=82')"><span>New Zealand · Roads into the wild</span></div>
@@ -1152,7 +1203,7 @@ function showOnly(id){document.querySelectorAll('.screen').forEach(s=>s.classLis
 function showScreen(n){
  document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.nav===n));
  if(n==='phoenix'){renderPhoenix();showOnly('phoenixScreen')}
- if(n==='astra'){renderAstra();showOnly('astraHome');setTimeout(renderInteractiveMap,0)}
+ if(n==='astra'){if(!P.launched && !phoenixComplete()){renderAstraLocked();return}renderAstra();showOnly('astraHome');setTimeout(renderInteractiveMap,0)}
  if(n==='countries'){renderCountries();showOnly('countriesScreen')}
  if(n==='quests'){renderQuests('first')}
  if(n==='route'){renderRoute()}
@@ -1217,7 +1268,7 @@ function exportData(){
  const blob=new Blob([JSON.stringify({phoenix:P,journal,countryNotes,visited,planned,questDone,wonderDone},null,2)],{type:'application/json'});
  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='astra-backup.json';a.click()
 }
-window.addEventListener('load',()=>{renderPhoenix();renderAstra();renderCountries();renderQuests();renderRoute();renderJournal()});
+window.addEventListener('load',()=>{renderPhoenix();renderAstra();renderCountries();renderQuests();renderRoute();renderJournal();showOnly('phoenixScreen')});
 if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}
 </script>
 
@@ -1364,4 +1415,7 @@ async function boot(){
 boot();
 </script>
 
+<script>
+window.addEventListener("load",()=>setTimeout(()=>document.getElementById("appSplash")?.classList.add("hide"),3300));
+</script>
 </body></html>

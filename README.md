@@ -218,3 +218,24 @@ Firebase Storage is not required.
 - Visible sync state: Saving / Synced / Saved locally / Sync error
 - Photos remain compressed WebP in local IndexedDB and never enter Firestore
 - Sign out control added to the journal/account area
+
+## V21 PWA Identity + Splash
+- Recreated the approved ASTRA emblem as a clean standalone SVG, not cropped from the concept artwork.
+- Added the emblem as PWA icon, favicon and install icon.
+- Added native animated splash sequence: horizon glow → ASTRA emblem → wordmark/tagline → journey loading bar → login/app.
+- Existing Firebase Authentication, Firestore auto-sync and local compressed media architecture preserved.
+
+## V22 Phoenix Dashboard Fix
+- Restored Phoenix as the primary dashboard after V21 splash/auth regression
+- Phoenix tab now always renders the 5 launch requirements
+- Countdown, 5-gate progress, cash/weight trails and Astra lock retained
+- Splash, Firebase Authentication, Firestore auto-sync and PWA identity remain intact
+
+## V23 Astra Hard Lock
+- Removed Astra Preview Mode completely
+- Removed the Preview Astra button from Phoenix
+- Astra tab cannot open the Astra experience while Phoenix is incomplete
+- Astra shows only a locked screen before completion
+- Project Astra becomes accessible only after all 5 Phoenix requirements are complete
+- Launch function is hard-guarded against early access
+- Existing Firebase Auth, Firestore auto-sync, PWA icon and splash animation remain intact

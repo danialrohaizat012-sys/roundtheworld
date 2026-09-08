@@ -1,8 +1,16 @@
 {
-  "name": "Phoenix \u2192 Astra: Danial Round The World",
-  "short_name": "PhoenixAstra",
+  "name": "Phoenix \u2192 Astra",
+  "short_name": "Astra",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#071018",
-  "theme_color": "#071018"
+  "background_color": "#02070b",
+  "theme_color": "#06111b",
+  "icons": [
+    {
+      "src": "./astra-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }
