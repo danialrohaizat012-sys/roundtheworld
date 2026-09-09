@@ -542,11 +542,7 @@ body.phoenixOnly .navbtn[data-nav="countries"],
 body.phoenixOnly .navbtn[data-nav="quests"],
 body.phoenixOnly .navbtn[data-nav="route"]{display:none!important}
 body.phoenixOnly .bottomnav{grid-template-columns:1fr!important}
-body.phoenixOnly #astraHome,
-body.phoenixOnly #countriesScreen,
-body.phoenixOnly #questsScreen,
-body.phoenixOnly #routeScreen,
-body.phoenixOnly #journalScreen{display:none!important}
+
 
 
 /* V27 One-time Astra Launch Cinematic */
@@ -584,6 +580,8 @@ body.phoenixOnly #journalScreen{display:none!important}
 @keyframes astraMarkIn{from{opacity:0;transform:translate(-50%,-50%) scale(.65)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
 @keyframes astraTextIn{0%{opacity:0;transform:translateY(10px)}30%,100%{opacity:1;transform:none}}
 
+
+body.phoenixOnly #phoenixScreen.screen.active{display:block!important}
 </style>
 <meta name="theme-color" content="#06111b">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -687,6 +685,8 @@ const TARGET_DATE='2027-12-31T23:59:59+08:00';
 const defaultPhoenix={cash:0,weight:120,days90:0,profitAvg:0,profitHistory:[],testStart:null,degree:false,graduated:false,convocation:false,launched:false,history:[],cashHistory:[],weightHistory:[]};
 let P=JSON.parse(localStorage.getItem('phoenix')||'null')||defaultPhoenix;
 P.cashHistory=P.cashHistory||P.history||[]; P.weightHistory=P.weightHistory||[]; P.profitHistory=P.profitHistory||[]; P.testStart=P.testStart||null;
+P.cash=Number(P.cash)||0; P.weight=Number(P.weight)||120; P.days90=Number(P.days90)||0; P.profitAvg=Number(P.profitAvg)||0;
+P.degree=!!P.degree; P.graduated=!!P.graduated; P.convocation=!!P.convocation; P.launched=!!P.launched;
 let journal=JSON.parse(localStorage.getItem('astraJournal')||'[]');
 let countryNotes=JSON.parse(localStorage.getItem('countryNotes')||'{}');
 let visited=JSON.parse(localStorage.getItem('visitedCountries')||'["Thailand","China","New Zealand"]');

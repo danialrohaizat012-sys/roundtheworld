@@ -278,3 +278,10 @@ Firebase Storage is not required.
 - Firestore restore no longer blocks or blanks the Phoenix UI.
 - If Firestore is unavailable, the app stays usable in local mode and can retry sync later.
 - V27 Astra launch cinematic and Phoenix-only phase lock remain intact.
+
+## V29 Phoenix hard fix
+- Fixed the actual blank-screen regression: V26's `body.phoenixOnly` CSS accidentally hid the screen system in a way that could override Phoenix visibility.
+- Removed CSS-level screen suppression. Access control now lives only in the route guard/navigation logic.
+- Added an explicit Phoenix active-screen guarantee.
+- Normalized legacy/local Phoenix numeric state to prevent render exceptions after older builds.
+- Cloud failure remains non-blocking.
