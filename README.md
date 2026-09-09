@@ -288,3 +288,9 @@ Firebase Storage is not required.
 
 ## V30 Phoenix static boot
 Phoenix dashboard now exists in the HTML before JavaScript/Firebase runs, so Firebase failure cannot produce a blank Phoenix screen. Standard Firestore initialization replaces persistent cache initialization. Accumulated CSS selector corruption was also repaired.
+
+## V31 Temporary Final Astra Review
+- FINAL_ASTRA_REVIEW is temporarily enabled.
+- Astra, Countries, Quests and Route are accessible for one last review without setting `P.launched=true`.
+- Actual Phoenix completion/launch state is not faked.
+- After review, set FINAL_ASTRA_REVIEW=false (or use the next locked production build) to restore the hard Phoenix-only gate.

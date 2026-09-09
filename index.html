@@ -1067,7 +1067,7 @@ function renderAstraLocked(){
 }
 
 function renderAstra(){
- if(!P.launched && !phoenixComplete()){renderAstraLocked();return;}
+ if(!P.launched && !FINAL_ASTRA_REVIEW && !phoenixComplete()){renderAstraLocked();return;}
  const preview=!P.launched;
  document.getElementById('astraHome').innerHTML=`
  <div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 10l9 20-9-5-9 5 9-20ZM19 38l13-8 13 8-13 16-13-16ZM32 30v17" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><small>PROJECT</small><h1>ASTRA</h1><small>LIVE WIDE ${preview?'· LOCKED':''}</small></div></div></div>
@@ -1309,7 +1309,7 @@ function renderJournal(){
 function showOnly(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
 
 function applyProjectPhase(){
-  const locked=!P.launched;
+  const locked=!P.launched && !FINAL_ASTRA_REVIEW;
   document.body.classList.toggle('phoenixOnly',locked);
   document.querySelectorAll('.navbtn').forEach(btn=>{
     const n=btn.dataset.nav;
@@ -1324,10 +1324,20 @@ function applyProjectPhase(){
     document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.nav==='phoenix'));
   }
 }
+const FINAL_ASTRA_REVIEW=true; // TEMPORARY: remove/false after final review
 function projectRouteAllowed(n){
-  return P.launched || n==='phoenix';
+  return P.launched || FINAL_ASTRA_REVIEW || n==='phoenix';
 }
 
+function openFinalAstraReview(){
+  if(!FINAL_ASTRA_REVIEW || P.launched)return;
+  document.body.classList.remove('phoenixOnly');
+  document.querySelectorAll('.navbtn').forEach(btn=>{btn.hidden=false;btn.style.display=''});
+  renderAstra();
+  showOnly('astraHome');
+  document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.nav==='astra'));
+  setTimeout(renderInteractiveMap,0);
+}
 function showScreen(n){
  if(!projectRouteAllowed(n)){
    renderPhoenix();
@@ -1556,6 +1566,7 @@ async function boot(){
           document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.nav==="astra"));
         }
         syncStatus("Synced","synced");
+        if(FINAL_ASTRA_REVIEW && !P.launched) openFinalAstraReview();
       }catch(err){
         console.error("Firestore restore:",err);
         syncStatus(navigator.onLine?"Local mode · cloud retry":"Offline · local","offline");
