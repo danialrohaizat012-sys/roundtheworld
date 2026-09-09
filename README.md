@@ -256,3 +256,19 @@ Firebase Storage is not required.
 - Phoenix navigation now returns immediately to prevent another screen from superseding it.
 - Added a DOMContentLoaded safety boot for Phoenix.
 - V24 ASTRA PWA icon fix remains intact.
+
+## V26 Hard Project Phase Routing
+- Before Astra launch, the app is Phoenix-only.
+- Login always routes directly to Phoenix.
+- Astra, Countries, Quests and Route navigation items are physically hidden before launch.
+- Direct internal calls to those screens are blocked by the central route guard.
+- Bottom navigation collapses to Phoenix only.
+- Once all Phoenix requirements are complete and Project Astra is launched, the hidden Astra navigation unlocks.
+- Firebase/PWA/icon/splash architecture remains intact.
+
+## V27 Astra Launch Cinematic
+- Added a one-time cinematic transition when the final Phoenix gate is complete and LAUNCH PROJECT ASTRA is pressed.
+- Sequence: Phoenix Complete → You Built Your Freedom → world horizon/globe reveal → ASTRA emblem → The World Is Now Open.
+- Approx. 6.2 seconds with an optional Skip control.
+- `P.launched` is saved before the animation, so subsequent app opens enter the Astra era without replaying the cinematic.
+- After the sequence, Astra/Countries/Quests/Route navigation unlocks through the V26 project-phase gate.

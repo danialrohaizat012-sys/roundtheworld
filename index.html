@@ -535,6 +535,55 @@ body{
 .splashLoading{font-size:8px;letter-spacing:.16em;color:#a98b59;opacity:0;animation:fadeUp .5s 1.8s forwards}
 @keyframes logoIn{to{opacity:1;transform:scale(1)}}@keyframes fadeUp{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}@keyframes horizon{0%{opacity:0;transform:scaleX(.2)}45%,100%{opacity:1;transform:scaleX(1)}}@keyframes loadJourney{to{width:100%}}
 
+
+/* V26 Phoenix-only phase */
+body.phoenixOnly .navbtn[data-nav="astra"],
+body.phoenixOnly .navbtn[data-nav="countries"],
+body.phoenixOnly .navbtn[data-nav="quests"],
+body.phoenixOnly .navbtn[data-nav="route"]{display:none!important}
+body.phoenixOnly .bottomnav{grid-template-columns:1fr!important}
+body.phoenixOnly #astraHome,
+body.phoenixOnly #countriesScreen,
+body.phoenixOnly #questsScreen,
+body.phoenixOnly #routeScreen,
+body.phoenixOnly #journalScreen{display:none!important}
+
+
+/* V27 One-time Astra Launch Cinematic */
+.astraLaunch{position:fixed;inset:0;z-index:20000;background:#02070b;display:none;overflow:hidden;color:white}
+.astraLaunch.play{display:block}
+.launchStars{position:absolute;inset:0;background:
+ radial-gradient(circle at 15% 25%,rgba(255,255,255,.55) 0 1px,transparent 1.5px),
+ radial-gradient(circle at 72% 18%,rgba(255,255,255,.45) 0 1px,transparent 1.5px),
+ radial-gradient(circle at 83% 47%,rgba(255,255,255,.35) 0 1px,transparent 1.5px),
+ radial-gradient(circle at 32% 62%,rgba(255,255,255,.3) 0 1px,transparent 1.5px);
+ background-size:190px 190px,260px 260px,220px 220px,310px 310px;opacity:0;animation:starsIn 2s 1.4s forwards}
+.launchPhoenix,.launchAstraMark{position:absolute;left:50%;top:43%;transform:translate(-50%,-50%);width:145px;height:145px}
+.launchPhoenix{opacity:0;animation:phoenixLife 2.2s .25s ease forwards}
+.launchPhoenix svg{width:100%;height:100%;filter:drop-shadow(0 0 24px rgba(255,133,65,.45));color:#f3b15d}
+.launchFlash{position:absolute;left:50%;top:43%;width:8px;height:8px;border-radius:50%;background:#fff3c2;transform:translate(-50%,-50%);opacity:0;animation:launchFlash 1.15s 1.85s ease-out forwards}
+.launchGlobe{position:absolute;width:145vw;height:62vw;min-height:320px;left:50%;bottom:-34vw;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle at 50% 0,#2a6175 0,#0c3040 27%,#061824 53%,#02070b 72%);box-shadow:0 -4px 55px rgba(234,179,83,.25);opacity:0;animation:globeRise 1.6s 2.35s ease forwards}
+.launchHorizon{position:absolute;left:8%;right:8%;bottom:27%;height:2px;background:linear-gradient(90deg,transparent,#f0c36b,transparent);opacity:0;transform:scaleX(.1);animation:horizonOpen 1.4s 2.7s ease forwards}
+.launchText{position:absolute;left:20px;right:20px;top:61%;text-align:center;z-index:4}
+.launchPhase1,.launchPhase2,.launchPhase3{position:absolute;left:0;right:0;opacity:0}
+.launchPhase1{animation:textBeat 1.45s .6s ease forwards}
+.launchPhase2{animation:textBeat 1.65s 2.15s ease forwards}
+.launchPhase3{animation:astraTextIn 1.8s 4.05s ease forwards}
+.launchKicker{font-size:9px;letter-spacing:.22em;color:#d5a958;font-weight:900}
+.launchBig{font-family:Georgia,serif;font-size:30px;letter-spacing:.09em;margin:7px 0;color:#f1c66e}
+.launchSub{font-size:11px;letter-spacing:.10em;color:#a9bbc3}
+.launchAstraMark{opacity:0;top:39%;animation:astraMarkIn 1.35s 3.65s cubic-bezier(.2,.8,.2,1) forwards}
+.launchAstraMark img{width:100%;height:100%;filter:drop-shadow(0 0 26px rgba(239,190,95,.34))}
+.launchSkip{position:absolute;right:16px;top:16px;z-index:8;border:1px solid rgba(255,255,255,.1);background:rgba(6,18,25,.6);color:#8397a0;border-radius:999px;padding:7px 10px;font-size:9px}
+@keyframes phoenixLife{0%{opacity:0;transform:translate(-50%,-50%) scale(.7)}25%,58%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.35);filter:blur(9px)}}
+@keyframes launchFlash{0%{opacity:0;box-shadow:0 0 0 0 rgba(255,238,183,.8)}20%{opacity:1}100%{opacity:0;box-shadow:0 0 0 65vw rgba(255,238,183,0)}}
+@keyframes starsIn{to{opacity:.55}}
+@keyframes globeRise{from{opacity:0;transform:translateX(-50%) translateY(90px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+@keyframes horizonOpen{to{opacity:1;transform:scaleX(1)}}
+@keyframes textBeat{0%{opacity:0;transform:translateY(9px)}20%,72%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-7px)}}
+@keyframes astraMarkIn{from{opacity:0;transform:translate(-50%,-50%) scale(.65)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes astraTextIn{0%{opacity:0;transform:translateY(10px)}30%,100%{opacity:1;transform:none}}
+
 </style>
 <meta name="theme-color" content="#06111b">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -544,6 +593,24 @@ body{
 <link rel="manifest" href="./manifest.json">
 </head>
 <body>
+
+<div id="astraLaunch" class="astraLaunch" aria-hidden="true">
+ <div class="launchStars"></div>
+ <div class="launchGlobe"></div>
+ <div class="launchHorizon"></div>
+ <div class="launchPhoenix">
+  <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M18 42c7-4 9-12 14-23 5 11 7 19 14 23M17 26c7 0 10 3 15 8 5-5 8-8 15-8M22 45l10 7 10-7" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ </div>
+ <div class="launchFlash"></div>
+ <div class="launchAstraMark"><img src="./astra-icon.svg" alt=""></div>
+ <div class="launchText">
+  <div class="launchPhase1"><div class="launchKicker">5 / 5 COMPLETE</div><div class="launchBig">PHOENIX COMPLETE</div><div class="launchSub">YOU BUILT YOUR FREEDOM</div></div>
+  <div class="launchPhase2"><div class="launchKicker">THE STRUGGLE ENDS HERE</div><div class="launchBig">LOOK UP.</div><div class="launchSub">THE WORLD IS WAITING.</div></div>
+  <div class="launchPhase3"><div class="launchKicker">A NEW ERA BEGINS</div><div class="launchBig">PROJECT ASTRA</div><div class="launchSub">THE WORLD IS NOW OPEN</div></div>
+ </div>
+ <button class="launchSkip" onclick="finishAstraLaunch()">SKIP</button>
+</div>
+
 <div id="appSplash" class="appSplash">
 <div class="splashEarth"></div><div class="splashHorizon"></div>
 <div class="splashCenter">
@@ -791,9 +858,37 @@ function showTrail(i){
 function start90Test(){P.testStart=new Date().toISOString();P.days90=0;save();document.getElementById('modal').classList.remove('show');renderPhoenix();toast('90-day test started')}
 function fail90Test(){P.testStart=null;P.days90=0;save();document.getElementById('modal').classList.remove('show');renderPhoenix();toast('Test reset')}
 function addProfitEntry(){let m=profitMonth.value,v=+profitValue.value||0;if(!m)return;P.profitHistory=P.profitHistory.filter(x=>x.month!==m);P.profitHistory.push({month:m,value:v});P.profitAvg=rollingProfitAvg();save();document.getElementById('modal').classList.remove('show');renderPhoenix();editReq(3);toast('Profit month saved')}
-function launchAstra(){
- if(!phoenixComplete()){toast('Complete all 5 Phoenix requirements first');return}if(phoenixReqs().every(x=>x.ok)){P.launched=true;save();toast('ASTRA UNLOCKED');showScreen('astra')}}
 
+let astraLaunchTimer=null;
+function playAstraLaunch(){
+ const el=document.getElementById('astraLaunch');
+ if(!el){finishAstraLaunch();return}
+ el.setAttribute('aria-hidden','false');
+ el.classList.add('play');
+ clearTimeout(astraLaunchTimer);
+ astraLaunchTimer=setTimeout(finishAstraLaunch,6200);
+}
+function finishAstraLaunch(){
+ clearTimeout(astraLaunchTimer);
+ const el=document.getElementById('astraLaunch');
+ if(el){el.classList.remove('play');el.setAttribute('aria-hidden','true')}
+ applyProjectPhase();
+ renderAstra();
+ showOnly('astraHome');
+ document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.nav==='astra'));
+ setTimeout(renderInteractiveMap,0);
+}
+
+function launchAstra(){
+ if(!phoenixComplete()){toast('Complete all 5 Phoenix requirements first');return}
+ if(P.launched){showScreen('astra');return}
+ if(!confirm('All Phoenix requirements are complete. Launch Project Astra? This begins the next era.'))return;
+ P.launched=true;
+ P.astraLaunchedAt=new Date().toISOString();
+ save();
+ if(window.astraQueueCloudSync) window.astraQueueCloudSync();
+ playAstraLaunch();
+}
 function continentCount(){
  let regs=new Set(countries.filter(c=>visited.includes(c[0])).map(c=>c[2]));
  if(questDone.includes(52)) regs.add("Antarctica");
@@ -1200,15 +1295,42 @@ function renderJournal(){
 }
 
 function showOnly(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+
+function applyProjectPhase(){
+  const locked=!P.launched;
+  document.body.classList.toggle('phoenixOnly',locked);
+  document.querySelectorAll('.navbtn').forEach(btn=>{
+    const n=btn.dataset.nav;
+    if(['astra','countries','quests','route'].includes(n)){
+      btn.hidden=locked;
+      btn.style.display=locked?'none':'';
+    }
+  });
+  if(locked){
+    renderPhoenix();
+    showOnly('phoenixScreen');
+    document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.nav==='phoenix'));
+  }
+}
+function projectRouteAllowed(n){
+  return P.launched || n==='phoenix';
+}
+
 function showScreen(n){
+ if(!projectRouteAllowed(n)){
+   renderPhoenix();
+   showOnly('phoenixScreen');
+   document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.nav==='phoenix'));
+   return;
+ }
  document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.nav===n));
  if(n==='phoenix'){renderPhoenix();showOnly('phoenixScreen');return}
- if(n==='astra'){if(!P.launched && !phoenixComplete()){renderAstraLocked();return}renderAstra();showOnly('astraHome');setTimeout(renderInteractiveMap,0);return}
- if(n==='countries'){renderCountries();showOnly('countriesScreen')}
- if(n==='quests'){renderQuests('first')}
- if(n==='route'){renderRoute()}
+ if(n==='astra'){renderAstra();showOnly('astraHome');setTimeout(renderInteractiveMap,0);return}
+ if(n==='countries'){renderCountries();showOnly('countriesScreen');return}
+ if(n==='quests'){renderQuests('first');return}
+ if(n==='route'){renderRoute();return}
 }
-document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>showScreen(b.dataset.nav)))
+document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>showScreen(b.dataset.nav)));
 
 /* IndexedDB Photo Vault */
 let db;
@@ -1268,19 +1390,14 @@ function exportData(){
  const blob=new Blob([JSON.stringify({phoenix:P,journal,countryNotes,visited,planned,questDone,wonderDone},null,2)],{type:'application/json'});
  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='astra-backup.json';a.click()
 }
-window.addEventListener('load',()=>{renderPhoenix();renderAstra();renderCountries();renderQuests();renderRoute();renderJournal();showOnly('phoenixScreen')});
+window.addEventListener('load',()=>{renderPhoenix();applyProjectPhase()});
 if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}
 </script>
 
 <script>
 document.addEventListener("DOMContentLoaded",()=>{
-  try{
-    if(!P.launched){
-      renderPhoenix();
-      showOnly("phoenixScreen");
-      document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.nav==="phoenix"));
-    }
-  }catch(e){console.error("Phoenix boot:",e)}
+  try{ applyProjectPhase(); }
+  catch(e){ console.error("Project phase boot:",e); }
 });
 </script>
 <script type="module">
@@ -1410,12 +1527,9 @@ async function boot(){
           }
         }
         sessionStorage.removeItem("astraCloudBoot");
-        // Phoenix is the canonical home until Astra has actually been launched.
-        if(!P.launched){
-          renderPhoenix();
-          showOnly("phoenixScreen");
-          document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.nav==="phoenix"));
-        } else {
+        // Apply the hard project phase after cloud state has been restored.
+        applyProjectPhase();
+        if(P.launched){
           renderAstra();
           showOnly("astraHome");
           document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.nav==="astra"));
