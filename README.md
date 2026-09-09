@@ -272,3 +272,9 @@ Firebase Storage is not required.
 - Approx. 6.2 seconds with an optional Skip control.
 - `P.launched` is saved before the animation, so subsequent app opens enter the Astra era without replaying the cinematic.
 - After the sequence, Astra/Countries/Quests/Route navigation unlocks through the V26 project-phase gate.
+
+## V28 Cloud-resilient boot
+- Phoenix renders immediately after login from local state.
+- Firestore restore no longer blocks or blanks the Phoenix UI.
+- If Firestore is unavailable, the app stays usable in local mode and can retry sync later.
+- V27 Astra launch cinematic and Phoenix-only phase lock remain intact.

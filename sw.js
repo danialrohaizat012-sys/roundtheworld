@@ -1,4 +1,4 @@
-const CACHE='phoenix-astra-v27-launch-cinematic';
+const CACHE='phoenix-astra-v28-cloud-resilient';
 const CORE=['./','./index.html','./manifest.json','./astra-icon.svg','./icon-192.png','./icon-512.png','./icon-maskable-512.png','./apple-touch-icon.png','./favicon-64.png','./firebase-config.js'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE))));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))));

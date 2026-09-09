@@ -1516,7 +1516,17 @@ async function boot(){
         return;
       }
       showGate(false);
-      syncStatus("Restoring…","syncing");
+      // Render local Phoenix immediately. Cloud sync must never block the UI.
+      try{
+        applyProjectPhase();
+        if(!P.launched){
+          renderPhoenix();
+          showOnly("phoenixScreen");
+          document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.nav==="phoenix"));
+        }
+      }catch(uiErr){ console.error("Local Phoenix render failed:",uiErr); }
+
+      syncStatus(navigator.onLine?"Restoring…":"Offline · local","syncing");
       try{
         const cloud=await pullCloud();
         if(cloud){
@@ -1536,8 +1546,16 @@ async function boot(){
         }
         syncStatus("Synced","synced");
       }catch(err){
-        console.error(err);
-        syncStatus(navigator.onLine?"Cloud unavailable":"Offline","offline");
+        console.error("Firestore restore:",err);
+        syncStatus(navigator.onLine?"Local mode · cloud retry":"Offline · local","offline");
+        try{
+          applyProjectPhase();
+          if(!P.launched){
+            renderPhoenix();
+            showOnly("phoenixScreen");
+            document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.nav==="phoenix"));
+          }
+        }catch(uiErr){ console.error("Phoenix fallback:",uiErr); }
       }
     });
 
