@@ -294,3 +294,10 @@ Phoenix dashboard now exists in the HTML before JavaScript/Firebase runs, so Fir
 - Astra, Countries, Quests and Route are accessible for one last review without setting `P.launched=true`.
 - Actual Phoenix completion/launch state is not faked.
 - After review, set FINAL_ASTRA_REVIEW=false (or use the next locked production build) to restore the hard Phoenix-only gate.
+
+## V32 Production Lock + Bottom Navigation Fix
+- Final Astra review flag disabled. Astra is hard locked again until Phoenix is legitimately launched.
+- Bottom navigation is now fixed to the viewport instead of moving with page content.
+- Navigation is re-parented to `document.body` on boot to prevent transformed/scrolling ancestors from trapping `position: fixed`.
+- Added iPhone safe-area spacing, dedicated bottom screen padding, GPU compositing and touch stabilization.
+- Before Astra launch only Phoenix remains visible; after launch the full Astra navigation unlocks.
