@@ -642,7 +642,19 @@ body.phoenixOnly #phoenixScreen.screen.active{display:block!important}
 <div id="syncPill" class="syncPill"><i></i><span id="syncText">Local</span></div>
 
 <div class="app">
-  <div id="phoenixScreen" class="screen active"></div>
+  <div id="phoenixScreen" class="screen active">
+<div class="topbar"><div class="brand"><div class="brandmark">P</div><div><small>PROJECT</small><h1>PHOENIX</h1></div></div></div>
+<div class="worldCalling"><div class="heroContent"><div class="kicker">BUILD YOUR FREEDOM</div><div class="heroTitle">PHOENIX</div><div class="heroQuote">The world is calling. Discipline is the ticket.</div></div></div>
+<div class="phxCountdown"><div><div class="label">Target completion</div><b>31 December 2027</b></div><div style="text-align:right"><div class="label">Time remaining</div><div class="days">...</div></div></div>
+<div class="phxLaunchCard"><div class="phxLaunchHead"><div><div class="label">Astra launch progress</div><div class="big">0 / 5</div></div><b>0%</b></div><div class="progress"><i style="width:0%"></i></div></div>
+<div class="phxReqWrap">
+<div class="requirement"><div class="num">1</div><div><b>RM 1,000,000 Cash Savings</b><div class="small muted">Loading progress…</div></div></div>
+<div class="requirement"><div class="num">2</div><div><b>Reach 70 KG</b><div class="small muted">Loading progress…</div></div></div>
+<div class="requirement"><div class="num">3</div><div><b>Meney 90-Day Independence</b><div class="small muted">Loading progress…</div></div></div>
+<div class="requirement"><div class="num">4</div><div><b>Meney ≥ RM 30,000 Avg Profit</b><div class="small muted">Loading progress…</div></div></div>
+<div class="requirement"><div class="num">5</div><div><b>Complete Degree + Convocation</b><div class="small muted">Loading progress…</div></div></div>
+</div><div class="phxGate"><b>Project Astra remains locked</b><div class="small muted">Complete all 5 Phoenix requirements to unlock Astra.</div></div>
+</div>
   <div id="astraHome" class="screen"></div>
   <div id="countriesScreen" class="screen"></div>
   <div id="countryDetail" class="screen"></div>
@@ -1407,8 +1419,7 @@ import {
   setPersistence, browserLocalPersistence
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
 import {
-  initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
-  doc, setDoc, getDoc, serverTimestamp
+  getFirestore, doc, setDoc, getDoc, serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-firestore.js";
 import { firebaseConfig } from "./firebase-config.js";
 
@@ -1492,7 +1503,7 @@ async function boot(){
     FB.app=initializeApp(firebaseConfig);
     FB.auth=getAuth(FB.app);
     await setPersistence(FB.auth,browserLocalPersistence);
-    FB.db=initializeFirestore(FB.app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})});
+    FB.db=getFirestore(FB.app);
     FB.ready=true;
 
     el("authForm")?.addEventListener("submit",async e=>{
@@ -1526,7 +1537,7 @@ async function boot(){
         }
       }catch(uiErr){ console.error("Local Phoenix render failed:",uiErr); }
 
-      syncStatus(navigator.onLine?"Restoring…":"Offline · local","syncing");
+      syncStatus(navigator.onLine?"Phoenix ready · syncing":"Offline · Phoenix local","syncing");
       try{
         const cloud=await pullCloud();
         if(cloud){

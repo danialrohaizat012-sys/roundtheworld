@@ -285,3 +285,6 @@ Firebase Storage is not required.
 - Added an explicit Phoenix active-screen guarantee.
 - Normalized legacy/local Phoenix numeric state to prevent render exceptions after older builds.
 - Cloud failure remains non-blocking.
+
+## V30 Phoenix static boot
+Phoenix dashboard now exists in the HTML before JavaScript/Firebase runs, so Firebase failure cannot produce a blank Phoenix screen. Standard Firestore initialization replaces persistent cache initialization. Accumulated CSS selector corruption was also repaired.
