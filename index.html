@@ -1729,6 +1729,13 @@ function saveJourneyStructured(id){
  j.countries=v43PickerValues('v43JCountries');j.startDate=start;j.endDate=end;j.journeyType=document.getElementById('v43JType').value;j.status=document.getElementById('v43JStatus').value;
  saveJourneys();toast('Journey updated');renderJourneyDetail(id)
 }
+function safeJourneyCompletedDate(j){
+ const raw=j?.completedAt||j?.endDate||j?.startDate||'';
+ if(!raw)return '';
+ const d=new Date(String(raw).length===10?raw+'T00:00:00':raw);
+ if(Number.isNaN(d.getTime()))return '';
+ return d.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})
+}
 function renderJourneyDetail(id){
  const j=astraJourneys.find(x=>x.id===id);if(!j){renderRoute();return}ensureJourneyShape(j);
  const completed=j.status==='Completed';
@@ -1736,7 +1743,7 @@ function renderJourneyDetail(id){
  <div class="topbar"><div class="between"><button class="back" onclick="renderRoute()">←</button><div><b>JOURNEY</b><div class="small muted">${j.status}</div></div><button class="chip" onclick="deleteJourney('${j.id}')">Delete</button></div></div>
  <div class="detailHero"><div class="kicker">${completed?'JOURNEY MEMORY':'JOURNEY CANVAS'}</div><h2>${j.name}</h2><div class="muted">${j.route}</div><div class="small muted" style="margin-top:7px">🌍 ${completed?(j.actualCountries||j.countries).join(' · '):j.countries.join(' · ')||'Countries not set'}</div><div class="small muted">${j.journeyType||'Mixed'}${journeyDuration(j)?' · '+journeyDuration(j):''}${j.startDate?' · '+j.startDate:''}${j.endDate?' → '+j.endDate:''}</div><div class="detailStats"><div class="detailStat"><b>${j.adventureRefs.length}</b><div class="small muted">Adventures</div></div><div class="detailStat"><b>${j.people.length}</b><div class="small muted">People</div></div><div class="detailStat"><b>RM ${journeySpend(j).toLocaleString()}</b><div class="small muted">Recorded</div></div></div></div>
  ${completed?`<section class="section"><button class="shareHeroBtn" onclick="openJourneyShare('${j.id}')">↗ SHARE JOURNEY</button></section>`:''}
- ${completed?`<section class="section"><div class="completedStamp">✓ COMPLETED ${new Date(j.completedAt).toLocaleDateString()} · TAP BACK ANYTIME TO REVISIT</div><div class="recapCard" style="margin-top:10px"><div class="kicker">JOURNEY RECAP</div><h3>${j.name}</h3><div class="storyGrid"><div class="storyMetric"><b>${(j.actualCountries||[]).length}</b><span class="small muted">Countries</span></div><div class="storyMetric"><b>${(j.completedAdventureRefs||[]).length}</b><span class="small muted">Adventures</span></div><div class="storyMetric"><b>${j.people.length}</b><span class="small muted">People</span></div><div class="storyMetric"><b>${journeyDuration(j)||'—'}</b><span class="small muted">Duration</span></div></div></div></section>`:`<section class="section"><div class="between"><button class="chip" onclick="cycleJourney('${j.id}')">Status: ${j.status} →</button><div><button class="chip" onclick="editJourneyCountries('${j.id}')">Countries</button> <button class="chip" onclick="editJourneyMeta('${j.id}')">Dates / Type</button></div></div></section>`}
+ ${completed?`<section class="section"><div class="completedStamp">✓ COMPLETED ${safeJourneyCompletedDate(j)} · TAP BACK ANYTIME TO REVISIT</div><div class="recapCard" style="margin-top:10px"><div class="kicker">JOURNEY RECAP</div><h3>${j.name}</h3><div class="storyGrid"><div class="storyMetric"><b>${(j.actualCountries||[]).length}</b><span class="small muted">Countries</span></div><div class="storyMetric"><b>${(j.completedAdventureRefs||[]).length}</b><span class="small muted">Adventures</span></div><div class="storyMetric"><b>${j.people.length}</b><span class="small muted">People</span></div><div class="storyMetric"><b>${journeyDuration(j)||'—'}</b><span class="small muted">Duration</span></div></div></div></section>`:`<section class="section"><div class="between"><button class="chip" onclick="cycleJourney('${j.id}')">Status: ${j.status} →</button><div><button class="chip" onclick="editJourneyCountries('${j.id}')">Countries</button> <button class="chip" onclick="editJourneyMeta('${j.id}')">Dates / Type</button></div></div></section>`}
  <section class="section"><div class="between"><h3>Adventure List</h3>${!completed?`<div><button class="chip" onclick="attachAdventure('${j.id}')">Attach</button> <button class="chip" onclick="createAdventureForJourney('${j.id}','Planned')">+ New</button></div>`:''}</div><div class="small muted" style="margin-bottom:9px">These are the same records shown in the global Adventure List.</div><div class="targetList">${j.adventureRefs.map(ref=>{const a=getAdventure(ref),pl=j.adventurePlan[ref]||{};if(!a)return'';const globally=adventureIsDone(a);return `<div class="targetItem ${completed&&j.completedAdventureRefs?.includes(ref)?'done':''}">${!completed?`<input class="targetCheck" type="checkbox" ${pl.doneOnTrip?'checked':''} onchange="markDoneOnTrip('${j.id}','${ref}',this.checked)">`:'<span>✓</span>'}<div><div class="targetOrigin">${pl.origin||'Planned'}${globally?' · done before':''}</div><b>${a.title}</b><div class="small muted">📍 ${(pl.plannedCountries||a.countries||[]).join(' · ')||'Anywhere / choose when done'}</div></div>${!completed?`<button class="chip" onclick="setAdventurePlanCountries('${j.id}','${ref}')">📍</button>`:''}</div>`}).join('')||'<div class="card muted">Attach an existing Adventure or create a new one. New ones appear in the global Adventure List instantly.</div>'}</div>${!completed?`<button class="btn" style="width:100%;margin-top:9px" onclick="createAdventureForJourney('${j.id}','Discovered')">+ DISCOVERED ALONG THE WAY</button>`:''}</section>
  <section class="section"><div class="card"><div class="between"><h3>Places</h3>${!completed?`<button class="chip" onclick="addJourneyPlace('${j.id}')">+ Add</button>`:''}</div><div class="memoryStrip">${j.places.map(x=>`<div class="memoryPill">📍 ${x}</div>`).join('')||'<span class="small muted">No places saved yet.</span>'}</div></div></section>
  <section class="section"><div class="card"><div class="between"><h3>People I Met</h3><button class="chip" onclick="addJourneyPerson('${j.id}')">+ Add</button></div>${j.people.map(x=>`<div class="entry"><b>${x.name}</b><div class="small muted">${x.contact||'No contact saved'}</div></div>`).join('')||'<div class="small muted">No people saved yet.</div>'}</div></section>
@@ -1863,6 +1870,7 @@ function deletePhoto(id){if(!db)return;const uid=window.astraFirebase?.status()?
 
 
 /* ===== V46 ASTRA SHARE STUDIO =====
+function closeModal(){const m=document.getElementById('modal');if(m)m.classList.remove('show')}
    Every number is derived from current Astra state.
    Photos are selected only from this user's local Memory/Photo Vault. */
 let astraShare={journeyId:null,photoId:null,type:'journey'};
@@ -1906,7 +1914,7 @@ async function openJourneyShare(id){
   <div class="sharePreviewWrap"><canvas id="v46ShareCanvas" width="1080" height="1920"></canvas></div>
   <div class="shareActions"><button class="btn btn-dark" onclick="v46DownloadShare()">Save Image</button><button class="btn btn-primary" onclick="v46NativeShare()">Share</button></div>
  </div>`;
- modal.classList.add('open');
+ modal.classList.add('show');
  if(photos[0]){astraShare.photoId=photos[0].id;document.getElementById('v46photo-'+photos[0].id)?.classList.add('active')}
  await v46RenderShare()
 }
@@ -2092,6 +2100,13 @@ function openBackupCenter(){
  'editJourneyStructured','saveJourneyStructured','v43JourneyDuration'
 ].forEach(function(k){try{if(typeof window[k]==='function')return; if(typeof eval(k)==='function')window[k]=eval(k)}catch(e){}});
 </script>
+
+<script>
+document.addEventListener('click',function(e){
+ const m=document.getElementById('modal');
+ if(m && e.target===m && m.classList.contains('show')) closeModal();
+});
+</script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 import {
@@ -2119,7 +2134,7 @@ function authMessage(text,error=false){
 function showGate(show){el("authGate")?.classList.toggle("show",show)}
 function snapshot(){
   return {
-    schemaVersion:17,
+    schemaVersion:19,
     clientUpdatedAt:new Date().toISOString(),
     phoenix:JSON.parse(localStorage.getItem("phoenix")||"{}"),
     journal:JSON.parse(localStorage.getItem("astraJournal")||"[]"),
@@ -2165,7 +2180,7 @@ async function pushCloud(){
   syncStatus("Saving…","syncing");
   const payload=snapshot();
   await setDoc(doc(FB.db,"users",FB.user.uid,"astra","state"),{
-    ...payload,ownerUid:FB.user.uid,schemaVersion:17,serverUpdatedAt:serverTimestamp()
+    ...payload,ownerUid:FB.user.uid,schemaVersion:19,serverUpdatedAt:serverTimestamp()
   },{merge:true});
   lastCloudWrite=Date.now();
   syncStatus("Synced","synced");
