@@ -1235,260 +1235,7 @@ function openCountry(name){
  document.getElementById('countryDetail').innerHTML=`
  <div class="topbar"><div class="between"><button class="back" onclick="showScreen('countries')">←</button><div><b>${c[1]} ${name}</b><div class="small muted">${c[2]}</div></div><span class="status ${st}">${st==='visited'?'Visited':st==='planned'?'Planned':'Not visited'}</span></div></div>
  <div class="detailHero" style="background-image:url('${coverFor(name)}')"><div class="dtext"><div class="kicker">${c[1]} ${name}</div><div class="heroQuote">Collect moments, not things.</div></div></div>
- <div class="tabs">
-  <button class="chip active" onclick="countryTab('overview',this)">Overview</button>
-  <button class="chip" onclick="countryTab('quests',this)">Quests</button>
-  <button class="chip" onclick="countryTab('photos',this)">Photos</button>
-  <button class="chip" onclick="countryTab('journal',this)">Journal</button>
-  <button class="chip" onclick="countryTab('more',this)">More</button>
- </div>
- <section class="section"><div id="countryTab"></div></section>`;
- countryTab('overview');
- showOnly('countryDetail')
-}
-function countryTab(tab,btn){
- if(btn){document.querySelectorAll('#countryDetail .chip').forEach(x=>x.classList.remove('active'));btn.classList.add('active')}
- const box=document.getElementById('countryTab'); const name=currentCountry; const notes=countryNotes[name]||{people:[],food:[],language:[],business:[],spiritual:[],reflection:"",expenses:0};
- if(tab==='overview') box.innerHTML=`<div class="card">
-  <div class="between"><div><div class="label">Status</div><b>${visited.includes(name)?'Visited':planned.includes(name)?'Planned':'Not visited'}</b></div><div><div class="label">Total spend</div><b>RM ${(notes.expenses||0).toLocaleString()}</b></div></div>
-  <div style="height:10px"></div><button class="btn btn-primary" onclick="cycleCountryStatus('${name.replaceAll("'","\\'")}')">Change status</button>
-  <button class="btn btn-dark" onclick="editExpenses()" style="margin-left:6px">Edit spend</button></div>`;
- if(tab==='quests'){
-  const qs=first100.map((q,i)=>({q,i})).filter(x=>x.q[1].includes(name)||x.q[1]==='Any');
-  box.innerHTML=`<div class="card">${qs.map(x=>`<label class="quest"><input type="checkbox" ${questDone.includes(x.i)?'checked':''} onchange="toggleQuest(${x.i},this.checked)"><div><b>${x.q[0]}</b><div class="small muted">${x.q[1]}</div></div><span class="badge">${x.q[2]}</span></label>`).join('')||'<div class="muted">No First 100 quest directly assigned here yet.</div>'}</div>`
- }
- if(tab==='photos'){box.innerHTML=`<div class="card"><div class="between"><h3>Photo Vault</h3><button class="btn btn-primary" onclick="pickPhotos()">+ Add photos</button></div><div class="small muted">Saved locally as compressed WebP in this browser. Max edge 1280px · quality 78%. Export your archive for backup.</div></div><div style="height:10px"></div><div class="gallery" id="gallery"></div>`;loadPhotos(name)}
- if(tab==='journal'){box.innerHTML=`<div class="card"><div class="formgrid"><textarea id="jtext" placeholder="What happened in ${name}?"></textarea><button class="btn btn-primary" onclick="addJournal()">Add journal entry</button></div></div><div style="height:10px"></div><div class="card">${journal.filter(j=>j.country===name).map(j=>`<div class="entry"><div class="small muted">${new Date(j.date).toLocaleString()}</div><div>${j.text}</div></div>`).join('')||'<div class="muted">No journal entries yet.</div>'}</div>`}
- if(tab==='more'){
-  box.innerHTML=`
-  ${renderPeopleSection()}
-  <br>${renderVisualLogSection('food','Food Diary','Dish / memory','Add food')}
-  <br>${renderVisualLogSection('language','Language Log','Phrase / lesson','Add phrase')}
-  <br>${renderVisualLogSection('business','Business Around The World','Founder / company / idea','Add business note')}
-  <br>${renderVisualLogSection('spiritual','Spiritual Log','Masjid / reflection / gratitude','Add reflection')}
-  <br><div class=\"card\"><h3>What changed me?</h3><div class=\"formgrid\"><textarea id=\"reflectionInput\">${notes.reflection||''}</textarea><button class=\"btn btn-primary\" onclick=\"saveReflection()\">Save reflection</button></div></div>`;
-  hydrateLogImages(); hydratePeopleImages();
- }
-
-}
-function cycleCountryStatus(name){
- if(visited.includes(name)){visited=visited.filter(x=>x!==name);if(!planned.includes(name))planned.push(name)}
- else if(planned.includes(name)){planned=planned.filter(x=>x!==name)}
- else visited.push(name);
- save();openCountry(name)
-}
-function editExpenses(){let n=countryNotes[currentCountry]||{people:[],food:[],language:[],business:[],spiritual:[],reflection:"",expenses:0};openModal(`<h2>Expenses · ${currentCountry}</h2><div class="formgrid"><input id="exp" type="number" value="${n.expenses||0}"><button class="btn btn-gold" onclick="saveExpenses()">Save</button></div>`)}
-function saveExpenses(){let n=countryNotes[currentCountry]||{people:[],food:[],language:[],business:[],spiritual:[],reflection:"",expenses:0};n.expenses=+exp.value||0;countryNotes[currentCountry]=n;save();modal.classList.remove('show');openCountry(currentCountry)}
-function normalizeLogItem(x){return typeof x==='string'?{text:x,photoId:null,id:crypto.randomUUID()}:x}
-
-function normalizePerson(x){return typeof x==='string'?{id:crypto.randomUUID(),name:x,story:'',social:'',phone:'',photoId:null}:x}
-function renderPeopleSection(){
- let n=countryNotes[currentCountry]||{people:[],food:[],language:[],business:[],spiritual:[],reflection:'',expenses:0};
- n.people=(n.people||[]).map(normalizePerson); countryNotes[currentCountry]=n;
- return `<div class="card"><div class="between"><h3>People of Astra</h3><span class="badge">${n.people.length}</span></div>
-  <div class="formgrid">
-   <input id="personName" placeholder="Name">
-   <input id="personStory" placeholder="How you met / memory">
-   <input id="personSocial" placeholder="Social media handle or link">
-   <input id="personPhone" placeholder="Phone / WhatsApp">
-   <input id="personFile" type="file" accept="image/*">
-   <button class="btn btn-dark" onclick="addPerson()">+ Add person</button>
-  </div>
-  <div>${n.people.map(p=>`<div class="peopleCard">${p.photoId?`<img class="peopleAvatar" id="personimg-${p.photoId}" alt="${p.name}">`:`<div class="peopleAvatar" style="display:grid;place-items:center;font-size:24px">👤</div>`}<div><b>${p.name}</b><div class="small muted">${p.story||''}</div><div class="peopleContact">${p.social?`<span class="contactPill">📱 ${p.social}</span>`:''}${p.phone?`<span class="contactPill">☎️ ${p.phone}</span>`:''}</div></div></div>`).join('')||`<div class="muted small">No people saved yet.</div>`}</div>
- </div>`
-}
-async function addPerson(){
- let n=countryNotes[currentCountry]||{people:[],food:[],language:[],business:[],spiritual:[],reflection:'',expenses:0};
- n.people=(n.people||[]).map(normalizePerson);
- const name=document.getElementById('personName')?.value.trim(); if(!name)return toast('Add a name first');
- const story=document.getElementById('personStory')?.value.trim()||'', social=document.getElementById('personSocial')?.value.trim()||'', phone=document.getElementById('personPhone')?.value.trim()||'';
- const file=document.getElementById('personFile')?.files?.[0]; let photoId=null;
- if(file&&db){photoId=crypto.randomUUID();const data=await fileToDataURL(file);await new Promise(resolve=>{const tx=db.transaction('photos','readwrite');tx.objectStore('photos').put({id:photoId,country:currentCountry,name:file.name,data,kind:'person',created:Date.now()});tx.oncomplete=resolve})}
- n.people.push({id:crypto.randomUUID(),name,story,social,phone,photoId});countryNotes[currentCountry]=n;save();countryTab('more');toast('Person saved')
-}
-function hydratePeopleImages(){
- if(!db)return setTimeout(hydratePeopleImages,180); let n=countryNotes[currentCountry]||{};(n.people||[]).map(normalizePerson).filter(p=>p.photoId).forEach(p=>{const tx=db.transaction('photos','readonly'),r=tx.objectStore('photos').get(p.photoId);r.onsuccess=()=>{let el=document.getElementById('personimg-'+p.photoId);if(el&&r.result)el.src=r.result.data}})
-}
-
-function renderVisualLogSection(type,title,placeholder,buttonLabel){
- let n=countryNotes[currentCountry]||{people:[],food:[],language:[],business:[],spiritual:[],reflection:'',expenses:0};
- n[type]=(n[type]||[]).map(normalizeLogItem); countryNotes[currentCountry]=n;
- return `<div class=\"card\"><div class=\"between\"><h3>${title}</h3><span class=\"badge\">${n[type].length}</span></div><div class=\"formgrid\"><input id=\"${type}Input\" placeholder=\"${placeholder}\"><input id=\"${type}File\" type=\"file\" accept=\"image/*\"><button class=\"btn btn-dark\" onclick=\"addVisualLog('${type}')\">+ ${buttonLabel}</button></div><div class=\"logGrid\">${n[type].map(x=>`<div class=\"logCard ${x.photoId?'':'noimg'}\">${x.photoId?`<img class=\"logThumb\" id=\"logimg-${x.photoId}\" alt=\"${title}\">`:''}<div class=\"logBody\"><div class=\"logType\">${title}</div><div>${x.text}</div></div></div>`).join('')||`<div class=\"muted small\">Nothing saved yet.</div>`}</div></div>`
-}
-async function addVisualLog(type){
- let n=countryNotes[currentCountry]||{people:[],food:[],language:[],business:[],spiritual:[],reflection:'',expenses:0};
- n[type]=(n[type]||[]).map(normalizeLogItem); let textEl=document.getElementById(type+'Input'), fileEl=document.getElementById(type+'File'); let v=textEl.value.trim(); if(!v)return;
- let photoId=null; const file=fileEl.files&&fileEl.files[0]; if(file&&db){photoId=crypto.randomUUID();const data=await fileToDataURL(file);await new Promise(resolve=>{const tx=db.transaction('photos','readwrite');tx.objectStore('photos').put({id:photoId,country:currentCountry,name:file.name,data,kind:'log-'+type,created:Date.now()});tx.oncomplete=resolve})}
- n[type].push({id:crypto.randomUUID(),text:v,photoId}); countryNotes[currentCountry]=n; save();countryTab('more');toast('Saved')
-}
-function hydrateLogImages(){
- if(!db)return setTimeout(hydrateLogImages,180); let n=countryNotes[currentCountry]||{}; ['people','food','language','business','spiritual'].forEach(type=>(n[type]||[]).map(normalizeLogItem).filter(x=>x.photoId).forEach(x=>{const tx=db.transaction('photos','readonly'),r=tx.objectStore('photos').get(x.photoId);r.onsuccess=()=>{let el=document.getElementById('logimg-'+x.photoId);if(el&&r.result)el.src=r.result.data}}))
-}
-function saveReflection(){let n=countryNotes[currentCountry]||{people:[],food:[],language:[],business:[],spiritual:[],reflection:"",expenses:0};n.reflection=reflectionInput.value;countryNotes[currentCountry]=n;save();toast('Reflection saved')}
-function addJournal(){let t=jtext.value.trim();if(!t)return;journal.unshift({country:currentCountry,text:t,date:new Date().toISOString()});save();countryTab('journal');toast('Journal saved')}
-function toggleQuest(i,on){if(on&&!questDone.includes(i))questDone.push(i);if(!on)questDone=questDone.filter(x=>x!==i);save();renderAstra()}
-
-function renderQuests(mode='first'){
- mode='first';
- document.getElementById('questsScreen').innerHTML=`
- <div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 11l6 12 13 2-9 9 2 13-12-6-12 6 2-13-9-9 13-2 6-12Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h1>ASTRA QUESTS</h1><small>Experiences worth remembering</small></div></div></div>
- <div class="tabs"><button class="chip ${mode==='first'?'active':''}" onclick="renderQuests('first')">First 100</button><button class="chip ${mode==='continents'?'active':''}" onclick="renderQuests('continents')">7 Continents</button><button class="chip ${mode==='wonders'?'active':''}" onclick="renderQuests('wonders')">7 Wonders</button></div>
- <section class="section"><div class="card">${mode==='first'?first100.map((q,i)=>`<label class="quest"><input type="checkbox" ${questDone.includes(i)?'checked':''} onchange="toggleQuest(${i},this.checked)"><div><b>${i+1}. ${q[0]}</b><div class="small muted">${q[1]}</div></div><span class="badge">${q[2]}</span></label>`).join(''):mode==='continents'?continents.map(c=>`<div class="quest"><div><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M15 31c0-10 8-18 17-18 10 0 18 8 18 18s-8 18-18 18c-9 0-17-8-17-18Zm2 0h30M32 13c5 5 8 11 8 18s-3 13-8 18M32 13c-5 5-8 11-8 18s3 13 8 18" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><b>${c}</b><div class="small muted">${c==='Antarctica'?(questDone.includes(52)?'Completed':'Not started'):(countries.some(x=>x[2]===c&&visited.includes(x[0]))?'Started / Completed':'Not started')}</div></div><span class="badge">${c==='Antarctica'?(questDone.includes(52)?'✓':'○'):(countries.some(x=>x[2]===c&&visited.includes(x[0]))?'✓':'○')}</span></div>`).join(''):wonders.map((w,i)=>`<label class="quest wonderQuest"><img class="wonderThumb" src="${wonderImages[i]}" alt="${w[0]}"><input type="checkbox" style="display:none" ${wonderDone.includes(i)?'checked':''} onchange="toggleWonder(${i},this.checked)"><div onclick="toggleWonder(${i},!wonderDone.includes(i));renderQuests('wonders')"><b>${w[0]}</b><div class="small muted">${w[1]} · visiting the country alone does not complete this Wonder</div></div><span class="status ${wonderDone.includes(i)?'visited':'notvisited'}">${wonderDone.includes(i)?'Completed':'Not started'}</span></label>`).join('')}</div></section>`;
- showOnly('questsScreen')
-}
-
-const wonderImages=["https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Great_Wall_of_China%2C_Mutianyu_Section.jpg/1280px-Great_Wall_of_China%2C_Mutianyu_Section.jpg", "https://upload.wikimedia.org/wikipedia/commons/b/b9/Petra_Treasury.jpg", "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Christ_the_Redeemer_-_Cristo_Redentor_-_Rio.jpg/1280px-Christ_the_Redeemer_-_Cristo_Redentor_-_Rio.jpg", "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Machu_Picchu%2C_Peru_-_Laslovarga_%28161%29.jpg/1280px-Machu_Picchu%2C_Peru_-_Laslovarga_%28161%29.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/Chichen-Itza.jpg/960px-Chichen-Itza.jpg", "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/The_Colosseum_of_Rome.jpg/1280px-The_Colosseum_of_Rome.jpg", "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/Taj_Mahal_India.jpg/1280px-Taj_Mahal_India.jpg"];
-const routeQuestSummary={"Southeast Asia": "Muay Thai · diving · food · overland · local life", "East Asia": "Fuji · Japanese · Mandarin · Great Wall · martial arts", "South Asia & Himalaya": "EBC · Taj Mahal · trekking · altitude · spiritual reflection", "Central Asia": "Horse trek · yurt · sleeper train · overland", "Middle East & Caucasus": "Umrah · Petra · desert · Cappadocia · culture", "Western & Central Europe": "Colosseum · Alps · rail · paragliding · driving", "Northern & Eastern Europe": "Aurora · glacier · midnight sun · culture", "North Africa": "Sahara · pyramids · food · desert", "East Africa": "Safari · gorillas · Great Migration · wildlife", "Southern Africa": "Road trip · surfing · nature", "West & Central Africa": "Culture · community · long-form exploration", "North America": "Road trip · national parks · founder ecosystem", "Central America": "Overland · volcanoes · conservation", "Caribbean": "Island hopping · sailing · ocean", "Northern South America": "Culture · jungle · overland", "Andes & Southern Cone": "Machu Picchu · Patagonia · Atacama · road trip", "Pacific": "Campervan · skydive · ocean · islands", "Antarctica": "Expedition ship · penguins · seventh continent"};
-function toggleWonder(i,on){if(on&&!wonderDone.includes(i))wonderDone.push(i);if(!on)wonderDone=wonderDone.filter(x=>x!==i);save();renderAstra();renderQuests('wonders')}
-function renderRoute(){
- const totalCountries=routeLegs.reduce((sum,r)=>sum+r[1].split('→').length,0);
- const visitedInRoute=new Set(routeLegs.flatMap(r=>r[1].split('→').map(x=>x.replace(/\(.*?\)/g,"").trim())).filter(x=>visited.includes(x))).size;
- document.getElementById('routeScreen').innerHTML=`
- <div class="topbar"><div class="brand"><div class="brandmark"><svg class="inlineBrandIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M15 15h10v10H15V15Zm24 24h10v10H39V39ZM25 20c16 0 4 24 18 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h1>ROUTE PLANNER</h1><small>Plan smarter · travel deeper</small></div></div></div>
-
- <div class="routeIntro"><div><div class="kicker">LIFETIME ROUTE · ${routeLegs.length} LEGS</div><h2>One spine. Infinite detours.</h2><div class="small">The route reduces unnecessary backtracking, but it never tells you how to live once you arrive.</div></div></div>
-
- <div class="routeHeroLine">
-   <div><div class="label">Route progress</div><div class="routeSummaryMain">${visitedInRoute} visited</div></div>
-   <div class="small muted">${routeLegs.length} regional legs<br>${totalCountries} listed stops</div>
- </div>
-
- <section class="section"><div class="routeTimeline">${routeLegs.map((r,i)=>{
-   const stops=r[1].split('→').map(x=>x.trim());
-   const cleaned=stops.map(s=>s.replace(/\(.*?\)/g,"").trim());
-   const done=cleaned.filter(x=>visited.includes(x)).length;
-   const pct=Math.round(done/cleaned.length*100);
-   const state=done===cleaned.length?'visited':done>0?'planned':'notvisited';
-   const stateLabel=done===cleaned.length?'Completed':done>0?'In progress':i===0?'Next':'Future';
-   return `<article class="routeCard">
-     <div class="routeCardTop">
-       <div class="routeLegNo">${String(i+1).padStart(2,'0')}</div>
-       <div><div class="routeCardTitle">${r[0]}</div><div class="routeMode">${r[2]}</div></div>
-       <span class="status ${state}">${stateLabel}</span>
-     </div>
-     <div class="routeCardBody">
-       <div class="routeProgressLine"><b>${done} / ${cleaned.length} countries visited</b><span class="small muted">${pct}%</span></div>
-       <div class="routeProgressBar"><i style="width:${pct}%"></i></div>
-       <div class="routeStopsPretty">${stops.slice(0,9).map((stop,j)=>{
-         const clean=cleaned[j]; const isDone=visited.includes(clean);
-         return `<div class="routeStopPretty ${isDone?'done':''}"><span class="dot"></span><span>${stop}</span>${isDone?`<span class="routeDone">Visited</span>`:''}</div>`
-       }).join('')}${stops.length>9?`<div class="routeStopPretty"><span>+ ${stops.length-9} more</span></div>`:''}</div>
-       <div class="routeQuest"><b>Quest cluster:</b> ${routeQuestSummary[r[0]]||'Explore · connect · remember'}</div>
-     </div>
-   </article>`
- }).join('')}</div></section>`;
- showOnly('routeScreen')
-}
-function renderJournal(){
- document.getElementById('journalScreen').innerHTML=`<div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M16 13h24a8 8 0 0 1 8 8v30H22a6 6 0 0 1-6-6V13Zm6 0v38M28 23h13M28 31h13" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h1>JOURNAL</h1><small>Interactive autobiography</small></div></div></div><section class="section"><div class="card">${journal.map(j=>`<div class="entry"><b>${j.country}</b><div class="small muted">${new Date(j.date).toLocaleString()}</div><div>${j.text}</div></div>`).join('')||'<div class="muted">Your story starts here.</div>'}</div></section>`;showOnly('journalScreen')
-}
-
-function showOnly(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
-
-function applyProjectPhase(){
-  const locked=!P.launched && !FINAL_ASTRA_REVIEW;
-  document.body.classList.toggle('phoenixOnly',locked);
-  document.querySelectorAll('.navbtn').forEach(btn=>{
-    const n=btn.dataset.nav;
-    if(['astra','countries','quests','route'].includes(n)){
-      btn.hidden=locked;
-      btn.style.display=locked?'none':'';
-    }
-  });
-  if(locked){
-    renderPhoenix();
-    showOnly('phoenixScreen');
-    document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.nav==='phoenix'));
-  }
-}
-const FINAL_ASTRA_REVIEW=false; // PRODUCTION LOCK: Astra opens only after Phoenix launch
-function projectRouteAllowed(n){
-  return P.launched || FINAL_ASTRA_REVIEW || n==='phoenix';
-}
-
-function openFinalAstraReview(){
-  if(!FINAL_ASTRA_REVIEW || P.launched)return;
-  document.body.classList.remove('phoenixOnly');
-  document.querySelectorAll('.navbtn').forEach(btn=>{btn.hidden=false;btn.style.display=''});
-  renderAstra();
-  showOnly('astraHome');
-  document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.nav==='astra'));
-  setTimeout(renderInteractiveMap,0);
-}
-function showScreen(n){
- if(!projectRouteAllowed(n)){
-   renderPhoenix();
-   showOnly('phoenixScreen');
-   document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.nav==='phoenix'));
-   return;
- }
- document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.nav===n));
- if(n==='phoenix'){renderPhoenix();showOnly('phoenixScreen');return}
- if(n==='astra'){renderAstra();showOnly('astraHome');setTimeout(renderInteractiveMap,0);return}
- if(n==='countries'){renderCountries();showOnly('countriesScreen');return}
- if(n==='quests'){renderQuests('first');return}
- if(n==='route'){renderRoute();return}
-}
-document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>showScreen(b.dataset.nav)));
-
-
-/* ===== V37 EXPERIENCE CLEANUP ===== */
-const ASTRA_NEW_7_WONDERS=['Great Wall of China','Petra','Colosseum','Taj Mahal','Chichén Itzá','Machu Picchu','Christ the Redeemer'];
-function isNewWonderTitle(t=''){const x=String(t).toLowerCase();return ASTRA_NEW_7_WONDERS.some(w=>x.includes(w.toLowerCase())||w.toLowerCase().includes(x))}
-
-/* ===== V35 DANIAL JOURNEY · UNIFIED ADVENTURE GRAPH ===== */
-let astraJourneys=JSON.parse(localStorage.getItem('astraJourneys')||'[]');
-let customActivities=JSON.parse(localStorage.getItem('astraCustomActivities')||'[]');
-questDone=questDone.filter(i=>Number(i)<99);
-
-function queueCloud(){if(window.astraQueueCloudSync)window.astraQueueCloudSync()}
-function saveJourneys(){localStorage.setItem('astraJourneys',JSON.stringify(astraJourneys));queueCloud()}
-function saveCustomActivities(){localStorage.setItem('astraCustomActivities',JSON.stringify(customActivities));queueCloud()}
-function saveTracking(){save();queueCloud()}
-function countryNames(){return countries.map(c=>c[0])}
-function canonicalCountry(v){const raw=String(v||'').trim();return countryNames().find(n=>n.toLowerCase()===raw.toLowerCase())||null}
-function parseCountries(raw){return [...new Set(String(raw||'').split(',').map(canonicalCountry).filter(Boolean))]}
-function askCountries(msg='Countries (comma separated)'){return parseCountries(prompt(msg+'\nExample: Malaysia, Thailand, Laos','')||'')}
-function markVisited(name){const c=canonicalCountry(name);if(!c)return false;if(!visited.includes(c))visited.push(c);planned=planned.filter(x=>x!==c);saveTracking();return true}
-function originalAdventureId(i){return 'orig-'+i}
-function customAdventureId(id){return 'custom-'+id}
-function getAdventure(ref){
- if(String(ref).startsWith('orig-')){const i=Number(String(ref).slice(5)),q=first100[i];return q?{ref,title:q[0],countries:canonicalCountry(q[1])?[q[1]]:[],category:q[2],originalIndex:i,flexible:!canonicalCountry(q[1])}:null}
- if(String(ref).startsWith('custom-')){const id=String(ref).slice(7),a=customActivities.find(x=>x.id===id);return a?{...a,ref}:null}
- return null
-}
-function adventureHistory(a){
- if(a.originalIndex!=null)return questDone.includes(a.originalIndex)?[{date:null,countries:a.countries||[]}]:[];
- return a.completions||[]
-}
-function adventureIsDone(a){return adventureHistory(a).length>0}
-function adventureCount(){return questDone.length+customActivities.filter(a=>(a.completions||[]).length||a.done).length}
-function ensureJourneyShape(j){
- j.countries=Array.isArray(j.countries)?j.countries:[];
- j.adventureRefs=Array.isArray(j.adventureRefs)?j.adventureRefs:[];
- j.adventurePlan=j.adventurePlan||{};
- j.places=j.places||[];j.people=j.people||[];j.memories=j.memories||[];j.expenses=j.expenses||[];j.startDate=j.startDate||'';j.endDate=j.endDate||'';j.journeyType=j.journeyType||'Mixed';
- // migrate V34 journey-owned activities into master custom adventures
- if(Array.isArray(j.activities)&&j.activities.length){
-   j.activities.forEach(a=>{
-     let ca=customActivities.find(x=>x.sourceLegacyId===a.id);
-     if(!ca){ca={id:crypto.randomUUID(),sourceLegacyId:a.id,title:a.title,countries:a.country?[a.country]:[],category:'Journey',completions:[],created:a.created||new Date().toISOString()};customActivities.push(ca)}
-     const ref=customAdventureId(ca.id);if(!j.adventureRefs.includes(ref))j.adventureRefs.push(ref);
-     j.adventurePlan[ref]={plannedCountries:a.country?[a.country]:[],doneOnTrip:!!a.done,origin:a.origin||'Planned'};
-   });j.activities=[];
- }
- return j
-}
-astraJourneys.forEach(ensureJourneyShape);saveJourneys();saveCustomActivities();
-
-function applyProjectPhase(){document.body.classList.remove('phoenixOnly');document.querySelectorAll('.navbtn').forEach(b=>{b.hidden=false;b.style.display=''})}
-function projectRouteAllowed(){return true}
-function openFinalAstraReview(){}
-
-function renderAstra(){
- const current=astraJourneys.find(j=>['Ready','On Journey','Planning'].includes(j.status));
- document.getElementById('astraHome').innerHTML=`
- <div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64"><path d="M32 10l9 20-9-5-9 5 9-20ZM19 38l13-8 13 8-13 16-13-16ZM32 30v17" fill="none" stroke="currentColor" stroke-width="4"/></svg></div><div><small>DANIAL JOURNEY</small><h1>ASTRA</h1><small>EXPLORATION COMPANION</small></div></div></div>
+ <div class="tabs"><button class="tab active" onclick="renderQuests('first')">Adventure List</button></div><div><small>DANIAL JOURNEY</small><h1>ASTRA</h1><small>EXPLORATION COMPANION</small></div></div></div>
  <div class="hero"><div class="heroContent"><div class="kicker">YOUR PERSONAL ADVENTURE ATLAS</div><div class="heroTitle">ASTRA</div><div class="heroQuote">Explore your world.</div></div></div>
  <section class="section"><div class="stats"><div class="stat"><b>${visited.length}</b><div class="small muted">/195 Countries</div></div><div class="stat"><b>${continentCount()}</b><div class="small muted">/7 Continents</div></div><div class="stat"><b>${astraJourneys.filter(j=>j.status==='Completed').length}</b><div class="small muted">Journeys</div></div><div class="stat"><b>${adventureCount()}</b><div class="small muted">Adventures Done</div></div></div></section>
  ${astraMapMarkup()}
@@ -1785,44 +1532,15 @@ function openBackupCenter(){
  <section class="section"><div class="card"><h3>Backup principle</h3><div class="small muted">Astra organizes your memories. It should never be the only copy of an irreplaceable photo.</div></div></section>`;showOnly('journalScreen')
 }
 </script>
+
 <script>
-(function(){
- const baseRender=window.renderQuests;
- if(typeof baseRender==='function'){
-  window.renderQuests=function(){
-   baseRender('first');
-   setTimeout(function(){
-    const sc=document.getElementById('questsScreen');if(!sc)return;
-    Array.from(sc.querySelectorAll('button,.chip')).forEach(function(el){
-      const t=(el.textContent||'').trim().toLowerCase();
-      if(t==='7 continents'||t==='7 wonders')el.remove();
-    });
-    if(!sc.querySelector('.v37WondersCollection')){
-      const secs=sc.querySelectorAll('.section'),anchor=secs.length?secs[0]:null;
-      const sec=document.createElement('section');sec.className='section v37WondersCollection';sec.innerHTML=wondersCollectionHTML();
-      if(anchor&&anchor.parentNode)anchor.parentNode.insertBefore(sec,anchor.nextSibling);else sc.appendChild(sec);
-    }
-   },0);
-  };
- }
-})();
-</script>
-<script>
-(function(){
- const baseWorld=window.renderCountries;
- if(typeof baseWorld==='function'){
-  window.renderCountries=function(){
-   baseWorld();
-   setTimeout(function(){
-    const sc=document.getElementById('countriesScreen');if(!sc||sc.querySelector('.v38ContinentProgress'))return;
-    const done=exploredContinents();
-    const sec=document.createElement('section');sec.className='section v38ContinentProgress';
-    sec.innerHTML=`<div class="card"><div class="between"><div><div class="kicker">DERIVED FROM YOUR WORLD</div><h3 style="margin:4px 0">7 Continents</h3><div class="small muted">No manual ticking · ${done.join(' · ')||'Your atlas is waiting'}</div></div><b style="font-size:22px">${done.length}/7</b></div></div>`;
-    const first=sc.querySelector('.section');if(first&&first.parentNode)first.parentNode.insertBefore(sec,first.nextSibling);else sc.appendChild(sec);
-   },0);
-  };
- }
-})();
+/* V39 Experience integrity guard */
+window.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('[onclick*="renderQuests"]').forEach(function(el){
+    const x=el.getAttribute('onclick')||'';
+    if(x.includes('continents')||x.includes('wonders')) el.remove();
+  });
+});
 </script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
@@ -1851,7 +1569,7 @@ function authMessage(text,error=false){
 function showGate(show){el("authGate")?.classList.toggle("show",show)}
 function snapshot(){
   return {
-    schemaVersion:8,
+    schemaVersion:9,
     clientUpdatedAt:new Date().toISOString(),
     phoenix:JSON.parse(localStorage.getItem("phoenix")||"{}"),
     journal:JSON.parse(localStorage.getItem("astraJournal")||"[]"),
@@ -1895,7 +1613,7 @@ async function pushCloud(){
   syncStatus("Saving…","syncing");
   const payload=snapshot();
   await setDoc(doc(FB.db,"users",FB.user.uid,"astra","state"),{
-    ...payload,ownerUid:FB.user.uid,schemaVersion:8,serverUpdatedAt:serverTimestamp()
+    ...payload,ownerUid:FB.user.uid,schemaVersion:9,serverUpdatedAt:serverTimestamp()
   },{merge:true});
   lastCloudWrite=Date.now();
   syncStatus("Synced","synced");
