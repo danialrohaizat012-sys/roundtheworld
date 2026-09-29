@@ -671,11 +671,6 @@ body.phoenixOnly .bottomnav{
 .v43-countrybox input{width:100%;box-sizing:border-box;background:transparent;color:#fff;border:0;outline:0;padding:7px}
 .v43-options{max-height:180px;overflow:auto}.v43-option{padding:9px;border-radius:10px;cursor:pointer}.v43-option:hover{background:rgba(255,255,255,.07)}
 .v43-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}.v43-chip{border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:7px 10px;background:rgba(255,255,255,.05)}
-
-/* V46 Share Studio */
-.shareHeroBtn{width:100%;margin-top:10px;background:linear-gradient(135deg,#d8b36a,#f3d99a);color:#071018;border:0;border-radius:14px;padding:13px 15px;font-weight:900;letter-spacing:.04em}
-.shareStudio{padding:16px}.shareStudio h2{margin:0 0 4px}.shareTypes{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:12px 0}.shareType{border:1px solid var(--line);background:#0b1c26;color:#dce9ef;border-radius:13px;padding:11px;text-align:left}.shareType.active{border-color:#d8b36a;box-shadow:0 0 0 1px #d8b36a inset}.sharePhotoGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;max-height:310px;overflow:auto;margin-top:10px}.sharePhoto{aspect-ratio:1;border:2px solid transparent;border-radius:12px;overflow:hidden;padding:0;background:#102430}.sharePhoto.active{border-color:#f0c66f}.sharePhoto img{width:100%;height:100%;object-fit:cover}.sharePreviewWrap{background:#071018;border:1px solid var(--line);border-radius:18px;padding:10px;margin-top:12px}.sharePreviewWrap canvas{width:100%;height:auto;border-radius:12px;display:block;background:#071018}.shareActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.shareEmpty{padding:18px;border:1px dashed var(--line);border-radius:14px;text-align:center;color:#9fb3bf}
-
 </style>
 <meta name="theme-color" content="#06111b">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1729,21 +1724,13 @@ function saveJourneyStructured(id){
  j.countries=v43PickerValues('v43JCountries');j.startDate=start;j.endDate=end;j.journeyType=document.getElementById('v43JType').value;j.status=document.getElementById('v43JStatus').value;
  saveJourneys();toast('Journey updated');renderJourneyDetail(id)
 }
-function safeJourneyCompletedDate(j){
- const raw=j?.completedAt||j?.endDate||j?.startDate||'';
- if(!raw)return '';
- const d=new Date(String(raw).length===10?raw+'T00:00:00':raw);
- if(Number.isNaN(d.getTime()))return '';
- return d.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})
-}
 function renderJourneyDetail(id){
  const j=astraJourneys.find(x=>x.id===id);if(!j){renderRoute();return}ensureJourneyShape(j);
  const completed=j.status==='Completed';
  document.getElementById('routeScreen').innerHTML=`
  <div class="topbar"><div class="between"><button class="back" onclick="renderRoute()">←</button><div><b>JOURNEY</b><div class="small muted">${j.status}</div></div><button class="chip" onclick="deleteJourney('${j.id}')">Delete</button></div></div>
  <div class="detailHero"><div class="kicker">${completed?'JOURNEY MEMORY':'JOURNEY CANVAS'}</div><h2>${j.name}</h2><div class="muted">${j.route}</div><div class="small muted" style="margin-top:7px">🌍 ${completed?(j.actualCountries||j.countries).join(' · '):j.countries.join(' · ')||'Countries not set'}</div><div class="small muted">${j.journeyType||'Mixed'}${journeyDuration(j)?' · '+journeyDuration(j):''}${j.startDate?' · '+j.startDate:''}${j.endDate?' → '+j.endDate:''}</div><div class="detailStats"><div class="detailStat"><b>${j.adventureRefs.length}</b><div class="small muted">Adventures</div></div><div class="detailStat"><b>${j.people.length}</b><div class="small muted">People</div></div><div class="detailStat"><b>RM ${journeySpend(j).toLocaleString()}</b><div class="small muted">Recorded</div></div></div></div>
- ${completed?`<section class="section"><button class="shareHeroBtn" onclick="openJourneyShare('${j.id}')">↗ SHARE JOURNEY</button></section>`:''}
- ${completed?`<section class="section"><div class="completedStamp">✓ COMPLETED ${safeJourneyCompletedDate(j)} · TAP BACK ANYTIME TO REVISIT</div><div class="recapCard" style="margin-top:10px"><div class="kicker">JOURNEY RECAP</div><h3>${j.name}</h3><div class="storyGrid"><div class="storyMetric"><b>${(j.actualCountries||[]).length}</b><span class="small muted">Countries</span></div><div class="storyMetric"><b>${(j.completedAdventureRefs||[]).length}</b><span class="small muted">Adventures</span></div><div class="storyMetric"><b>${j.people.length}</b><span class="small muted">People</span></div><div class="storyMetric"><b>${journeyDuration(j)||'—'}</b><span class="small muted">Duration</span></div></div></div></section>`:`<section class="section"><div class="between"><button class="chip" onclick="cycleJourney('${j.id}')">Status: ${j.status} →</button><div><button class="chip" onclick="editJourneyCountries('${j.id}')">Countries</button> <button class="chip" onclick="editJourneyMeta('${j.id}')">Dates / Type</button></div></div></section>`}
+ ${completed?`<section class="section"><div class="completedStamp">✓ COMPLETED ${new Date(j.completedAt).toLocaleDateString()} · TAP BACK ANYTIME TO REVISIT</div><div class="recapCard" style="margin-top:10px"><div class="kicker">JOURNEY RECAP</div><h3>${j.name}</h3><div class="storyGrid"><div class="storyMetric"><b>${(j.actualCountries||[]).length}</b><span class="small muted">Countries</span></div><div class="storyMetric"><b>${(j.completedAdventureRefs||[]).length}</b><span class="small muted">Adventures</span></div><div class="storyMetric"><b>${j.people.length}</b><span class="small muted">People</span></div><div class="storyMetric"><b>${journeyDuration(j)||'—'}</b><span class="small muted">Duration</span></div></div></div></section>`:`<section class="section"><div class="between"><button class="chip" onclick="cycleJourney('${j.id}')">Status: ${j.status} →</button><div><button class="chip" onclick="editJourneyCountries('${j.id}')">Countries</button> <button class="chip" onclick="editJourneyMeta('${j.id}')">Dates / Type</button></div></div></section>`}
  <section class="section"><div class="between"><h3>Adventure List</h3>${!completed?`<div><button class="chip" onclick="attachAdventure('${j.id}')">Attach</button> <button class="chip" onclick="createAdventureForJourney('${j.id}','Planned')">+ New</button></div>`:''}</div><div class="small muted" style="margin-bottom:9px">These are the same records shown in the global Adventure List.</div><div class="targetList">${j.adventureRefs.map(ref=>{const a=getAdventure(ref),pl=j.adventurePlan[ref]||{};if(!a)return'';const globally=adventureIsDone(a);return `<div class="targetItem ${completed&&j.completedAdventureRefs?.includes(ref)?'done':''}">${!completed?`<input class="targetCheck" type="checkbox" ${pl.doneOnTrip?'checked':''} onchange="markDoneOnTrip('${j.id}','${ref}',this.checked)">`:'<span>✓</span>'}<div><div class="targetOrigin">${pl.origin||'Planned'}${globally?' · done before':''}</div><b>${a.title}</b><div class="small muted">📍 ${(pl.plannedCountries||a.countries||[]).join(' · ')||'Anywhere / choose when done'}</div></div>${!completed?`<button class="chip" onclick="setAdventurePlanCountries('${j.id}','${ref}')">📍</button>`:''}</div>`}).join('')||'<div class="card muted">Attach an existing Adventure or create a new one. New ones appear in the global Adventure List instantly.</div>'}</div>${!completed?`<button class="btn" style="width:100%;margin-top:9px" onclick="createAdventureForJourney('${j.id}','Discovered')">+ DISCOVERED ALONG THE WAY</button>`:''}</section>
  <section class="section"><div class="card"><div class="between"><h3>Places</h3>${!completed?`<button class="chip" onclick="addJourneyPlace('${j.id}')">+ Add</button>`:''}</div><div class="memoryStrip">${j.places.map(x=>`<div class="memoryPill">📍 ${x}</div>`).join('')||'<span class="small muted">No places saved yet.</span>'}</div></div></section>
  <section class="section"><div class="card"><div class="between"><h3>People I Met</h3><button class="chip" onclick="addJourneyPerson('${j.id}')">+ Add</button></div>${j.people.map(x=>`<div class="entry"><b>${x.name}</b><div class="small muted">${x.contact||'No contact saved'}</div></div>`).join('')||'<div class="small muted">No people saved yet.</div>'}</div></section>
@@ -1867,110 +1854,6 @@ function loadPhotos(country){
  r.onsuccess=()=>{const uid=window.astraFirebase?.status()?.user?.uid||null;const legacyOwner=localStorage.getItem('astraLegacyPhotoOwnerUid');const arr=r.result.filter(x=>x.country===country && (x.ownerUid===uid || (!x.ownerUid && legacyOwner===uid)));document.getElementById('gallery').innerHTML=arr.map(x=>`<div class="photo"><img src="${x.data}" alt="${x.name}"><button onclick="deletePhoto('${x.id}')">×</button></div>`).join('')||'<div class="muted">No photos yet.</div>'}
 }
 function deletePhoto(id){if(!db)return;const uid=window.astraFirebase?.status()?.user?.uid||null;const tx=db.transaction('photos','readwrite'),st=tx.objectStore('photos'),g=st.get(id);g.onsuccess=()=>{const x=g.result,legacyOwner=localStorage.getItem('astraLegacyPhotoOwnerUid');if(x&&(x.ownerUid===uid||(!x.ownerUid&&legacyOwner===uid)))st.delete(id)};tx.oncomplete=()=>loadPhotos(currentCountry)}
-
-
-/* ===== V46 ASTRA SHARE STUDIO =====
-function closeModal(){const m=document.getElementById('modal');if(m)m.classList.remove('show')}
-   Every number is derived from current Astra state.
-   Photos are selected only from this user's local Memory/Photo Vault. */
-let astraShare={journeyId:null,photoId:null,type:'journey'};
-function v46OwnedPhoto(x){
- const uid=window.astraFirebase?.status()?.user?.uid||null;
- const legacyOwner=localStorage.getItem('astraLegacyPhotoOwnerUid');
- return x && (x.ownerUid===uid || (!x.ownerUid && legacyOwner===uid));
-}
-function v46JourneyCountries(j){return [...new Set((j.actualCountries&&j.actualCountries.length?j.actualCountries:j.countries)||[])]}
-function v46JourneyPhotos(j){
- return new Promise(resolve=>{
-  if(!db)return resolve([]);
-  const r=db.transaction('photos','readonly').objectStore('photos').getAll();
-  r.onsuccess=()=>{const cs=v46JourneyCountries(j);resolve((r.result||[]).filter(x=>v46OwnedPhoto(x)&&cs.includes(x.country)&&!String(x.kind||'').startsWith('person')))};
-  r.onerror=()=>resolve([]);
- })
-}
-function v46ContinentsVisited(){
- const set=new Set();
- visited.forEach(v=>{const row=countries.find(c=>c[0]===v);if(row)set.add(row[2])});
- // Antarctica is represented by actual Antarctica exploration rather than a fake country.
- if(allAdventures().some(a=>(a.countries||[]).includes('Antarctica')&&adventureIsDone(a)))set.add('Antarctica');
- return set.size
-}
-function v46CompletedAdventureCount(){return allAdventures().filter(adventureIsDone).length}
-function v46FmtDate(v){if(!v)return'';try{return new Date(v+'T00:00:00').toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'})}catch(e){return v}}
-function v46EscapeText(v=''){return String(v).replace(/[<>&]/g,'')}
-async function openJourneyShare(id){
- const j=astraJourneys.find(x=>String(x.id)===String(id));if(!j)return;
- astraShare={journeyId:id,photoId:null,type:'journey'};
- const photos=await v46JourneyPhotos(j);
- const sheet=document.getElementById('sheet'),modal=document.getElementById('modal');
- sheet.innerHTML=`<div class="shareStudio">
-  <div class="between"><div><div class="kicker">ASTRA SHARE STUDIO</div><h2>${v46EscapeText(j.name)}</h2><div class="small muted">Real Astra progress only · Story 9:16</div></div><button class="chip" onclick="closeModal()">✕</button></div>
-  <div class="shareTypes">
-   <button class="shareType active" id="v46type-journey" onclick="v46SetShareType('journey')"><b>Journey Recap</b><div class="small muted">This completed trip</div></button>
-   <button class="shareType" id="v46type-world" onclick="v46SetShareType('world')"><b>World Progress</b><div class="small muted">Live atlas progress</div></button>
-  </div>
-  <div class="between"><b>Choose a Memory photo</b><span class="small muted">${photos.length} available</span></div>
-  ${photos.length?`<div class="sharePhotoGrid">${photos.map(x=>`<button class="sharePhoto" id="v46photo-${x.id}" onclick="v46SelectPhoto('${x.id}')"><img src="${x.data}" alt=""></button>`).join('')}</div>`:`<div class="shareEmpty">No Memory photos found for this Journey's countries.<br>Add photos in Memories / Country Photo Vault first.</div>`}
-  <div class="sharePreviewWrap"><canvas id="v46ShareCanvas" width="1080" height="1920"></canvas></div>
-  <div class="shareActions"><button class="btn btn-dark" onclick="v46DownloadShare()">Save Image</button><button class="btn btn-primary" onclick="v46NativeShare()">Share</button></div>
- </div>`;
- modal.classList.add('show');
- if(photos[0]){astraShare.photoId=photos[0].id;document.getElementById('v46photo-'+photos[0].id)?.classList.add('active')}
- await v46RenderShare()
-}
-function v46SetShareType(type){
- astraShare.type=type;
- document.querySelectorAll('.shareType').forEach(x=>x.classList.remove('active'));
- document.getElementById('v46type-'+type)?.classList.add('active');
- v46RenderShare()
-}
-function v46SelectPhoto(id){
- astraShare.photoId=id;document.querySelectorAll('.sharePhoto').forEach(x=>x.classList.toggle('active',x.id==='v46photo-'+id));v46RenderShare()
-}
-function v46GetPhoto(id){return new Promise(resolve=>{if(!db||!id)return resolve(null);const r=db.transaction('photos','readonly').objectStore('photos').get(id);r.onsuccess=()=>resolve(v46OwnedPhoto(r.result)?r.result:null);r.onerror=()=>resolve(null)})}
-function v46LoadImage(src){return new Promise((resolve,reject)=>{if(!src)return resolve(null);const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=src})}
-function v46Cover(ctx,img,w,h){
- if(!img)return;const r=Math.max(w/img.width,h/img.height),nw=img.width*r,nh=img.height*r;ctx.drawImage(img,(w-nw)/2,(h-nh)/2,nw,nh)
-}
-function v46RoundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
-function v46FitText(ctx,text,maxWidth,start,min=34){let z=start;ctx.font=`900 ${z}px system-ui`;while(z>min&&ctx.measureText(text).width>maxWidth){z-=2;ctx.font=`900 ${z}px system-ui`}return z}
-async function v46RenderShare(){
- const c=document.getElementById('v46ShareCanvas');if(!c)return;const ctx=c.getContext('2d'),j=astraJourneys.find(x=>String(x.id)===String(astraShare.journeyId));if(!j)return;
- const ph=await v46GetPhoto(astraShare.photoId);let img=null;try{img=ph?await v46LoadImage(ph.data):null}catch(e){}
- ctx.clearRect(0,0,1080,1920);ctx.fillStyle='#071018';ctx.fillRect(0,0,1080,1920);if(img)v46Cover(ctx,img,1080,1920);
- let g=ctx.createLinearGradient(0,0,0,1920);g.addColorStop(0,'rgba(4,14,22,.30)');g.addColorStop(.48,'rgba(4,14,22,.18)');g.addColorStop(1,'rgba(4,14,22,.97)');ctx.fillStyle=g;ctx.fillRect(0,0,1080,1920);
- ctx.textAlign='center';ctx.fillStyle='#fff';ctx.font='800 54px system-ui';ctx.fillText('✦  A S T R A',540,115);ctx.font='500 24px system-ui';ctx.fillStyle='#d8b36a';ctx.fillText('EXPLORE YOUR WORLD.',540,154);
- if(astraShare.type==='world'){
-   ctx.font='700 42px system-ui';ctx.fillStyle='#fff';ctx.fillText('MY WORLD PROGRESS',540,410);
-   ctx.font='900 150px system-ui';ctx.fillText(`${visited.length} / 195`,540,660);
-   ctx.font='600 34px system-ui';ctx.fillStyle='#c5d5dd';ctx.fillText('COUNTRIES VISITED',540,715);
-   ctx.fillStyle='rgba(5,16,24,.78)';v46RoundRect(ctx,110,820,860,350,42);
-   const cont=v46ContinentsVisited(),adv=v46CompletedAdventureCount(),doneJ=astraJourneys.filter(x=>x.status==='Completed').length;
-   const stats=[[`${cont} / 7`,'CONTINENTS'],[String(doneJ),'JOURNEYS'],[String(adv),'ADVENTURES']];
-   stats.forEach((x,i)=>{ctx.fillStyle='#fff';ctx.font='900 70px system-ui';ctx.fillText(x[0],250+i*290,965);ctx.fillStyle='#9fb3bf';ctx.font='600 23px system-ui';ctx.fillText(x[1],250+i*290,1010)});
-   ctx.fillStyle='#d8b36a';ctx.font='700 28px system-ui';ctx.fillText(`${((visited.length/195)*100).toFixed(1)}% OF THE WORLD`,540,1110);
- }else{
-   const cs=v46JourneyCountries(j),adv=(j.completedAdventureRefs||[]).length,dur=journeyDuration(j)||'—';
-   ctx.fillStyle='#fff';const z=v46FitText(ctx,(j.name||'MY JOURNEY').toUpperCase(),900,92,48);ctx.font=`900 ${z}px system-ui`;ctx.fillText((j.name||'MY JOURNEY').toUpperCase(),540,455);
-   ctx.fillStyle='#d8b36a';ctx.font='700 30px system-ui';ctx.fillText(cs.join('  •  ')||'JOURNEY',540,520);
-   ctx.fillStyle='#dce9ef';ctx.font='500 27px system-ui';ctx.fillText(`${v46FmtDate(j.startDate)}${j.endDate?'  →  '+v46FmtDate(j.endDate):''}`,540,568);
-   ctx.fillStyle='rgba(5,16,24,.80)';v46RoundRect(ctx,80,1290,920,330,42);
-   const stats=[[String(cs.length),'COUNTRIES'],[String(adv),'ADVENTURES'],[String(dur).replace(' days',''),'DAYS']];
-   stats.forEach((x,i)=>{ctx.fillStyle='#fff';ctx.font='900 78px system-ui';ctx.fillText(x[0],230+i*310,1435);ctx.fillStyle='#9fb3bf';ctx.font='600 23px system-ui';ctx.fillText(x[1],230+i*310,1480)});
-   ctx.fillStyle='#d8b36a';ctx.font='700 25px system-ui';ctx.fillText(j.journeyType||'Journey',540,1560);
- }
- ctx.fillStyle='rgba(4,14,22,.82)';v46RoundRect(ctx,170,1740,740,90,45);ctx.fillStyle='#fff';ctx.font='700 28px system-ui';ctx.fillText('MY JOURNEY ON ASTRA',540,1795);
- ctx.fillStyle='#aebfc8';ctx.font='500 20px system-ui';ctx.fillText('Generated from my real Astra travel progress',540,1865)
-}
-function v46CanvasBlob(){return new Promise(resolve=>document.getElementById('v46ShareCanvas')?.toBlob(resolve,'image/png',.95))}
-async function v46DownloadShare(){
- const blob=await v46CanvasBlob();if(!blob)return;const j=astraJourneys.find(x=>String(x.id)===String(astraShare.journeyId));const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`astra-${astraShare.type}-${(j?.name||'journey').replace(/[^a-z0-9]+/gi,'-').toLowerCase()}.png`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1500)
-}
-async function v46NativeShare(){
- const blob=await v46CanvasBlob();if(!blob)return;const file=new File([blob],'astra-journey.png',{type:'image/png'});
- try{if(navigator.share&&(!navigator.canShare||navigator.canShare({files:[file]}))){await navigator.share({files:[file],title:'My Journey on Astra'});return}}catch(e){if(e.name==='AbortError')return}
- v46DownloadShare();toast('Image saved · share it to Instagram, TikTok or WhatsApp')
-}
 
 /* Export backup */
 function exportData(){
@@ -2100,13 +1983,6 @@ function openBackupCenter(){
  'editJourneyStructured','saveJourneyStructured','v43JourneyDuration'
 ].forEach(function(k){try{if(typeof window[k]==='function')return; if(typeof eval(k)==='function')window[k]=eval(k)}catch(e){}});
 </script>
-
-<script>
-document.addEventListener('click',function(e){
- const m=document.getElementById('modal');
- if(m && e.target===m && m.classList.contains('show')) closeModal();
-});
-</script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 import {
@@ -2134,7 +2010,7 @@ function authMessage(text,error=false){
 function showGate(show){el("authGate")?.classList.toggle("show",show)}
 function snapshot(){
   return {
-    schemaVersion:19,
+    schemaVersion:16,
     clientUpdatedAt:new Date().toISOString(),
     phoenix:JSON.parse(localStorage.getItem("phoenix")||"{}"),
     journal:JSON.parse(localStorage.getItem("astraJournal")||"[]"),
@@ -2180,7 +2056,7 @@ async function pushCloud(){
   syncStatus("Saving…","syncing");
   const payload=snapshot();
   await setDoc(doc(FB.db,"users",FB.user.uid,"astra","state"),{
-    ...payload,ownerUid:FB.user.uid,schemaVersion:19,serverUpdatedAt:serverTimestamp()
+    ...payload,ownerUid:FB.user.uid,schemaVersion:16,serverUpdatedAt:serverTimestamp()
   },{merge:true});
   lastCloudWrite=Date.now();
   syncStatus("Synced","synced");

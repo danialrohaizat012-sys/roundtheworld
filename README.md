@@ -1,9 +1,9 @@
-# Astra V46.2 Fixed
+# Astra · Danial Journey V45
 
-Hotfixes:
-- Preserves V46.1 Share Studio modal fix.
-- Completed Journey date is now formatted through `safeJourneyCompletedDate()`.
-- Completion date fallback order: `completedAt` → `endDate` → `startDate`.
-- Invalid/missing date values no longer render `Invalid Date`.
-- Legacy completed Journeys without `completedAt` therefore remain readable.
-- Classic JS and Firebase module syntax checks pass.
+Country Selector consistency update:
+- Country dropdown now uses the exact same `countries` dataset as Astra World/Map.
+- No separate country list is maintained.
+- Search, multi-select and country chips all resolve against the World dataset.
+- Selector displays the number of available countries for easy verification.
+- This prevents spelling/name drift between Journey, Adventure and World statistics.
+- V44 runtime fixes are preserved.
