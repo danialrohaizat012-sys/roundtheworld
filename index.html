@@ -1851,7 +1851,7 @@ function authMessage(text,error=false){
 function showGate(show){el("authGate")?.classList.toggle("show",show)}
 function snapshot(){
   return {
-    schemaVersion:9,
+    schemaVersion:10,
     clientUpdatedAt:new Date().toISOString(),
     phoenix:JSON.parse(localStorage.getItem("phoenix")||"{}"),
     journal:JSON.parse(localStorage.getItem("astraJournal")||"[]"),
@@ -1895,7 +1895,7 @@ async function pushCloud(){
   syncStatus("Saving…","syncing");
   const payload=snapshot();
   await setDoc(doc(FB.db,"users",FB.user.uid,"astra","state"),{
-    ...payload,ownerUid:FB.user.uid,schemaVersion:9,serverUpdatedAt:serverTimestamp()
+    ...payload,ownerUid:FB.user.uid,schemaVersion:10,serverUpdatedAt:serverTimestamp()
   },{merge:true});
   lastCloudWrite=Date.now();
   syncStatus("Synced","synced");
