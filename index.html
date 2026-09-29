@@ -1464,7 +1464,7 @@ function customAdventureId(id){return 'custom-'+id}
 
 /* ===== V43 STRUCTURED INPUT SYSTEM ===== */
 const V43_JOURNEY_TYPES=['Flight','Train','Road Trip','Motorcycle','Sailing','Trekking','Mixed','Other'];
-const V43_JOURNEY_STATUSES=['idea','planning','ready','onjourney','completed'];
+const V43_JOURNEY_STATUSES=['Idea','Planning','Ready','On Journey','Completed'];
 function v43CountryNames(){
  const pools=[];
  try{if(Array.isArray(COUNTRIES))pools.push(...COUNTRIES.map(x=>typeof x==='string'?x:(x.name||x.country)))}catch(e){}
@@ -1688,7 +1688,7 @@ function completeJourney(id){
 
 function editJourneyStructured(id){
  const j=astraJourneys.find(x=>String(x.id)===String(id));if(!j)return;
- showOnly('journeyDetailScreen');const sc=document.getElementById('journeyDetailScreen');
+ showOnly('routeScreen');const sc=document.getElementById('routeScreen');
  sc.innerHTML=`<div class="topbar"><button class="backBtn" onclick="renderJourneyDetail('${id}')">‹</button><div><h1>EDIT JOURNEY</h1><small>Structured trip details</small></div></div>
  <section class="section">
   <div class="v43-field"><div class="v43-label">Journey name</div><input id="v43JName" class="v43-input" value="${escapeHtml(j.name||j.title||'')}"></div>
@@ -1696,7 +1696,7 @@ function editJourneyStructured(id){
   <div class="v43-field"><div class="v43-label">Start date</div><input id="v43JStart" type="date" class="v43-input" value="${j.startDate||''}" onchange="v43JourneyDuration()"></div>
   <div class="v43-field"><div class="v43-label">End date</div><input id="v43JEnd" type="date" class="v43-input" value="${j.endDate||''}" onchange="v43JourneyDuration()"><div id="v43JDuration" class="muted"></div></div>
   <div class="v43-field"><div class="v43-label">Journey type</div><select id="v43JType" class="v43-select">${V43_JOURNEY_TYPES.map(x=>`<option ${x===(j.journeyType||j.type||'')?'selected':''}>${x}</option>`).join('')}</select></div>
-  <div class="v43-field"><div class="v43-label">Status</div><select id="v43JStatus" class="v43-select">${V43_JOURNEY_STATUSES.map(x=>`<option value="${x}" ${x===(j.status||'idea')?'selected':''}>${x==='onjourney'?'On Journey':x[0].toUpperCase()+x.slice(1)}</option>`).join('')}</select></div>
+  <div class="v43-field"><div class="v43-label">Status</div><select id="v43JStatus" class="v43-select">${V43_JOURNEY_STATUSES.map(x=>`<option value="${x}" ${String(x).toLowerCase()===String(j.status||'Idea').toLowerCase()?'selected':''}>${x}</option>`).join('')}</select></div>
   <button class="primaryBtn" onclick="saveJourneyStructured('${id}')">Save Journey</button>
  </section>`;
  v43RenderPicker('v43JCountries');v43JourneyDuration()
@@ -1953,7 +1953,7 @@ function openBackupCenter(){
   window.renderJourneyDetail=function(id){
    base(id);
    setTimeout(function(){
-    const sc=document.getElementById('journeyDetailScreen');if(!sc||sc.querySelector('.v43EditJourney'))return;
+    const sc=document.getElementById('routeScreen');if(!sc||sc.querySelector('.v43EditJourney'))return;
     const top=sc.querySelector('.topbar');if(!top)return;
     const b=document.createElement('button');b.className='chip v43EditJourney';b.textContent='Edit Journey';b.onclick=function(){editJourneyStructured(id)};top.appendChild(b)
    },0)
@@ -1988,7 +1988,7 @@ function authMessage(text,error=false){
 function showGate(show){el("authGate")?.classList.toggle("show",show)}
 function snapshot(){
   return {
-    schemaVersion:13,
+    schemaVersion:14,
     clientUpdatedAt:new Date().toISOString(),
     phoenix:JSON.parse(localStorage.getItem("phoenix")||"{}"),
     journal:JSON.parse(localStorage.getItem("astraJournal")||"[]"),
@@ -2034,7 +2034,7 @@ async function pushCloud(){
   syncStatus("Saving…","syncing");
   const payload=snapshot();
   await setDoc(doc(FB.db,"users",FB.user.uid,"astra","state"),{
-    ...payload,ownerUid:FB.user.uid,schemaVersion:13,serverUpdatedAt:serverTimestamp()
+    ...payload,ownerUid:FB.user.uid,schemaVersion:14,serverUpdatedAt:serverTimestamp()
   },{merge:true});
   lastCloudWrite=Date.now();
   syncStatus("Synced","synced");
