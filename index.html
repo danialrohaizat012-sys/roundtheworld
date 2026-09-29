@@ -663,6 +663,14 @@ body.phoenixOnly .bottomnav{
 .accountStrip{margin:0 16px 12px;padding:11px 13px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025);display:flex;align-items:center;justify-content:space-between;gap:10px}
 .accountWho{display:flex;align-items:center;gap:9px;min-width:0}.accountAvatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(225,190,102,.12);color:var(--gold);font-weight:900;flex:0 0 auto}.accountText{min-width:0}.accountText b,.accountText span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.accountText span{font-size:10px;color:var(--muted)}
 
+
+/* V43 Structured Input System */
+.v43-field{margin:14px 0}.v43-label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.72;margin-bottom:7px}
+.v43-select,.v43-input{width:100%;box-sizing:border-box;border:1px solid rgba(255,255,255,.12);background:#101725;color:#fff;border-radius:14px;padding:13px 14px;font:inherit}
+.v43-countrybox{border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:10px;background:#101725}
+.v43-countrybox input{width:100%;box-sizing:border-box;background:transparent;color:#fff;border:0;outline:0;padding:7px}
+.v43-options{max-height:180px;overflow:auto}.v43-option{padding:9px;border-radius:10px;cursor:pointer}.v43-option:hover{background:rgba(255,255,255,.07)}
+.v43-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}.v43-chip{border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:7px 10px;background:rgba(255,255,255,.05)}
 </style>
 <meta name="theme-color" content="#06111b">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -806,7 +814,7 @@ const first100=[
 ["International sleeper train","Uzbekistan","Journey"],["European rail journey","Europe","Journey"],["Central Asia overland","Central Asia","Journey"],["International motorcycle journey","Vietnam","Journey"],["Live from campervan","New Zealand","Journey"],["European road trip","Europe","Journey"],["North American road trip","USA / Canada","Journey"],["Patagonia road trip","Argentina / Chile","Journey"],["International ship journey","Antarctica","Journey"],["Enter a country without flying","Thailand","Journey"],
 ["Great Wall","China","Wonder"],["Petra","Jordan","Wonder"],["Colosseum","Italy","Wonder"],["Taj Mahal","India","Wonder"],["Chichén Itzá","Mexico","Wonder"],["Machu Picchu","Peru","Wonder"],["Christ the Redeemer","Brazil","Wonder"],["Pyramids of Giza","Egypt","Culture"],["Traditional festival abroad","Japan","Culture"],["Major global sporting event","Europe / USA","Culture"],
 ["Live 30+ days abroad","Japan","Human"],["Stay with local family","Any","Human"],["Eat in local home","Any","Human"],["Cook with local","Italy","Human"],["Volunteer with community","Any","Human"],["Friend despite language barrier","Any","Human"],["No-English Japanese day","Japan","Language"],["Mandarin-only day","China","Language"],["Learn traditional craft","Japan","Culture"],["Learn local music/dance","Brazil","Culture"],
-["Travel solo 30 days","Any","Personal"],["Silent/reflective retreat","Any","Personal"],["Perform Umrah","Saudi Arabia","Spiritual"],["Visit foreign founder company","Any","Business"],["International startup event","Any","Business"],["First international business deal","Any","Business"],["Meaningful give-back project","Any","Human"],["Give a talk outside Malaysia","Any","Personal"],["Final sunset of a major Astra chapter","Any","Personal"]
+["Travel solo 30 days","Any","Personal"],["Silent/reflective retreat","Any","Personal"],["Perform Umrah","Saudi Arabia","Spiritual"],["Visit foreign founder company","Any","Business"],["International startup event","Any","Business"],["First international business deal","Any","Business"],["Meaningful give-back project","Any","Human"],["Give a talk outside Malaysia","Any","Personal"],["Any","Personal"]
 ];
 
 const routeLegs=[
@@ -1452,11 +1460,81 @@ function askCountries(msg='Countries (comma separated)'){return parseCountries(p
 function markVisited(name){const c=canonicalCountry(name);if(!c)return false;if(!visited.includes(c))visited.push(c);planned=planned.filter(x=>x!==c);saveTracking();return true}
 function originalAdventureId(i){return 'orig-'+i}
 function customAdventureId(id){return 'custom-'+id}
-function getAdventure(ref){
+
+
+/* ===== V43 STRUCTURED INPUT SYSTEM ===== */
+const V43_JOURNEY_TYPES=['Flight','Train','Road Trip','Motorcycle','Sailing','Trekking','Mixed','Other'];
+const V43_JOURNEY_STATUSES=['idea','planning','ready','onjourney','completed'];
+function v43CountryNames(){
+ const pools=[];
+ try{if(Array.isArray(COUNTRIES))pools.push(...COUNTRIES.map(x=>typeof x==='string'?x:(x.name||x.country)))}catch(e){}
+ try{if(Array.isArray(countries))pools.push(...countries.map(x=>typeof x==='string'?x:(x.name||x.country)))}catch(e){}
+ return [...new Set(pools.filter(Boolean).map(x=>canonicalCountry(x)||x))].sort((a,b)=>a.localeCompare(b))
+}
+function v43CountryPicker(id,selected=[]){
+ const safe=[...new Set((selected||[]).filter(Boolean))];
+ return `<div class="v43-countrybox" id="${id}" data-values='${JSON.stringify(safe).replace(/'/g,"&#39;")}'>
+   <input placeholder="Search country…" oninput="v43FilterCountries('${id}',this.value)">
+   <div class="v43-chips">${safe.map(c=>`<span class="v43-chip">${c} <b onclick="v43RemoveCountry('${id}','${c.replace(/'/g,"\\'")}')">×</b></span>`).join('')}</div>
+   <div class="v43-options"></div></div>`
+}
+function v43PickerValues(id){const el=document.getElementById(id);try{return JSON.parse(el?.dataset.values||'[]')}catch(e){return []}}
+function v43RenderPicker(id,q=''){
+ const el=document.getElementById(id);if(!el)return;const vals=v43PickerValues(id),qq=q.trim().toLowerCase();
+ const opts=v43CountryNames().filter(c=>!vals.includes(c)&&(!qq||c.toLowerCase().includes(qq))).slice(0,30);
+ el.querySelector('.v43-options').innerHTML=opts.map(c=>`<div class="v43-option" onclick="v43AddCountry('${id}','${c.replace(/'/g,"\\'")}')">${c}</div>`).join('')
+}
+function v43FilterCountries(id,q){v43RenderPicker(id,q)}
+function v43AddCountry(id,c){const el=document.getElementById(id),v=v43PickerValues(id);if(!v.includes(c))v.push(c);el.dataset.values=JSON.stringify(v);v43RefreshPicker(id)}
+function v43RemoveCountry(id,c){const el=document.getElementById(id);el.dataset.values=JSON.stringify(v43PickerValues(id).filter(x=>x!==c));v43RefreshPicker(id)}
+function v43RefreshPicker(id){const el=document.getElementById(id),v=v43PickerValues(id);el.querySelector('.v43-chips').innerHTML=v.map(c=>`<span class="v43-chip">${c} <b onclick="v43RemoveCountry('${id}','${c.replace(/'/g,"\\'")}')">×</b></span>`).join('');v43RenderPicker(id,el.querySelector('input')?.value||'')}
+function v43Days(a,b){if(!a||!b)return '';const x=new Date(a+'T00:00:00'),y=new Date(b+'T00:00:00');if(y<x)return 'End date must be after start date';return `${Math.round((y-x)/86400000)+1} day${Math.round((y-x)/86400000)+1===1?'':'s'}`}
+/* ===== V42 EDITABLE ADVENTURE LIBRARY ===== */
+const ADVENTURE_OVERRIDES_KEY='astraAdventureOverrides';
+const ADVENTURE_DELETED_KEY='astraDeletedAdventures';
+function adventureOverrides(){try{return JSON.parse(localStorage.getItem(ADVENTURE_OVERRIDES_KEY)||'{}')}catch(e){return {}}}
+function deletedAdventureRefs(){try{return JSON.parse(localStorage.getItem(ADVENTURE_DELETED_KEY)||'[]')}catch(e){return []}}
+function saveAdventureOverrides(x){localStorage.setItem(ADVENTURE_OVERRIDES_KEY,JSON.stringify(x));queueCloud()}
+function saveDeletedAdventureRefs(x){localStorage.setItem(ADVENTURE_DELETED_KEY,JSON.stringify(x));queueCloud()}
+function applyAdventureOverride(a){
+ if(!a)return a;const o=adventureOverrides()[a.ref];return o?{...a,...o,ref:a.ref,source:a.source,legacyId:a.legacyId}:a
+}
+function editAdventure(ref){
+ const a=getAdventure(ref);if(!a)return;
+ showOnly('questsScreen');
+ const sc=document.getElementById('questsScreen');
+ sc.innerHTML=`<div class="topbar"><button class="backBtn" onclick="showAdventureDetail('${ref}')">‹</button><div><h1>EDIT ADVENTURE</h1><small>Structured details</small></div></div>
+ <section class="section">
+  <div class="v43-field"><div class="v43-label">Adventure name</div><input id="v43AdvTitle" class="v43-input" value="${escapeHtml(a.title||'')}"></div>
+  <div class="v43-field"><div class="v43-label">Country / Countries</div>${v43CountryPicker('v43AdvCountries',a.countries||[])}</div>
+  <div class="v43-field"><div class="v43-label">Category</div><select id="v43AdvCategory" class="v43-select">${['Mountain & Trekking','Ocean','Adrenaline','Warrior','Wildlife','Nature','Journey','Wonders & Culture','Human & Culture','Personal, Spiritual & Business','Adventure'].map(x=>`<option ${x===(a.category||'')?'selected':''}>${x}</option>`).join('')}</select></div>
+  <button class="primaryBtn" onclick="saveAdventureEdit('${ref}')">Save Changes</button>
+ </section>`;
+ v43RenderPicker('v43AdvCountries')
+}
+function saveAdventureEdit(ref){
+ const a=getAdventure(ref);if(!a)return;const title=document.getElementById('v43AdvTitle').value.trim();
+ const countries=v43PickerValues('v43AdvCountries'),category=document.getElementById('v43AdvCategory').value;
+ const o=adventureOverrides();o[ref]={title:title||a.title,countries,category};saveAdventureOverrides(o);toast('Adventure updated');showAdventureDetail(ref)
+}
+function deleteAdventure(ref){
+ const a=getAdventure(ref);if(!a)return;
+ if(!confirm(`Delete "${a.title}" from your Adventure List? Existing Journey references will also be detached.`))return;
+ const d=deletedAdventureRefs();if(!d.includes(ref))d.push(ref);saveDeletedAdventureRefs(d);
+ astraJourneys.forEach(j=>{j.adventureRefs=(j.adventureRefs||[]).filter(r=>r!==ref);if(j.adventurePlan)delete j.adventurePlan[ref];if(j.completedAdventureRefs)j.completedAdventureRefs=j.completedAdventureRefs.filter(r=>r!==ref)});
+ saveJourneys();toast('Adventure deleted');renderQuests('first')
+}
+function restoreDeletedAdventures(){
+ const d=deletedAdventureRefs();if(!d.length){toast('No deleted Adventures');return}
+ if(confirm(`Restore ${d.length} deleted Adventure${d.length>1?'s':''}?`)){saveDeletedAdventureRefs([]);toast('Adventures restored');renderQuests('first')}
+}
+function getAdventureBase(ref){
  if(String(ref).startsWith('orig-')){const i=Number(String(ref).slice(5)),q=first100[i];return q?{ref,title:q[0],countries:canonicalCountry(q[1])?[q[1]]:[],category:q[2],originalIndex:i,flexible:!canonicalCountry(q[1])}:null}
  if(String(ref).startsWith('custom-')){const id=String(ref).slice(7),a=customActivities.find(x=>x.id===id);return a?{...a,ref}:null}
  return null
 }
+function getAdventure(ref){return applyAdventureOverride(getAdventureBase(ref))}
+
 function adventureHistory(a){
  if(a.originalIndex!=null)return questDone.includes(a.originalIndex)?[{date:null,countries:a.countries||[]}]:[];
  return a.completions||[]
@@ -1607,6 +1685,31 @@ function completeJourney(id){
  localStorage.setItem('astraJournal',JSON.stringify(journal));saveCustomActivities();saveJourneys();saveTracking();renderJourneyDetail(id);toast('Journey archived · atlas updated')
 }
 
+
+function editJourneyStructured(id){
+ const j=astraJourneys.find(x=>String(x.id)===String(id));if(!j)return;
+ showOnly('journeyDetailScreen');const sc=document.getElementById('journeyDetailScreen');
+ sc.innerHTML=`<div class="topbar"><button class="backBtn" onclick="renderJourneyDetail('${id}')">‹</button><div><h1>EDIT JOURNEY</h1><small>Structured trip details</small></div></div>
+ <section class="section">
+  <div class="v43-field"><div class="v43-label">Journey name</div><input id="v43JName" class="v43-input" value="${escapeHtml(j.name||j.title||'')}"></div>
+  <div class="v43-field"><div class="v43-label">Countries</div>${v43CountryPicker('v43JCountries',j.countries||[])}</div>
+  <div class="v43-field"><div class="v43-label">Start date</div><input id="v43JStart" type="date" class="v43-input" value="${j.startDate||''}" onchange="v43JourneyDuration()"></div>
+  <div class="v43-field"><div class="v43-label">End date</div><input id="v43JEnd" type="date" class="v43-input" value="${j.endDate||''}" onchange="v43JourneyDuration()"><div id="v43JDuration" class="muted"></div></div>
+  <div class="v43-field"><div class="v43-label">Journey type</div><select id="v43JType" class="v43-select">${V43_JOURNEY_TYPES.map(x=>`<option ${x===(j.journeyType||j.type||'')?'selected':''}>${x}</option>`).join('')}</select></div>
+  <div class="v43-field"><div class="v43-label">Status</div><select id="v43JStatus" class="v43-select">${V43_JOURNEY_STATUSES.map(x=>`<option value="${x}" ${x===(j.status||'idea')?'selected':''}>${x==='onjourney'?'On Journey':x[0].toUpperCase()+x.slice(1)}</option>`).join('')}</select></div>
+  <button class="primaryBtn" onclick="saveJourneyStructured('${id}')">Save Journey</button>
+ </section>`;
+ v43RenderPicker('v43JCountries');v43JourneyDuration()
+}
+function v43JourneyDuration(){const a=document.getElementById('v43JStart')?.value,b=document.getElementById('v43JEnd')?.value,d=document.getElementById('v43JDuration');if(d)d.textContent=v43Days(a,b)}
+function saveJourneyStructured(id){
+ const j=astraJourneys.find(x=>String(x.id)===String(id));if(!j)return;
+ const start=document.getElementById('v43JStart').value,end=document.getElementById('v43JEnd').value;
+ if(start&&end&&new Date(end)<new Date(start)){toast('End date cannot be before start date');return}
+ const nm=document.getElementById('v43JName').value.trim();if('name'in j)j.name=nm||j.name;else j.title=nm||j.title;
+ j.countries=v43PickerValues('v43JCountries');j.startDate=start;j.endDate=end;j.journeyType=document.getElementById('v43JType').value;j.status=document.getElementById('v43JStatus').value;
+ saveJourneys();toast('Journey updated');renderJourneyDetail(id)
+}
 function renderJourneyDetail(id){
  const j=astraJourneys.find(x=>x.id===id);if(!j){renderRoute();return}ensureJourneyShape(j);
  const completed=j.status==='Completed';
@@ -1653,7 +1756,7 @@ function showAdventureDetail(ref){
  const linked=astraJourneys.filter(j=>(j.adventureRefs||[]).includes(ref));
  const screen=document.getElementById('questsScreen');
  screen.innerHTML=`<div class="topbar"><div class="between"><button class="back" onclick="renderQuests('first')">←</button><div><b>ADVENTURE</b><div class="small muted">${a.category||'Adventure'}</div></div><span class="statePill ${stateClass(adventureState(ref))}">${adventureState(ref)}</span></div></div>
- <section class="section"><div class="countryStoryHero"><div class="kicker">ADVENTURE STORY</div><h2>${a.title}</h2><div class="muted">📍 ${(a.countries||[]).join(' · ')||'Anywhere'}</div><div class="storyGrid" style="margin-top:14px"><div class="storyMetric"><b>${hist.length}</b><span class="small muted">Completions</span></div><div class="storyMetric"><b>${linked.length}</b><span class="small muted">Journeys</span></div></div></div></section>
+ <section class="section"><div class="countryStoryHero"><div class="between"><div><div class="kicker">ADVENTURE STORY</div><h2>${a.title}</h2></div><div><button class="chip" onclick="editAdventure('${ref}')">Edit</button> <button class="chip" onclick="deleteAdventure('${ref}')">Delete</button></div></div><div class="muted">📍 ${(a.countries||[]).join(' · ')||'Anywhere'} · ${a.category||'Adventure'}</div><div class="storyGrid" style="margin-top:14px"><div class="storyMetric"><b>${hist.length}</b><span class="small muted">Completions</span></div><div class="storyMetric"><b>${linked.length}</b><span class="small muted">Journeys</span></div></div></div></section>
  <section class="section"><div class="card"><div class="between"><h3>Journey History</h3><button class="chip" onclick="completeAdventureDirect('${ref}')">${hist.length?'+ Record Again':'Record Done'}</button></div>${linked.map(j=>`<div class="entry"><b>${j.name}</b><div class="small muted">${j.status} · ${(j.actualCountries||j.countries||[]).join(' · ')}</div></div>`).join('')||'<div class="muted">Not attached to a Journey yet.</div>'}</div></section>
  <section class="section"><div class="card"><h3>Completion History</h3>${hist.map((h,i)=>`<div class="entry"><b>Completion ${i+1}</b><div class="small muted">${(h.countries||a.countries||[]).join(' · ')||'Location not recorded'}${h.date?' · '+new Date(h.date).toLocaleDateString():''}</div></div>`).join('')||'<div class="muted">Still waiting to become a memory.</div>'}</div></section>`;showOnly('questsScreen')
 }
@@ -1824,6 +1927,40 @@ function openBackupCenter(){
  }
 })();
 </script>
+<script>
+/* V42 Adventure Library controls */
+(function(){
+ const base=window.renderQuests;
+ if(typeof base==='function'){
+  window.renderQuests=function(mode){
+   base('first');
+   setTimeout(function(){
+    const sc=document.getElementById('questsScreen');if(!sc||sc.querySelector('.v42LibraryTools'))return;
+    const top=sc.querySelector('.topbar');if(!top)return;
+    const box=document.createElement('div');box.className='v42LibraryTools';box.style.marginTop='8px';
+    box.innerHTML=`<button class="chip" onclick="restoreDeletedAdventures()">Restore Deleted</button>`;
+    top.appendChild(box);
+   },0);
+  };
+ }
+})();
+</script>
+<script>
+/* V43 Journey detail enhancement */
+(function(){
+ const base=window.renderJourneyDetail;
+ if(typeof base==='function'){
+  window.renderJourneyDetail=function(id){
+   base(id);
+   setTimeout(function(){
+    const sc=document.getElementById('journeyDetailScreen');if(!sc||sc.querySelector('.v43EditJourney'))return;
+    const top=sc.querySelector('.topbar');if(!top)return;
+    const b=document.createElement('button');b.className='chip v43EditJourney';b.textContent='Edit Journey';b.onclick=function(){editJourneyStructured(id)};top.appendChild(b)
+   },0)
+  }
+ }
+})();
+</script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 import {
@@ -1851,7 +1988,7 @@ function authMessage(text,error=false){
 function showGate(show){el("authGate")?.classList.toggle("show",show)}
 function snapshot(){
   return {
-    schemaVersion:10,
+    schemaVersion:13,
     clientUpdatedAt:new Date().toISOString(),
     phoenix:JSON.parse(localStorage.getItem("phoenix")||"{}"),
     journal:JSON.parse(localStorage.getItem("astraJournal")||"[]"),
@@ -1861,14 +1998,16 @@ function snapshot(){
     questDone:JSON.parse(localStorage.getItem("questDone")||"[]"),
     wonderDone:JSON.parse(localStorage.getItem("wonderDone")||"[]"),
     astraJourneys:JSON.parse(localStorage.getItem("astraJourneys")||"[]"),
-    customActivities:JSON.parse(localStorage.getItem("astraCustomActivities")||"[]")
+    customActivities:JSON.parse(localStorage.getItem("astraCustomActivities")||"[]"),
+    adventureOverrides:JSON.parse(localStorage.getItem("astraAdventureOverrides")||"{}"),
+    deletedAdventures:JSON.parse(localStorage.getItem("astraDeletedAdventures")||"[]")
   };
 }
 function restore(data){
   if(!data)return;
   restoring=true;
   const map=[
-    ["phoenix",data.phoenix],["astraJournal",data.journal],["astraJourneys",data.astraJourneys||[]],["astraCustomActivities",data.customActivities||[]],["countryNotes",data.countryNotes],
+    ["phoenix",data.phoenix],["astraJournal",data.journal],["astraJourneys",data.astraJourneys||[]],["astraCustomActivities",data.customActivities||[]],["astraAdventureOverrides",data.adventureOverrides||{}],["astraDeletedAdventures",data.deletedAdventures||[]],["countryNotes",data.countryNotes],
     ["visitedCountries",data.visited],["plannedCountries",data.planned],
     ["questDone",data.questDone],["wonderDone",data.wonderDone]
   ];
@@ -1895,7 +2034,7 @@ async function pushCloud(){
   syncStatus("Saving…","syncing");
   const payload=snapshot();
   await setDoc(doc(FB.db,"users",FB.user.uid,"astra","state"),{
-    ...payload,ownerUid:FB.user.uid,schemaVersion:10,serverUpdatedAt:serverTimestamp()
+    ...payload,ownerUid:FB.user.uid,schemaVersion:13,serverUpdatedAt:serverTimestamp()
   },{merge:true});
   lastCloudWrite=Date.now();
   syncStatus("Synced","synced");
@@ -1916,7 +2055,7 @@ window.astraFirebase={
 };
 
 
-const USER_STATE_KEYS=["phoenix","astraJournal","countryNotes","visitedCountries","plannedCountries","questDone","wonderDone","astraJourneys","astraCustomActivities"];
+const USER_STATE_KEYS=["phoenix","astraJournal","countryNotes","visitedCountries","plannedCountries","questDone","wonderDone","astraJourneys","astraCustomActivities","astraAdventureOverrides","astraDeletedAdventures"];
 function cleanAccountState(){
   restoring=true;
   USER_STATE_KEYS.forEach(k=>localStorage.removeItem(k));
@@ -1930,6 +2069,8 @@ function cleanAccountState(){
   localStorage.setItem("wonderDone","[]");
   localStorage.setItem("astraJourneys","[]");
   localStorage.setItem("astraCustomActivities","[]");
+  localStorage.setItem("astraAdventureOverrides","{}");
+  localStorage.setItem("astraDeletedAdventures","[]");
   restoring=false;
 }
 function cacheCurrentUserState(uid){

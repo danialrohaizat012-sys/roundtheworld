@@ -1,6 +1,13 @@
-# Astra · Danial Journey V40
+# Astra · Danial Journey V43
 
-Small cleanup from stable V39 FIXED:
-- Removed the old sunset/final-chapter Adventure entirely.
-- No replacement was added. Adventure List is intentionally open-ended rather than padded to a target number.
-- All V39 FIXED multi-user, Experience, World, Journey, Photo Vault and backup behavior is preserved.
+Structured Input System:
+- Adventure Edit is now a proper form instead of browser prompts.
+- Searchable multi-country selector with removable chips.
+- Adventure category dropdown.
+- Journey Edit now supports structured Country/Countries, native Start/End date pickers, Journey Type and Status dropdowns.
+- Journey duration is calculated automatically.
+- Invalid End Date before Start Date is blocked.
+- Derived stats remain system-calculated, not manually editable.
+- Existing V42 edit/delete, multi-user isolation, Firebase sync, Journey/World/Memory and Photo Vault behavior is preserved.
+
+V43 deliberately focuses on Journey + Adventure core data entry first. Memories/People structured editors can build on the same selector architecture next.
