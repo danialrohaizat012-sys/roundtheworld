@@ -659,6 +659,10 @@ body.phoenixOnly .bottomnav{
 .countryStoryHero{padding:20px;border-radius:24px;background:linear-gradient(145deg,rgba(225,190,102,.11),rgba(255,255,255,.025));border:1px solid rgba(225,190,102,.18)}
 @media(max-width:390px){.storyGrid{grid-template-columns:1fr 1fr}}
 
+
+.accountStrip{margin:0 16px 12px;padding:11px 13px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.accountWho{display:flex;align-items:center;gap:9px;min-width:0}.accountAvatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(225,190,102,.12);color:var(--gold);font-weight:900;flex:0 0 auto}.accountText{min-width:0}.accountText b,.accountText span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.accountText span{font-size:10px;color:var(--muted)}
+
 </style>
 <meta name="theme-color" content="#06111b">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -784,6 +788,14 @@ const wonders=[
 ["Great Wall of China","China","🇨🇳"],["Petra","Jordan","🇯🇴"],["Christ the Redeemer","Brazil","🇧🇷"],["Machu Picchu","Peru","🇵🇪"],["Chichén Itzá","Mexico","🇲🇽"],["Colosseum","Italy","🇮🇹"],["Taj Mahal","India","🇮🇳"]
 ];
 const continents=["Asia","Europe","Africa","North America","South America","Oceania","Antarctica"];
+function exploredContinents(){
+ const set=new Set();
+ visited.forEach(n=>{const c=countries.find(x=>x[0]===n);if(c)set.add(c[2])});
+ const ant=first100.findIndex(x=>String(x[0]).toLowerCase().includes('antarctica'));
+ if(ant>=0 && questDone.includes(ant))set.add('Antarctica');
+ return continents.filter(x=>set.has(x));
+}
+
 const first100=[
 ["Everest Base Camp","Nepal","Adventure"],["Mount Kinabalu","Malaysia","Adventure"],["Mount Fuji","Japan","Adventure"],["Trek Patagonia","Argentina / Chile","Adventure"],["Hike the Alps","Switzerland","Adventure"],["Climb a volcano","Indonesia","Adventure"],["Walk on a glacier","Iceland","Adventure"],["Via ferrata","Switzerland","Adventure"],["Multi-day wilderness trek","Nepal","Adventure"],["Wilderness survival course","Canada","Adventure"],
 ["Scuba certification","Malaysia","Ocean"],["Open-water dive abroad","Malaysia","Ocean"],["Freediving","Philippines","Ocean"],["Learn surfing","South Africa","Ocean"],["Swim with whale sharks","Philippines","Ocean"],["Whale watching","Iceland","Ocean"],["See bioluminescent water","Maldives","Ocean"],["Learn sailing","Greece","Ocean"],["Multi-day sailing voyage","Greece","Ocean"],["Sea kayaking","Canada","Ocean"],
@@ -1317,6 +1329,7 @@ function addJournal(){let t=jtext.value.trim();if(!t)return;journal.unshift({cou
 function toggleQuest(i,on){if(on&&!questDone.includes(i))questDone.push(i);if(!on)questDone=questDone.filter(x=>x!==i);save();renderAstra()}
 
 function renderQuests(mode='first'){
+ mode='first';
  document.getElementById('questsScreen').innerHTML=`
  <div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 11l6 12 13 2-9 9 2 13-12-6-12 6 2-13-9-9 13-2 6-12Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><h1>ASTRA QUESTS</h1><small>Experiences worth remembering</small></div></div></div>
  <div class="tabs"><button class="chip ${mode==='first'?'active':''}" onclick="renderQuests('first')">First 100</button><button class="chip ${mode==='continents'?'active':''}" onclick="renderQuests('continents')">7 Continents</button><button class="chip ${mode==='wonders'?'active':''}" onclick="renderQuests('wonders')">7 Wonders</button></div>
@@ -1419,6 +1432,10 @@ function showScreen(n){
 document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>showScreen(b.dataset.nav)));
 
 
+/* ===== V37 EXPERIENCE CLEANUP ===== */
+const ASTRA_NEW_7_WONDERS=['Great Wall of China','Petra','Colosseum','Taj Mahal','Chichén Itzá','Machu Picchu','Christ the Redeemer'];
+function isNewWonderTitle(t=''){const x=String(t).toLowerCase();return ASTRA_NEW_7_WONDERS.some(w=>x.includes(w.toLowerCase())||w.toLowerCase().includes(x))}
+
 /* ===== V35 DANIAL JOURNEY · UNIFIED ADVENTURE GRAPH ===== */
 let astraJourneys=JSON.parse(localStorage.getItem('astraJourneys')||'[]');
 let customActivities=JSON.parse(localStorage.getItem('astraCustomActivities')||'[]');
@@ -1507,6 +1524,11 @@ function adventureState(ref){
  return 'Want to Do';
 }
 function stateClass(x){return x==='Completed'?'stateDone':x==='Planned in Journey'?'statePlan':'stateWant'}
+function wondersCollectionHTML(){
+ const items=allAdventures().filter(a=>isNewWonderTitle(a.title)),done=items.filter(a=>adventureIsDone(a)).length;
+ return `<div class="card" style="border-color:rgba(225,190,102,.22)"><div class="between"><div><div class="kicker">SPECIAL COLLECTION</div><h3 style="margin:4px 0">7 Wonders</h3><div class="small muted">${done}/7 completed · inside Adventure List</div></div><b style="font-size:22px">${done}/7</b></div>${items.map(a=>`<div class="entry" onclick="showAdventureDetail('${a.ref}')"><div class="between"><b>${a.title}</b><span class="statePill ${stateClass(adventureState(a.ref))}">${adventureState(a.ref)}</span></div><div class="small muted">📍 ${(a.countries||[]).join(' · ')||'Location'}</div></div>`).join('')}</div>`;
+}
+
 function editJourneyMeta(id){
  const j=astraJourneys.find(x=>x.id===id);if(!j)return;
  j.startDate=prompt('Start date YYYY-MM-DD',j.startDate||'')||'';
@@ -1619,7 +1641,7 @@ function renderQuests(mode='first'){
  screen.innerHTML=`
  <div class="topbar"><div class="brand"><div class="brandmark">${svgInline('quests','inlineBrandIcon')}</div><div><h1>EXPERIENCES</h1><small>One master Adventure List</small></div></div></div>
  <div class="adventureHeader"><div class="kicker">ADVENTURE LIST</div><h2 style="margin:5px 0">${adventureCount()} adventures lived</h2><div class="small muted">${first100.length} original ideas + ${customActivities.length} added by you. No finish line.</div><button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="addCustomActivity()">+ ADD MY OWN ADVENTURE</button></div>
- <div class="tabs"><button class="tab active" onclick="renderQuests('first')">Adventure List</button><button class="tab" onclick="renderQuests('continents')">7 Continents</button><button class="tab" onclick="renderQuests('wonders')">7 Wonders</button></div>
+ <div class="tabs"><button class="tab active" onclick="renderQuests('first')">Adventure List</button></div>
  <section class="section"><div class="card">${first100.map((q,i)=>{const a=getAdventure(originalAdventureId(i));return `<div class="adventureItem ${adventureIsDone(a)?'done':''}"><span>${adventureIsDone(a)?'✓':'○'}</span><div><b>${i+1}. ${a.title}</b><div class="small muted">📍 ${a.countries.join(' · ')||'Anywhere'} · ${a.category}</div><span class="statePill ${stateClass(adventureState(a.ref))}">${adventureState(a.ref)}</span></div><button class="chip" onclick="showAdventureDetail('${a.ref}')">Open</button></div>`}).join('')}</div></section>
  ${customActivities.length?`<section class="section"><div class="between"><h3>Added By Me</h3><span class="badge">${customActivities.length}</span></div><div class="card">${customActivities.map(a=>{const x=getAdventure(customAdventureId(a.id)),n=adventureHistory(x).length;return `<div class="adventureItem ${n?'done':''}"><span>${n?'✓':'○'}</span><div><b>${a.title}</b><div class="small muted">📍 ${(a.countries||[]).join(' · ')||'Anywhere'} · ${a.category}${n?' · '+n+' completion'+(n>1?'s':''):''}</div><span class="statePill ${stateClass(adventureState(x.ref))}">${adventureState(x.ref)}</span></div><button class="chip" onclick="showAdventureDetail('${x.ref}')">Open</button></div>`}).join('')}</div></section>`:''}`;showOnly('questsScreen')
 }
@@ -1672,7 +1694,7 @@ function pickPhotos(){document.getElementById('photoInput').click()}
 document.getElementById('photoInput').addEventListener('change',async e=>{
  const files=[...e.target.files]; if(!files.length||!db)return;
  const tx=db.transaction('photos','readwrite'),store=tx.objectStore('photos');
- for(const f of files){const data=await fileToDataURL(f);store.put({id:crypto.randomUUID(),country:currentCountry,name:f.name,data,created:Date.now()})}
+ for(const f of files){const data=await fileToDataURL(f);store.put({id:crypto.randomUUID(),ownerUid:(window.astraFirebase?.status()?.user?.uid||null),country:currentCountry,name:f.name,data,created:Date.now()})}
  tx.oncomplete=()=>{loadPhotos(currentCountry);toast('Photos added')};e.target.value=''
 });
 
@@ -1712,9 +1734,9 @@ async function fileToDataURL(file){
 function loadPhotos(country){
  if(!db)return setTimeout(()=>loadPhotos(country),200);
  const tx=db.transaction('photos','readonly'),store=tx.objectStore('photos'),r=store.getAll();
- r.onsuccess=()=>{const arr=r.result.filter(x=>x.country===country);document.getElementById('gallery').innerHTML=arr.map(x=>`<div class="photo"><img src="${x.data}" alt="${x.name}"><button onclick="deletePhoto('${x.id}')">×</button></div>`).join('')||'<div class="muted">No photos yet.</div>'}
+ r.onsuccess=()=>{const uid=window.astraFirebase?.status()?.user?.uid||null;const legacyOwner=localStorage.getItem('astraLegacyPhotoOwnerUid');const arr=r.result.filter(x=>x.country===country && (x.ownerUid===uid || (!x.ownerUid && legacyOwner===uid)));document.getElementById('gallery').innerHTML=arr.map(x=>`<div class="photo"><img src="${x.data}" alt="${x.name}"><button onclick="deletePhoto('${x.id}')">×</button></div>`).join('')||'<div class="muted">No photos yet.</div>'}
 }
-function deletePhoto(id){if(!db)return;const tx=db.transaction('photos','readwrite');tx.objectStore('photos').delete(id);tx.oncomplete=()=>loadPhotos(currentCountry)}
+function deletePhoto(id){if(!db)return;const uid=window.astraFirebase?.status()?.user?.uid||null;const tx=db.transaction('photos','readwrite'),st=tx.objectStore('photos'),g=st.get(id);g.onsuccess=()=>{const x=g.result,legacyOwner=localStorage.getItem('astraLegacyPhotoOwnerUid');if(x&&(x.ownerUid===uid||(!x.ownerUid&&legacyOwner===uid)))st.delete(id)};tx.oncomplete=()=>loadPhotos(currentCountry)}
 
 /* Export backup */
 function exportData(){
@@ -1747,11 +1769,11 @@ window.addEventListener('pageshow',stabilizeBottomNav);
 function astraLastBackup(){return localStorage.getItem('astraLastBackup')||''}
 function setAstraBackupNow(){localStorage.setItem('astraLastBackup',new Date().toISOString())}
 async function exportAstraBackup(){
- const payload={version:36,exportedAt:new Date().toISOString(),localStorage:{}};
+ const payload={version:38,ownerUid:(window.astraFirebase?.status()?.user?.uid||null),exportedAt:new Date().toISOString(),localStorage:{}};
  for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith('astra')||['visited','planned','questDone','wonderDone','astraJournal'].includes(k))payload.localStorage[k]=localStorage.getItem(k)}
  // Photo binaries remain downloadable through the existing Photo Vault; this backup protects structured Astra data.
  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
- const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='astra-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);setAstraBackupNow();toast('Astra data backup exported')
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='astra-'+((window.astraFirebase?.status()?.user?.email||'user').split('@')[0])+'-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);setAstraBackupNow();toast('Astra data backup exported')
 }
 async function importAstraBackupFile(file){
  try{const data=JSON.parse(await file.text());if(!data.localStorage)throw Error('Invalid backup');Object.entries(data.localStorage).forEach(([k,v])=>localStorage.setItem(k,v));toast('Backup imported · reloading');setTimeout(()=>location.reload(),700)}catch(e){toast('Could not import backup')}
@@ -1762,6 +1784,45 @@ function openBackupCenter(){
  <section class="section"><div class="card backupCard"><div class="kicker">LAST DATA BACKUP</div><h3>${last?new Date(last).toLocaleString():'Never backed up'}</h3><div class="warningNote">Astra photos are local-first. Keep originals in Photos/iCloud/Google Photos and export Astra data regularly. Photo binary export remains available from Photo Vault.</div><button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="exportAstraBackup()">EXPORT ASTRA DATA</button><label class="btn" style="display:block;text-align:center;margin-top:8px">IMPORT BACKUP<input type="file" accept=".json,application/json" hidden onchange="importAstraBackupFile(this.files[0])"></label></div></section>
  <section class="section"><div class="card"><h3>Backup principle</h3><div class="small muted">Astra organizes your memories. It should never be the only copy of an irreplaceable photo.</div></div></section>`;showOnly('journalScreen')
 }
+</script>
+<script>
+(function(){
+ const baseRender=window.renderQuests;
+ if(typeof baseRender==='function'){
+  window.renderQuests=function(){
+   baseRender('first');
+   setTimeout(function(){
+    const sc=document.getElementById('questsScreen');if(!sc)return;
+    Array.from(sc.querySelectorAll('button,.chip')).forEach(function(el){
+      const t=(el.textContent||'').trim().toLowerCase();
+      if(t==='7 continents'||t==='7 wonders')el.remove();
+    });
+    if(!sc.querySelector('.v37WondersCollection')){
+      const secs=sc.querySelectorAll('.section'),anchor=secs.length?secs[0]:null;
+      const sec=document.createElement('section');sec.className='section v37WondersCollection';sec.innerHTML=wondersCollectionHTML();
+      if(anchor&&anchor.parentNode)anchor.parentNode.insertBefore(sec,anchor.nextSibling);else sc.appendChild(sec);
+    }
+   },0);
+  };
+ }
+})();
+</script>
+<script>
+(function(){
+ const baseWorld=window.renderCountries;
+ if(typeof baseWorld==='function'){
+  window.renderCountries=function(){
+   baseWorld();
+   setTimeout(function(){
+    const sc=document.getElementById('countriesScreen');if(!sc||sc.querySelector('.v38ContinentProgress'))return;
+    const done=exploredContinents();
+    const sec=document.createElement('section');sec.className='section v38ContinentProgress';
+    sec.innerHTML=`<div class="card"><div class="between"><div><div class="kicker">DERIVED FROM YOUR WORLD</div><h3 style="margin:4px 0">7 Continents</h3><div class="small muted">No manual ticking · ${done.join(' · ')||'Your atlas is waiting'}</div></div><b style="font-size:22px">${done.length}/7</b></div></div>`;
+    const first=sc.querySelector('.section');if(first&&first.parentNode)first.parentNode.insertBefore(sec,first.nextSibling);else sc.appendChild(sec);
+   },0);
+  };
+ }
+})();
 </script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
@@ -1790,7 +1851,7 @@ function authMessage(text,error=false){
 function showGate(show){el("authGate")?.classList.toggle("show",show)}
 function snapshot(){
   return {
-    schemaVersion:6,
+    schemaVersion:8,
     clientUpdatedAt:new Date().toISOString(),
     phoenix:JSON.parse(localStorage.getItem("phoenix")||"{}"),
     journal:JSON.parse(localStorage.getItem("astraJournal")||"[]"),
@@ -1815,30 +1876,33 @@ function restore(data){
   restoring=false;
 }
 async function pullCloud(){
-  if(!FB.user)return null;
+  if(!FB.user)return {exists:false};
   syncStatus("Restoring…","syncing");
   const snap=await getDoc(doc(FB.db,"users",FB.user.uid,"astra","state"));
   if(!snap.exists()){
-    await pushCloud();
-    return null;
+    syncStatus("New Astra account","synced");
+    return {exists:false};
   }
   const data=snap.data();
   restore(data);
+  // Only an account with pre-existing cloud data may claim old unowned local photos.
+  if(!localStorage.getItem("astraLegacyPhotoOwnerUid")) localStorage.setItem("astraLegacyPhotoOwnerUid",FB.user.uid);
   syncStatus("Synced","synced");
-  return data;
+  return {exists:true,data};
 }
 async function pushCloud(){
   if(restoring||!FB.user||!navigator.onLine)return;
   syncStatus("Saving…","syncing");
   const payload=snapshot();
   await setDoc(doc(FB.db,"users",FB.user.uid,"astra","state"),{
-    ...payload,serverUpdatedAt:serverTimestamp()
+    ...payload,ownerUid:FB.user.uid,schemaVersion:8,serverUpdatedAt:serverTimestamp()
   },{merge:true});
   lastCloudWrite=Date.now();
   syncStatus("Synced","synced");
 }
 window.astraQueueCloudSync=()=>{
   if(restoring||!FB.user)return;
+  cacheCurrentUserState(FB.user.uid);
   syncStatus(navigator.onLine?"Saving…":"Saved locally",navigator.onLine?"syncing":"offline");
   clearTimeout(syncTimer);
   syncTimer=setTimeout(()=>pushCloud().catch(err=>{
@@ -1851,6 +1915,47 @@ window.astraFirebase={
   status:()=>({ready:FB.ready,user:FB.user,mediaMode:"local-compressed-indexeddb"})
 };
 
+
+const USER_STATE_KEYS=["phoenix","astraJournal","countryNotes","visitedCountries","plannedCountries","questDone","wonderDone","astraJourneys","astraCustomActivities"];
+function cleanAccountState(){
+  restoring=true;
+  USER_STATE_KEYS.forEach(k=>localStorage.removeItem(k));
+  // New users start with a clean atlas, not Danial's historical countries.
+  localStorage.setItem("phoenix",JSON.stringify(defaultPhoenix));
+  localStorage.setItem("astraJournal","[]");
+  localStorage.setItem("countryNotes","{}");
+  localStorage.setItem("visitedCountries","[]");
+  localStorage.setItem("plannedCountries","[]");
+  localStorage.setItem("questDone","[]");
+  localStorage.setItem("wonderDone","[]");
+  localStorage.setItem("astraJourneys","[]");
+  localStorage.setItem("astraCustomActivities","[]");
+  restoring=false;
+}
+function cacheCurrentUserState(uid){
+  if(!uid)return;
+  const data={};USER_STATE_KEYS.forEach(k=>data[k]=localStorage.getItem(k));
+  localStorage.setItem("astraUserCache:"+uid,JSON.stringify(data));
+}
+function restoreUserCache(uid){
+  if(!uid)return false;
+  try{
+    const raw=localStorage.getItem("astraUserCache:"+uid);if(!raw)return false;
+    const data=JSON.parse(raw);restoring=true;
+    USER_STATE_KEYS.forEach(k=>{if(data[k]!=null)localStorage.setItem(k,data[k]);else localStorage.removeItem(k)});
+    restoring=false;return true;
+  }catch(e){restoring=false;return false}
+}
+function renderAccountStrip(){
+ const user=window.astraFirebase?.status()?.user;if(!user)return;
+ const old=document.getElementById("astraAccountStrip");if(old)old.remove();
+ const host=document.getElementById("astraHome");if(!host)return;
+ const div=document.createElement("div");div.id="astraAccountStrip";div.className="accountStrip";
+ const label=(user.email||"Astra User").split("@")[0],initial=label.slice(0,1).toUpperCase();
+ div.innerHTML=`<div class="accountWho"><div class="accountAvatar">${initial}</div><div class="accountText"><b>${label}</b><span>${user.email||user.uid}</span></div></div><button class="chip" id="astraSignOutBtn">Sign out</button>`;
+ const anchor=host.querySelector(".pillarIntro,.section");host.insertBefore(div,anchor||host.firstChild);
+ div.querySelector("#astraSignOutBtn").onclick=async()=>{cacheCurrentUserState(user.uid);sessionStorage.removeItem("astraCloudBoot");await window.astraFirebase.signOut();location.reload()};
+}
 async function boot(){
   try{
     FB.app=initializeApp(firebaseConfig);
@@ -1880,37 +1985,33 @@ async function boot(){
         return;
       }
       showGate(false);
-      // Render Astra immediately. Cloud sync must never block the UI.
-      try{
-        applyProjectPhase(); renderAstra(); showOnly("astraHome");
-        document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.nav==="astra"));
-        setTimeout(renderInteractiveMap,0);
-      }catch(uiErr){ console.error("Local Astra render failed:",uiErr); }
-
       syncStatus(navigator.onLine?"Astra ready · syncing":"Offline · Astra local","syncing");
       try{
+        // Never show another user's local state while account identity is being resolved.
+        const hadCache=restoreUserCache(user.uid);
         const cloud=await pullCloud();
-        if(cloud){
-          // Reload once so all legacy in-memory state is rebuilt from restored localStorage.
-          if(sessionStorage.getItem("astraCloudBoot")!=="1"){
-            sessionStorage.setItem("astraCloudBoot","1");
-            location.reload(); return;
-          }
+        if(!cloud.exists && !hadCache){
+          cleanAccountState();
+          await pushCloud(); // initialize this UID with its own blank atlas
+        } else if(!cloud.exists && hadCache){
+          await pushCloud(); // restore this user's offline cache to its own cloud document
         }
-        sessionStorage.removeItem("astraCloudBoot");
-        applyProjectPhase();
-        renderAstra(); showOnly("astraHome");
+        cacheCurrentUserState(user.uid);
+        if(sessionStorage.getItem("astraCloudBootUid")!==user.uid){
+          sessionStorage.setItem("astraCloudBootUid",user.uid);
+          location.reload();return;
+        }
+        applyProjectPhase();renderAstra();showOnly("astraHome");
         document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.nav==="astra"));
-        setTimeout(renderInteractiveMap,0);
+        setTimeout(()=>{renderInteractiveMap();renderAccountStrip()},0);
         syncStatus("Synced","synced");
       }catch(err){
-        console.error("Firestore restore:",err);
+        console.error("Astra account restore:",err);
+        // Offline fallback is allowed only from this UID's own cache.
+        if(!restoreUserCache(user.uid)) cleanAccountState();
+        applyProjectPhase();renderAstra();showOnly("astraHome");
+        setTimeout(()=>{renderInteractiveMap();renderAccountStrip()},0);
         syncStatus(navigator.onLine?"Local mode · cloud retry":"Offline · local","offline");
-        try{
-          applyProjectPhase(); renderAstra(); showOnly("astraHome");
-          document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.nav==="astra"));
-          setTimeout(renderInteractiveMap,0);
-        }catch(uiErr){ console.error("Astra fallback:",uiErr); }
       }
     });
 
