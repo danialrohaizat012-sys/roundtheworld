@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
 <meta name="theme-color" content="#071018"/>
-<title>Phoenix → Astra</title>
+<title>Astra · Danial Journey</title>
 <style>
 :root{
   --bg:#071018;--panel:#0c1a24;--panel2:#102430;--line:#1f3947;--text:#f4f7fa;--muted:#8ea4b4;
@@ -621,6 +621,18 @@ body.phoenixOnly .bottomnav{
   .bottomnav{bottom:16px!important}
 }
 
+
+/* V33 · Danial Journey Astra */
+.bottomnav{grid-template-columns:repeat(5,1fr)!important}
+.astraPrinciple{margin:12px 16px 0;padding:15px 16px;border:1px solid rgba(225,190,102,.22);border-radius:18px;background:linear-gradient(135deg,rgba(225,190,102,.08),rgba(255,255,255,.025));font-size:13px;line-height:1.55}
+.exploreNow{margin:12px 16px;padding:18px;border-radius:22px;background:linear-gradient(145deg,#14242d,#09151c);border:1px solid rgba(255,255,255,.08)}
+.exploreNow h3{margin:4px 0 7px}.exploreNow .options{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.journeyGrid{display:grid;gap:12px}.journeyCard{padding:17px;border-radius:20px;background:linear-gradient(145deg,rgba(255,255,255,.065),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.08)}
+.journeyMeta{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.journeyStatus{font-size:10px;text-transform:uppercase;letter-spacing:.08em;padding:5px 8px;border-radius:999px;border:1px solid rgba(225,190,102,.28);color:var(--gold)}
+.pillarIntro{margin:10px 16px 4px;color:var(--muted);font-size:13px;line-height:1.55}
+.worldTabs{display:flex;gap:7px;overflow:auto;padding:0 16px 10px}
+@media(max-width:390px){.bottomnav .navbtn{font-size:9.5px!important}.bottomnav .navbtn .ico{transform:scale(.92)}}
+
 </style>
 <meta name="theme-color" content="#06111b">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -653,7 +665,7 @@ body.phoenixOnly .bottomnav{
 <div class="splashCenter">
 <img class="splashLogo" src="./astra-icon.svg" alt="Astra">
 <div class="splashName">ASTRA</div>
-<div class="splashTag">PLAN TODAY. LIVE FURTHER.</div>
+<div class="splashTag">EXPLORE YOUR WORLD.</div>
 <div class="splashLine"><i></i></div>
 <div class="splashLoading">LOADING YOUR JOURNEY…</div>
 </div></div>
@@ -667,34 +679,21 @@ body.phoenixOnly .bottomnav{
       </div>
       <div class="authEyebrow">DANIAL ROUND THE WORLD</div>
       <h1 class="authTitle">Your world is waiting.</h1>
-      <div class="authSub">Sign in to continue Phoenix and keep your journey state protected in the cloud.</div>
+      <div class="authSub">Sign in to continue your exploration atlas and keep your journey state protected in the cloud.</div>
       <form id="authForm">
         <div class="authField"><label>Email</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required></div>
         <div class="authField"><label>Password</label><input id="authPassword" type="password" autocomplete="current-password" placeholder="••••••••" required></div>
-        <button id="authSubmit" class="authSubmit" type="submit">ENTER PHOENIX</button>
+        <button id="authSubmit" class="authSubmit" type="submit">ENTER ASTRA</button>
       </form>
       <div id="authMessage" class="authMessage">Use the account created in Firebase Authentication.</div>
-      <div class="authFooter"><span>PHOENIX → ASTRA</span><span>Private account</span></div>
+      <div class="authFooter"><span>DANIAL JOURNEY · ASTRA</span><span>Private account</span></div>
     </div>
   </div>
 </div>
 <div id="syncPill" class="syncPill"><i></i><span id="syncText">Local</span></div>
 
 <div class="app">
-  <div id="phoenixScreen" class="screen active">
-<div class="topbar"><div class="brand"><div class="brandmark">P</div><div><small>PROJECT</small><h1>PHOENIX</h1></div></div></div>
-<div class="worldCalling"><div class="heroContent"><div class="kicker">BUILD YOUR FREEDOM</div><div class="heroTitle">PHOENIX</div><div class="heroQuote">The world is calling. Discipline is the ticket.</div></div></div>
-<div class="phxCountdown"><div><div class="label">Target completion</div><b>31 December 2027</b></div><div style="text-align:right"><div class="label">Time remaining</div><div class="days">...</div></div></div>
-<div class="phxLaunchCard"><div class="phxLaunchHead"><div><div class="label">Astra launch progress</div><div class="big">0 / 5</div></div><b>0%</b></div><div class="progress"><i style="width:0%"></i></div></div>
-<div class="phxReqWrap">
-<div class="requirement"><div class="num">1</div><div><b>RM 1,000,000 Cash Savings</b><div class="small muted">Loading progress…</div></div></div>
-<div class="requirement"><div class="num">2</div><div><b>Reach 70 KG</b><div class="small muted">Loading progress…</div></div></div>
-<div class="requirement"><div class="num">3</div><div><b>Meney 90-Day Independence</b><div class="small muted">Loading progress…</div></div></div>
-<div class="requirement"><div class="num">4</div><div><b>Meney ≥ RM 30,000 Avg Profit</b><div class="small muted">Loading progress…</div></div></div>
-<div class="requirement"><div class="num">5</div><div><b>Complete Degree + Convocation</b><div class="small muted">Loading progress…</div></div></div>
-</div><div class="phxGate"><b>Project Astra remains locked</b><div class="small muted">Complete all 5 Phoenix requirements to unlock Astra.</div></div>
-</div>
-  <div id="astraHome" class="screen"></div>
+  <div id="astraHome" class="screen active"></div>
   <div id="countriesScreen" class="screen"></div>
   <div id="countryDetail" class="screen"></div>
   <div id="questsScreen" class="screen"></div>
@@ -720,11 +719,11 @@ body.phoenixOnly .bottomnav{
 </div>
 
 <nav class="bottomnav">
-  <button class="navbtn active" data-nav="phoenix"><span class="ico"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M18 42c7-4 9-12 14-23 5 11 7 19 14 23M17 26c7 0 10 3 15 8 5-5 8-8 15-8M22 45l10 7 10-7" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Phoenix</button>
-  <button class="navbtn" data-nav="astra"><span class="ico"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 10l9 20-9-5-9 5 9-20ZM19 38l13-8 13 8-13 16-13-16ZM32 30v17" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Astra</button>
-  <button class="navbtn" data-nav="countries"><span class="ico"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M14 30a18 18 0 1 0 36 0 18 18 0 1 0-36 0ZM14 30h36M32 12c5 5 8 11 8 18s-3 13-8 18M32 12c-5 5-8 11-8 18s3 13 8 18" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Countries</button>
-  <button class="navbtn" data-nav="quests"><span class="ico"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 11l6 12 13 2-9 9 2 13-12-6-12 6 2-13-9-9 13-2 6-12Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Quests</button>
-  <button class="navbtn" data-nav="route"><span class="ico"><svg class="uiIcon" viewBox="0 0 64 64" aria-hidden="true"><path d="M15 15h10v10H15V15Zm24 24h10v10H39V39ZM25 20c16 0 4 24 18 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Route</button>
+  <button class="navbtn active" data-nav="astra"><span class="ico"><svg class="uiIcon" viewBox="0 0 64 64"><path d="M32 10l9 20-9-5-9 5 9-20ZM19 38l13-8 13 8-13 16-13-16ZM32 30v17" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Astra</button>
+  <button class="navbtn" data-nav="countries"><span class="ico"><svg class="uiIcon" viewBox="0 0 64 64"><path d="M14 30a18 18 0 1 0 36 0 18 18 0 1 0-36 0ZM14 30h36M32 12c5 5 8 11 8 18s-3 13-8 18M32 12c-5 5-8 11-8 18s3 13 8 18" fill="none" stroke="currentColor" stroke-width="4"/></svg></span>World</button>
+  <button class="navbtn" data-nav="route"><span class="ico"><svg class="uiIcon" viewBox="0 0 64 64"><path d="M15 15h10v10H15V15Zm24 24h10v10H39V39ZM25 20c16 0 4 24 18 24" fill="none" stroke="currentColor" stroke-width="4"/></svg></span>Journeys</button>
+  <button class="navbtn" data-nav="quests"><span class="ico"><svg class="uiIcon" viewBox="0 0 64 64"><path d="M32 11l6 12 13 2-9 9 2 13-12-6-12 6 2-13-9-9 13-2 6-12Z" fill="none" stroke="currentColor" stroke-width="4"/></svg></span>Experiences</button>
+  <button class="navbtn" data-nav="journal"><span class="ico"><svg class="uiIcon" viewBox="0 0 64 64"><path d="M16 13h24a8 8 0 0 1 8 8v30H22a6 6 0 0 1-6-6V13Zm6 0v38M28 23h13M28 31h13" fill="none" stroke="currentColor" stroke-width="4"/></svg></span>Memories</button>
 </nav>
 <div class="toast" id="toast"></div>
 <div style="display:none"><span data-fb-dot class="firebaseDot"></span><span data-fb-status>Firebase loading…</span></div>
@@ -1393,6 +1392,102 @@ function showScreen(n){
 }
 document.querySelectorAll('.navbtn').forEach(b=>b.addEventListener('click',()=>showScreen(b.dataset.nav)));
 
+
+/* ===== V33 DANIAL JOURNEY ASTRA ARCHITECTURE ===== */
+let astraJourneys=JSON.parse(localStorage.getItem('astraJourneys')||'[]');
+
+function saveAstraJourneys(){localStorage.setItem('astraJourneys',JSON.stringify(astraJourneys)); if(window.scheduleCloudPush) window.scheduleCloudPush();}
+
+function applyProjectPhase(){
+  document.body.classList.remove('phoenixOnly');
+  document.querySelectorAll('.navbtn').forEach(btn=>{btn.hidden=false;btn.style.display=''});
+}
+function projectRouteAllowed(){return true}
+function openFinalAstraReview(){}
+
+function renderAstra(){
+ const current=astraJourneys.find(j=>['Ready','On Journey','Planning'].includes(j.status));
+ document.getElementById('astraHome').innerHTML=`
+ <div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64"><path d="M32 10l9 20-9-5-9 5 9-20ZM19 38l13-8 13 8-13 16-13-16ZM32 30v17" fill="none" stroke="currentColor" stroke-width="4"/></svg></div><div><small>DANIAL JOURNEY</small><h1>ASTRA</h1><small>EXPLORATION COMPANION</small></div></div></div>
+ <div class="hero"><div class="heroContent"><div class="kicker">YOUR PERSONAL ADVENTURE ATLAS</div><div class="heroTitle">ASTRA</div><div class="heroQuote">Explore your world.</div></div></div>
+ <div class="astraPrinciple"><b>Astra moves with life.</b><br><span class="muted">Build, learn, improve and explore whenever time, money and circumstances allow.</span></div>
+ <section class="section"><div class="stats">
+  <div class="stat"><b>${visited.length}</b><div class="small muted">/195 Countries</div></div>
+  <div class="stat"><b>${continentCount()}</b><div class="small muted">/7 Continents</div></div>
+  <div class="stat"><b>${wonderCount()}</b><div class="small muted">/7 Wonders</div></div>
+  <div class="stat"><b>${questDone.length}</b><div class="small muted">/100 Experiences</div></div>
+ </div></section>
+ ${astraMapMarkup()}
+ <div class="exploreNow">
+   <div class="kicker">EXPLORE NOW</div><h3>Where could the journey go next?</h3>
+   <div class="small muted">Open possibilities without turning life into a fixed itinerary.</div>
+   <div class="options"><button class="chip" onclick="showScreen('route')">${current?'Continue '+current.name:'Create a journey'}</button><button class="chip" onclick="showScreen('countries')">Browse the world</button><button class="chip" onclick="showScreen('quests')">Pick an experience</button></div>
+ </div>
+ <section class="section"><div class="between"><h3>Featured Experiences</h3><button class="chip" onclick="showScreen('quests')">View all</button></div><div class="featured">
+  <div class="journey" style="background-image:url('https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Great_Wall_of_China%2C_Mutianyu_Section.jpg/1280px-Great_Wall_of_China%2C_Mutianyu_Section.jpg')"><span>Seven Wonders</span></div>
+  <div class="journey" style="background-image:url('https://images.unsplash.com/photo-1579033461380-adb47c3eb938?auto=format&fit=crop&w=1200&q=82')"><span>Aurora</span></div>
+  <div class="journey" style="background-image:url('https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=82')"><span>Everest Base Camp</span></div>
+ </div></section>
+ <section class="section"><div class="card"><div class="between"><h3>Recent Memories</h3><button class="chip" onclick="showScreen('journal')">Life Archive</button></div>${journal.slice(0,3).map(j=>`<div class="entry"><b>${j.country}</b><div class="small muted">${new Date(j.date).toLocaleDateString()}</div><div>${j.text}</div></div>`).join('')||'<div class="muted">No memories yet. The archive grows as you explore.</div>'}</div></section>`;
+}
+
+function addJourney(){
+ const name=prompt('Journey name'); if(!name)return;
+ const route=prompt('Places / route (optional)')||'Open route';
+ const status=prompt('Status: Idea, Planning, Ready, On Journey, Completed','Idea')||'Idea';
+ astraJourneys.unshift({id:crypto.randomUUID(),name,route,status,created:new Date().toISOString()});
+ saveAstraJourneys();renderRoute();toast('Journey added');
+}
+function cycleJourney(id){
+ const order=['Idea','Planning','Ready','On Journey','Completed'];
+ const j=astraJourneys.find(x=>x.id===id);if(!j)return;
+ j.status=order[(order.indexOf(j.status)+1)%order.length];saveAstraJourneys();renderRoute();
+}
+function deleteJourney(id){if(!confirm('Delete this journey?'))return;astraJourneys=astraJourneys.filter(x=>x.id!==id);saveAstraJourneys();renderRoute()}
+
+function renderRoute(){
+ document.getElementById('routeScreen').innerHTML=`
+ <div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64"><path d="M15 15h10v10H15V15Zm24 24h10v10H39V39ZM25 20c16 0 4 24 18 24" fill="none" stroke="currentColor" stroke-width="4"/></svg></div><div><h1>JOURNEYS</h1><small>Ideas become stories when the timing is right</small></div></div></div>
+ <div class="pillarIntro">No lifetime route. No required order. Save an idea today, plan it later, or leave tomorrow when the opportunity appears.</div>
+ <section class="section"><button class="btn btn-primary" style="width:100%" onclick="addJourney()">+ CREATE JOURNEY</button></section>
+ <section class="section"><div class="journeyGrid">${astraJourneys.map(j=>`<article class="journeyCard"><div class="journeyMeta"><div><div class="label">JOURNEY</div><h3 style="margin:4px 0">${j.name}</h3><div class="small muted">${j.route}</div></div><span class="journeyStatus">${j.status}</span></div><div style="display:flex;gap:8px;margin-top:14px"><button class="chip" onclick="cycleJourney('${j.id}')">Next status</button><button class="chip" onclick="deleteJourney('${j.id}')">Delete</button></div></article>`).join('')||`<div class="card"><b>Your journey board is open.</b><div class="small muted" style="margin-top:6px">Create anything from a spontaneous weekend escape to EBC, Antarctica or a cross-continent rail journey.</div></div>`}</div></section>`;
+ showOnly('routeScreen')
+}
+
+function renderJournal(){
+ document.getElementById('journalScreen').innerHTML=`
+ <div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64"><path d="M16 13h24a8 8 0 0 1 8 8v30H22a6 6 0 0 1-6-6V13Zm6 0v38M28 23h13M28 31h13" fill="none" stroke="currentColor" stroke-width="4"/></svg></div><div><h1>MEMORIES</h1><small>Your exploration life archive</small></div></div></div>
+ <div class="pillarIntro">Countries are places. Memories are what remain: stories, people, photos and moments gathered along the way.</div>
+ <section class="section"><div class="card"><h3>Life Archive</h3>${journal.map(j=>`<div class="entry"><b>${j.country}</b><div class="small muted">${new Date(j.date).toLocaleString()}</div><div>${j.text}</div></div>`).join('')||'<div class="muted">Your story starts with the journeys you have already lived.</div>'}</div></section>`;
+ showOnly('journalScreen')
+}
+
+const _renderQuestsV32=renderQuests;
+renderQuests=function(mode='first'){
+ _renderQuestsV32(mode);
+ const screen=document.getElementById('questsScreen');
+ screen.innerHTML=screen.innerHTML.replace(/QUESTS/g,'EXPERIENCES').replace(/First 100 quest/g,'First 100 experience').replace(/Quest cluster:/g,'Experience cluster:');
+ const top=screen.querySelector('.topbar small'); if(top) top.textContent='Experiences worth pursuing · never prerequisites for living';
+}
+
+const _renderCountriesV32=renderCountries;
+renderCountries=function(filter=''){
+ _renderCountriesV32(filter);
+ const screen=document.getElementById('countriesScreen');
+ const h=screen.querySelector('h1');if(h)h.textContent='WORLD';
+ const sm=screen.querySelector('.topbar small');if(sm)sm.textContent='195 countries · one growing atlas';
+ screen.innerHTML=screen.innerHTML.replace(/Not Visited/g,'Unexplored').replace(/Planned/g,'Want to Go');
+}
+
+function showScreen(n){
+ document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.nav===n));
+ if(n==='astra'){renderAstra();showOnly('astraHome');setTimeout(renderInteractiveMap,0);return}
+ if(n==='countries'){renderCountries();showOnly('countriesScreen');return}
+ if(n==='quests'){renderQuests('first');return}
+ if(n==='route'){renderRoute();return}
+ if(n==='journal'){renderJournal();return}
+}
+
 /* IndexedDB Photo Vault */
 let db;
 const req=indexedDB.open('AstraMedia',1);
@@ -1448,10 +1543,10 @@ function deletePhoto(id){if(!db)return;const tx=db.transaction('photos','readwri
 
 /* Export backup */
 function exportData(){
- const blob=new Blob([JSON.stringify({phoenix:P,journal,countryNotes,visited,planned,questDone,wonderDone},null,2)],{type:'application/json'});
+ const blob=new Blob([JSON.stringify({phoenix:P,journal,countryNotes,visited,planned,questDone,wonderDone,astraJourneys},null,2)],{type:'application/json'});
  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='astra-backup.json';a.click()
 }
-window.addEventListener('load',()=>{renderPhoenix();applyProjectPhase()});
+window.addEventListener('load',()=>{renderAstra();showOnly('astraHome');setTimeout(renderInteractiveMap,0)});
 if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}
 </script>
 
@@ -1506,14 +1601,15 @@ function snapshot(){
     visited:JSON.parse(localStorage.getItem("visitedCountries")||"[]"),
     planned:JSON.parse(localStorage.getItem("plannedCountries")||"[]"),
     questDone:JSON.parse(localStorage.getItem("questDone")||"[]"),
-    wonderDone:JSON.parse(localStorage.getItem("wonderDone")||"[]")
+    wonderDone:JSON.parse(localStorage.getItem("wonderDone")||"[]"),
+    astraJourneys:JSON.parse(localStorage.getItem("astraJourneys")||"[]")
   };
 }
 function restore(data){
   if(!data)return;
   restoring=true;
   const map=[
-    ["phoenix",data.phoenix],["astraJournal",data.journal],["countryNotes",data.countryNotes],
+    ["phoenix",data.phoenix],["astraJournal",data.journal],["astraJourneys",data.astraJourneys||[]],["countryNotes",data.countryNotes],
     ["visitedCountries",data.visited],["plannedCountries",data.planned],
     ["questDone",data.questDone],["wonderDone",data.wonderDone]
   ];
@@ -1574,7 +1670,7 @@ async function boot(){
       }catch(err){
         console.error(err);
         authMessage("Email or password is incorrect.",true);
-        btn.disabled=false;btn.textContent="ENTER PHOENIX";
+        btn.disabled=false;btn.textContent="ENTER ASTRA";
       }
     });
 
@@ -1582,21 +1678,18 @@ async function boot(){
       FB.user=user||null;
       if(!user){
         showGate(true);syncStatus("Signed out","");
-        const btn=el("authSubmit");if(btn){btn.disabled=false;btn.textContent="ENTER PHOENIX"}
+        const btn=el("authSubmit");if(btn){btn.disabled=false;btn.textContent="ENTER ASTRA"}
         return;
       }
       showGate(false);
-      // Render local Phoenix immediately. Cloud sync must never block the UI.
+      // Render Astra immediately. Cloud sync must never block the UI.
       try{
-        applyProjectPhase();
-        if(!P.launched){
-          renderPhoenix();
-          showOnly("phoenixScreen");
-          document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.nav==="phoenix"));
-        }
-      }catch(uiErr){ console.error("Local Phoenix render failed:",uiErr); }
+        applyProjectPhase(); renderAstra(); showOnly("astraHome");
+        document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.nav==="astra"));
+        setTimeout(renderInteractiveMap,0);
+      }catch(uiErr){ console.error("Local Astra render failed:",uiErr); }
 
-      syncStatus(navigator.onLine?"Phoenix ready · syncing":"Offline · Phoenix local","syncing");
+      syncStatus(navigator.onLine?"Astra ready · syncing":"Offline · Astra local","syncing");
       try{
         const cloud=await pullCloud();
         if(cloud){
@@ -1607,26 +1700,19 @@ async function boot(){
           }
         }
         sessionStorage.removeItem("astraCloudBoot");
-        // Apply the hard project phase after cloud state has been restored.
         applyProjectPhase();
-        if(P.launched){
-          renderAstra();
-          showOnly("astraHome");
-          document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.nav==="astra"));
-        }
+        renderAstra(); showOnly("astraHome");
+        document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.nav==="astra"));
+        setTimeout(renderInteractiveMap,0);
         syncStatus("Synced","synced");
-        if(FINAL_ASTRA_REVIEW && !P.launched) openFinalAstraReview();
       }catch(err){
         console.error("Firestore restore:",err);
         syncStatus(navigator.onLine?"Local mode · cloud retry":"Offline · local","offline");
         try{
-          applyProjectPhase();
-          if(!P.launched){
-            renderPhoenix();
-            showOnly("phoenixScreen");
-            document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.nav==="phoenix"));
-          }
-        }catch(uiErr){ console.error("Phoenix fallback:",uiErr); }
+          applyProjectPhase(); renderAstra(); showOnly("astraHome");
+          document.querySelectorAll(".navbtn").forEach(b=>b.classList.toggle("active",b.dataset.nav==="astra"));
+          setTimeout(renderInteractiveMap,0);
+        }catch(uiErr){ console.error("Astra fallback:",uiErr); }
       }
     });
 
