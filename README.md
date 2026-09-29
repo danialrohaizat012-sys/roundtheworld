@@ -1,9 +1,15 @@
-# Astra · Danial Journey V45
+# Astra · Danial Journey V46 SHARE
 
-Country Selector consistency update:
-- Country dropdown now uses the exact same `countries` dataset as Astra World/Map.
-- No separate country list is maintained.
-- Search, multi-select and country chips all resolve against the World dataset.
-- Selector displays the number of available countries for easy verification.
-- This prevents spelling/name drift between Journey, Adventure and World statistics.
-- V44 runtime fixes are preserved.
+New: Astra Share Studio (V1)
+- Completed Journey now has Share Journey.
+- Generates a vertical 1080×1920 Story card for Instagram Story, TikTok, and WhatsApp Status.
+- Journey Recap uses actual completed Journey data.
+- World Progress uses actual Astra state: visited countries, derived continents, completed journeys and completed Adventures.
+- User can choose a real photo from the local Astra Memory / Country Photo Vault for that Journey's countries.
+- Selected photo is rendered as the card background.
+- Save Image exports PNG.
+- Share uses the device Web Share sheet when file sharing is supported, with save fallback.
+- No invented distance, altitude or other untracked stats are shown.
+- Photos remain local-first and are not uploaded to Firebase Storage by this feature.
+
+Important: because Memory photos live in IndexedDB, they must exist on the current device/browser to be selectable.
