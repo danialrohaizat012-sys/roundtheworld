@@ -1462,19 +1462,27 @@ function originalAdventureId(i){return 'orig-'+i}
 function customAdventureId(id){return 'custom-'+id}
 
 
+function v44Escape(v=''){return String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 /* ===== V43 STRUCTURED INPUT SYSTEM ===== */
 const V43_JOURNEY_TYPES=['Flight','Train','Road Trip','Motorcycle','Sailing','Trekking','Mixed','Other'];
 const V43_JOURNEY_STATUSES=['Idea','Planning','Ready','On Journey','Completed'];
 function v43CountryNames(){
- const pools=[];
- try{if(Array.isArray(COUNTRIES))pools.push(...COUNTRIES.map(x=>typeof x==='string'?x:(x.name||x.country)))}catch(e){}
- try{if(Array.isArray(countries))pools.push(...countries.map(x=>typeof x==='string'?x:(x.name||x.country)))}catch(e){}
- return [...new Set(pools.filter(Boolean).map(x=>canonicalCountry(x)||x))].sort((a,b)=>a.localeCompare(b))
+ // Single source of truth: exactly the same country dataset used by Astra World/Map.
+ try{
+   if(Array.isArray(countries)){
+     return [...new Set(countries.map(x=>{
+       if(typeof x==='string')return x;
+       if(Array.isArray(x))return x[0];
+       return x?.name||x?.country||'';
+     }).filter(Boolean).map(x=>canonicalCountry(x)||x))].sort((a,b)=>a.localeCompare(b))
+   }
+ }catch(e){}
+ return []
 }
 function v43CountryPicker(id,selected=[]){
  const safe=[...new Set((selected||[]).filter(Boolean))];
  return `<div class="v43-countrybox" id="${id}" data-values='${JSON.stringify(safe).replace(/'/g,"&#39;")}'>
-   <input placeholder="Search country…" oninput="v43FilterCountries('${id}',this.value)">
+   <div class="between"><input placeholder="Search country…" oninput="v43FilterCountries('${id}',this.value)"><small class="muted">${v43CountryNames().length} countries</small></div>
    <div class="v43-chips">${safe.map(c=>`<span class="v43-chip">${c} <b onclick="v43RemoveCountry('${id}','${c.replace(/'/g,"\\'")}')">×</b></span>`).join('')}</div>
    <div class="v43-options"></div></div>`
 }
@@ -1505,7 +1513,7 @@ function editAdventure(ref){
  const sc=document.getElementById('questsScreen');
  sc.innerHTML=`<div class="topbar"><button class="backBtn" onclick="showAdventureDetail('${ref}')">‹</button><div><h1>EDIT ADVENTURE</h1><small>Structured details</small></div></div>
  <section class="section">
-  <div class="v43-field"><div class="v43-label">Adventure name</div><input id="v43AdvTitle" class="v43-input" value="${escapeHtml(a.title||'')}"></div>
+  <div class="v43-field"><div class="v43-label">Adventure name</div><input id="v43AdvTitle" class="v43-input" value="${v44Escape(a.title||'')}"></div>
   <div class="v43-field"><div class="v43-label">Country / Countries</div>${v43CountryPicker('v43AdvCountries',a.countries||[])}</div>
   <div class="v43-field"><div class="v43-label">Category</div><select id="v43AdvCategory" class="v43-select">${['Mountain & Trekking','Ocean','Adrenaline','Warrior','Wildlife','Nature','Journey','Wonders & Culture','Human & Culture','Personal, Spiritual & Business','Adventure'].map(x=>`<option ${x===(a.category||'')?'selected':''}>${x}</option>`).join('')}</select></div>
   <button class="primaryBtn" onclick="saveAdventureEdit('${ref}')">Save Changes</button>
@@ -1535,6 +1543,12 @@ function getAdventureBase(ref){
 }
 function getAdventure(ref){return applyAdventureOverride(getAdventureBase(ref))}
 
+function allAdventures(){
+ const deleted=new Set(deletedAdventureRefs());
+ const legacy=first100.map((q,i)=>getAdventure(originalAdventureId(i))).filter(a=>a&&!deleted.has(a.ref));
+ const custom=customActivities.map(a=>getAdventure(customAdventureId(a.id))).filter(a=>a&&!deleted.has(a.ref));
+ return [...legacy,...custom]
+}
 function adventureHistory(a){
  if(a.originalIndex!=null)return questDone.includes(a.originalIndex)?[{date:null,countries:a.countries||[]}]:[];
  return a.completions||[]
@@ -1691,7 +1705,7 @@ function editJourneyStructured(id){
  showOnly('routeScreen');const sc=document.getElementById('routeScreen');
  sc.innerHTML=`<div class="topbar"><button class="backBtn" onclick="renderJourneyDetail('${id}')">‹</button><div><h1>EDIT JOURNEY</h1><small>Structured trip details</small></div></div>
  <section class="section">
-  <div class="v43-field"><div class="v43-label">Journey name</div><input id="v43JName" class="v43-input" value="${escapeHtml(j.name||j.title||'')}"></div>
+  <div class="v43-field"><div class="v43-label">Journey name</div><input id="v43JName" class="v43-input" value="${v44Escape(j.name||j.title||'')}"></div>
   <div class="v43-field"><div class="v43-label">Countries</div>${v43CountryPicker('v43JCountries',j.countries||[])}</div>
   <div class="v43-field"><div class="v43-label">Start date</div><input id="v43JStart" type="date" class="v43-input" value="${j.startDate||''}" onchange="v43JourneyDuration()"></div>
   <div class="v43-field"><div class="v43-label">End date</div><input id="v43JEnd" type="date" class="v43-input" value="${j.endDate||''}" onchange="v43JourneyDuration()"><div id="v43JDuration" class="muted"></div></div>
@@ -1961,6 +1975,14 @@ function openBackupCenter(){
  }
 })();
 </script>
+<script>
+/* V44 explicit runtime exports for dynamically-rendered inline controls */
+[
+ 'editAdventure','saveAdventureEdit','deleteAdventure','restoreDeletedAdventures',
+ 'v43FilterCountries','v43AddCountry','v43RemoveCountry','v43RenderPicker',
+ 'editJourneyStructured','saveJourneyStructured','v43JourneyDuration'
+].forEach(function(k){try{if(typeof window[k]==='function')return; if(typeof eval(k)==='function')window[k]=eval(k)}catch(e){}});
+</script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
 import {
@@ -1988,7 +2010,7 @@ function authMessage(text,error=false){
 function showGate(show){el("authGate")?.classList.toggle("show",show)}
 function snapshot(){
   return {
-    schemaVersion:14,
+    schemaVersion:16,
     clientUpdatedAt:new Date().toISOString(),
     phoenix:JSON.parse(localStorage.getItem("phoenix")||"{}"),
     journal:JSON.parse(localStorage.getItem("astraJournal")||"[]"),
@@ -2034,7 +2056,7 @@ async function pushCloud(){
   syncStatus("Saving…","syncing");
   const payload=snapshot();
   await setDoc(doc(FB.db,"users",FB.user.uid,"astra","state"),{
-    ...payload,ownerUid:FB.user.uid,schemaVersion:14,serverUpdatedAt:serverTimestamp()
+    ...payload,ownerUid:FB.user.uid,schemaVersion:16,serverUpdatedAt:serverTimestamp()
   },{merge:true});
   lastCloudWrite=Date.now();
   syncStatus("Synced","synced");

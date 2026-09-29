@@ -1,9 +1,9 @@
-# Astra · Danial Journey V43.1 FIXED
+# Astra · Danial Journey V45
 
-Audit fix for V43 edit functions:
-- Journey Edit now renders on the real `routeScreen` used by Journey Detail.
-- Edit Journey button now injects into the real Journey Detail screen.
-- Journey status values preserve Astra's existing title-case contract: Idea, Planning, Ready, On Journey, Completed.
-- Prevents a completed Journey from becoming logically incomplete because of lowercase status values.
-- Adventure Edit structured form remains intact.
-- Country multi-select and date validation remain intact.
+Country Selector consistency update:
+- Country dropdown now uses the exact same `countries` dataset as Astra World/Map.
+- No separate country list is maintained.
+- Search, multi-select and country chips all resolve against the World dataset.
+- Selector displays the number of available countries for easy verification.
+- This prevents spelling/name drift between Journey, Adventure and World statistics.
+- V44 runtime fixes are preserved.
