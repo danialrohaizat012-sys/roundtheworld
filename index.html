@@ -671,6 +671,576 @@ body.phoenixOnly .bottomnav{
 .v43-countrybox input{width:100%;box-sizing:border-box;background:transparent;color:#fff;border:0;outline:0;padding:7px}
 .v43-options{max-height:180px;overflow:auto}.v43-option{padding:9px;border-radius:10px;cursor:pointer}.v43-option:hover{background:rgba(255,255,255,.07)}
 .v43-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}.v43-chip{border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:7px 10px;background:rgba(255,255,255,.05)}
+
+/* V46 · Astra Home cinematic polish */
+#astraHome .topbar{padding:16px 18px 10px;background:linear-gradient(180deg,rgba(2,7,11,.96),rgba(2,7,11,.52),transparent);backdrop-filter:blur(12px)}
+#astraHome .brandmark{width:44px;height:44px;border:1px solid rgba(216,181,99,.34);background:radial-gradient(circle at 35% 28%,rgba(43,105,151,.24),rgba(7,17,27,.88) 58%);box-shadow:0 10px 28px rgba(0,0,0,.28)}
+#astraHome .brandmark .uiIcon{color:#d8b563}
+#astraHome .topbar h1{letter-spacing:.18em;font-size:22px}
+#astraHome .hero{position:relative;min-height:430px;margin:4px 12px 0;border-radius:30px;overflow:hidden;border:1px solid rgba(255,255,255,.08);box-shadow:0 28px 65px rgba(0,0,0,.38);display:flex;align-items:flex-end;background-position:center;background-size:cover}
+#astraHome .hero:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,7,11,.03),rgba(2,7,11,.12) 34%,rgba(2,7,11,.78) 74%,#02070b 108%),linear-gradient(90deg,rgba(2,7,11,.46),transparent 58%)}
+#astraHome .heroContent{position:relative;z-index:1;padding:30px 24px 28px}
+#astraHome .heroTitle{font-size:clamp(58px,17vw,92px);line-height:.88;letter-spacing:.03em;font-weight:800;text-shadow:0 12px 35px rgba(0,0,0,.4)}
+#astraHome .heroQuote{margin-top:13px;font-size:17px;letter-spacing:.12em;text-transform:uppercase}
+#astraHome .kicker{color:#d8b563;letter-spacing:.16em;font-size:10px}
+#astraHome .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:-24px;position:relative;z-index:3}
+#astraHome .stat{min-width:0;padding:16px 8px;border:1px solid rgba(255,255,255,.08);border-radius:18px;background:linear-gradient(180deg,rgba(12,26,39,.96),rgba(5,14,23,.96));box-shadow:0 12px 30px rgba(0,0,0,.24)}
+#astraHome .stat b{font-size:23px;color:#f1d48c}
+#astraHome .exploreNow{margin:16px 12px;padding:22px;border:1px solid rgba(216,181,99,.16);border-radius:24px;background:linear-gradient(135deg,rgba(16,34,50,.9),rgba(5,14,23,.95));box-shadow:0 18px 44px rgba(0,0,0,.24)}
+#astraHome .exploreNow h3{font-size:24px;line-height:1.12;margin:7px 0 8px}
+#astraHome .exploreNow .options{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}
+#astraHome .exploreNow .options .chip{min-height:44px;border-radius:14px}
+#astraHome .exploreNow .options .chip:first-child{grid-column:1/-1;background:linear-gradient(135deg,#d2aa55,#f0d58d);color:#08111a;border-color:transparent;font-weight:800}
+#astraHome .section>.card{border-radius:24px;background:linear-gradient(180deg,rgba(10,24,36,.88),rgba(4,13,21,.92));border-color:rgba(255,255,255,.07)}
+#astraHome .autoRule{border-radius:16px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.055)}
+#astraHome .autoRule b{color:#e9cf8e}
+@media(max-width:430px){#astraHome .hero{min-height:400px;margin-left:10px;margin-right:10px;border-radius:26px}#astraHome .stats{grid-template-columns:repeat(2,1fr);margin-top:-18px}}
+
+
+/* V46.1 · Astra Flutter-style UI foundation
+   Material-inspired mobile ergonomics with Astra's own navy/gold identity. */
+:root{
+ --astra-surface:#07121d;--astra-surface-2:#0b1a28;--astra-surface-3:#102334;
+ --astra-outline:rgba(255,255,255,.085);--astra-gold:#e2bd68;--astra-on-gold:#10151b;
+ --astra-radius-sm:12px;--astra-radius-md:18px;--astra-radius-lg:26px;
+ --astra-elev-1:0 3px 10px rgba(0,0,0,.18);--astra-elev-2:0 12px 30px rgba(0,0,0,.25)
+}
+body{letter-spacing:.005em}
+.card,.journeyCard,.exploreNow,.pillarIntro{border-radius:var(--astra-radius-lg)}
+.card,.journeyCard{box-shadow:var(--astra-elev-1)}
+.chip,.btn,.primaryBtn,.backBtn{min-height:42px;border-radius:14px;transition:transform .16s ease,background .16s ease,border-color .16s ease}
+.chip:active,.btn:active,.primaryBtn:active,.backBtn:active{transform:scale(.975)}
+.primaryBtn,.btn-primary{background:linear-gradient(135deg,#d8af58,#f0d58e)!important;color:var(--astra-on-gold)!important;border-color:transparent!important;font-weight:800;box-shadow:0 7px 18px rgba(218,177,88,.16)}
+.v43-field{margin-bottom:16px}
+.v43-label{font-size:12px;letter-spacing:.04em;margin:0 0 7px 4px;color:rgba(255,255,255,.68)}
+.v43-input,.v43-select,.v43-countrybox input{
+ min-height:54px!important;border-radius:16px!important;background:rgba(13,29,43,.88)!important;
+ border:1px solid var(--astra-outline)!important;padding:0 16px!important;font-size:15px!important;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.025);outline:none
+}
+.v43-input:focus,.v43-select:focus,.v43-countrybox input:focus{border-color:rgba(226,189,104,.65)!important;box-shadow:0 0 0 3px rgba(226,189,104,.09)}
+.v43-countrybox{padding:10px;border-radius:18px;background:rgba(7,18,29,.62);border:1px solid var(--astra-outline)}
+.v43-chip,.statePill,.status,.badge{border-radius:999px}
+.topbar{min-height:64px;align-items:center}
+.backBtn{width:44px;height:44px;padding:0;font-size:28px;background:rgba(255,255,255,.055);border:1px solid var(--astra-outline)}
+.adventureItem{min-height:74px;padding:14px 10px;border-radius:16px;transition:background .15s ease}
+.adventureItem:active{background:rgba(255,255,255,.045)}
+.adventureItem .chip{min-width:58px;min-height:38px}
+.journeyCard{padding:18px!important;background:linear-gradient(180deg,rgba(13,29,43,.95),rgba(7,18,29,.96))!important;border:1px solid var(--astra-outline)!important}
+.bottomnav{
+ left:10px!important;right:10px!important;bottom:max(10px,env(safe-area-inset-bottom))!important;width:auto!important;
+ padding:7px 6px!important;border-radius:24px!important;background:rgba(7,18,29,.93)!important;
+ border:1px solid rgba(255,255,255,.09)!important;box-shadow:0 18px 46px rgba(0,0,0,.44)!important;
+ backdrop-filter:blur(22px)!important;-webkit-backdrop-filter:blur(22px)!important
+}
+.bottomnav .navbtn{
+ position:relative;min-height:54px!important;border-radius:18px!important;padding:7px 4px!important;
+ transition:background .18s ease,transform .16s ease,color .18s ease
+}
+.bottomnav .navbtn:active{transform:scale(.96)}
+.bottomnav .navbtn.active{background:rgba(226,189,104,.13)!important;color:#f0d58e!important}
+.bottomnav .navbtn.active:before{content:"";position:absolute;top:4px;left:32%;right:32%;height:3px;border-radius:99px;background:#e2bd68}
+.bottomnav .navbtn svg,.bottomnav .navbtn .uiIcon{width:22px!important;height:22px!important}
+#astraHome{padding-bottom:118px}
+#astraHome .hero{border-radius:32px}
+#astraHome .stat{border-radius:20px}
+#astraHome .exploreNow{border-radius:28px}
+#astraHome .exploreNow .options .chip{min-height:50px;border-radius:16px}
+#astraHome .section>.card{border-radius:28px}
+@media(max-width:430px){
+ body{padding-bottom:108px!important}
+ .section{padding-left:12px!important;padding-right:12px!important}
+ .bottomnav{left:8px!important;right:8px!important}
+}
+
+
+/* V46.2 · Flutter-style polish + stable docked navigation */
+
+/* Keep the proven fixed bottom navigation geometry. */
+.bottomnav{
+ position:fixed!important;left:0!important;right:0!important;bottom:0!important;width:100%!important;
+ margin:0!important;padding:7px 6px calc(7px + env(safe-area-inset-bottom))!important;
+ border-radius:0!important;border-left:0!important;border-right:0!important;border-bottom:0!important;
+ background:rgba(5,15,24,.97)!important;border-top:1px solid rgba(255,255,255,.085)!important;
+ box-shadow:0 -12px 32px rgba(0,0,0,.28)!important;backdrop-filter:blur(22px)!important;
+ -webkit-backdrop-filter:blur(22px)!important;z-index:9999!important
+}
+.bottomnav .navbtn{min-height:56px!important;border-radius:16px!important}
+.bottomnav .navbtn.active{background:rgba(226,189,104,.11)!important}
+.bottomnav .navbtn.active:before{top:3px;left:34%;right:34%}
+body{padding-bottom:calc(82px + env(safe-area-inset-bottom))!important}
+
+/* App-bar language */
+.topbar{padding:14px 16px!important;gap:12px}
+.topbar h1{font-size:21px;line-height:1.05;margin:0}
+.topbar small{opacity:.7}
+.brandmark{flex:0 0 auto}
+
+/* Material-like surfaces */
+.section{padding-left:14px;padding-right:14px}
+.card{padding:18px}
+.between{gap:12px}
+.badge,.status,.statePill{padding:6px 10px;font-size:10px;letter-spacing:.035em}
+.chip{padding:9px 13px}
+.tabs{gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:3px}
+.tabs::-webkit-scrollbar{display:none}
+
+/* Journey cards: clearer information hierarchy */
+.journeyGrid{gap:12px}
+.journeyCard{position:relative;overflow:hidden}
+.journeyCard:after{content:"›";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:28px;color:rgba(255,255,255,.22)}
+.journeyCard .journeyMeta{padding-right:24px}
+.journeyCard h3{font-size:18px}
+
+/* Adventure ListTile refinement */
+.adventureItem{
+ display:grid!important;grid-template-columns:28px minmax(0,1fr) 42px!important;align-items:center!important;
+ gap:10px!important;margin:4px 0!important;padding:13px 8px!important;border-bottom:1px solid rgba(255,255,255,.055)!important
+}
+.adventureItem:last-child{border-bottom:0!important}
+.adventureItem>span:first-child{width:28px;height:28px;display:grid;place-items:center;border-radius:50%;background:rgba(255,255,255,.045)}
+.adventureItem b{font-size:14px;line-height:1.25}
+.adventureItem .chip{min-width:38px!important;width:38px!important;height:38px!important;padding:0!important;font-size:24px!important;background:transparent!important;border-color:transparent!important}
+
+/* Structured forms */
+.v43-field{margin-bottom:18px}
+.v43-label{font-weight:650}
+.v43-input,.v43-select{width:100%;box-sizing:border-box}
+.v43-options{max-height:250px;overflow:auto;border-radius:14px}
+.v43-options>div{min-height:44px;display:flex;align-items:center;padding:0 10px;border-radius:10px}
+.v43-options>div:active{background:rgba(226,189,104,.08)}
+.v43-chips{display:flex;gap:7px;flex-wrap:wrap;padding-top:8px}
+.v43-chip{padding:7px 10px;background:rgba(226,189,104,.1);border:1px solid rgba(226,189,104,.17)}
+
+/* World / content cards get the same radius rhythm */
+.countryCard,.country,.worldCard,.photo,.autoRule{border-radius:18px!important}
+img{image-rendering:auto}
+
+/* Home remains cinematic but now follows the component system */
+#astraHome .hero{margin-left:14px;margin-right:14px}
+#astraHome .exploreNow{margin-left:14px;margin-right:14px}
+#astraHome .stats{gap:10px}
+#astraHome .stat{box-shadow:var(--astra-elev-1)}
+#astraHome .autoGrid{gap:10px}
+
+/* Small-screen ergonomics */
+@media(max-width:430px){
+ .section{padding-left:12px!important;padding-right:12px!important}
+ .topbar{padding-left:14px!important;padding-right:14px!important}
+ #astraHome .hero,#astraHome .exploreNow{margin-left:10px;margin-right:10px}
+ .bottomnav{padding-left:3px!important;padding-right:3px!important}
+ .bottomnav .navbtn{font-size:9px!important}
+}
+
+
+/* V46.3 · bottom navigation geometry hard-fix
+   Legacy nav used left:50% + translateX(-50%). V46.2 changed left but the
+   transform survived, shifting half the bar off-screen. Reset it explicitly. */
+.bottomnav{
+ left:0!important;
+ right:0!important;
+ bottom:0!important;
+ width:100%!important;
+ max-width:none!important;
+ min-width:0!important;
+ transform:none!important;
+ translate:none!important;
+ margin:0!important;
+ box-sizing:border-box!important;
+}
+
+
+/* V46.4 · compact native bottom navigation */
+.bottomnav{
+ padding:3px 4px calc(3px + env(safe-area-inset-bottom))!important;
+ min-height:58px!important;
+}
+.bottomnav .navbtn{
+ min-height:50px!important;
+ height:50px!important;
+ padding:5px 3px!important;
+ border-radius:12px!important;
+ font-size:9px!important;
+ gap:2px!important;
+}
+.bottomnav .navbtn svg,.bottomnav .navbtn .uiIcon{
+ width:18px!important;
+ height:18px!important;
+}
+.bottomnav .navbtn.active{
+ background:rgba(226,189,104,.075)!important;
+}
+.bottomnav .navbtn.active:before{
+ top:1px!important;
+ left:40%!important;
+ right:40%!important;
+ height:2px!important;
+}
+body{
+ padding-bottom:calc(62px + env(safe-area-inset-bottom))!important;
+}
+#astraHome{padding-bottom:calc(68px + env(safe-area-inset-bottom))!important}
+@media(min-width:700px){
+ .bottomnav{padding-left:max(18px,4vw)!important;padding-right:max(18px,4vw)!important}
+ .bottomnav .navbtn{max-width:170px;margin:0 auto}
+}
+
+
+/* V47 · WORLD UI REDESIGN */
+#countriesScreen{padding-bottom:76px}
+#countriesScreen .topbar{position:sticky;top:0;z-index:30;background:rgba(4,13,21,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+#countriesScreen .countryJourneyBanner{
+ margin:2px 12px 14px!important;min-height:220px!important;border-radius:30px!important;
+ border:1px solid rgba(255,255,255,.075)!important;box-shadow:0 20px 48px rgba(0,0,0,.28)
+}
+#countriesScreen .countryJourneyBanner:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(82,169,213,.15),transparent 34%);pointer-events:none}
+#countriesScreen .countryJourneyBanner .bannerText{z-index:2;bottom:20px!important;left:20px;right:20px}
+#countriesScreen .countryJourneyBanner h2{font-size:28px!important;line-height:1}
+#countriesScreen .section:has(.worldSearchShell){padding-top:0}
+.worldSearchShell{
+ display:flex;align-items:center;gap:10px;min-height:54px;padding:0 15px;border-radius:18px;
+ background:#0c1d2a;border:1px solid rgba(255,255,255,.075);box-shadow:0 5px 16px rgba(0,0,0,.12)
+}
+.worldSearchShell svg{width:19px;height:19px;flex:0 0 auto;color:#8fa8b7}
+.worldSearchShell .search{border:0!important;background:transparent!important;padding:0!important;border-radius:0!important;min-height:52px;font-size:15px}
+.worldSearchShell .search:focus{box-shadow:none!important}
+.worldFilterRow{display:flex;gap:8px;overflow-x:auto;padding:0 14px 13px;scrollbar-width:none}
+.worldFilterRow::-webkit-scrollbar{display:none}
+.worldFilterRow .chip{min-height:38px;padding:7px 14px;background:#0c1d2a;border:1px solid rgba(255,255,255,.065)}
+.worldFilterRow .chip.active{background:rgba(226,189,104,.14);color:#f0d58e;border-color:rgba(226,189,104,.24)}
+#countriesScreen .countryGrid{gap:9px}
+#countriesScreen .countryCard{min-height:100px!important;border-radius:20px!important;background:#0a1a26!important;box-shadow:none!important}
+#countriesScreen .countryCard .cardBackdrop{opacity:.52!important}
+#countriesScreen .countryCard .cardShade{background:linear-gradient(90deg,rgba(5,15,22,.97) 0%,rgba(5,15,22,.88) 55%,rgba(5,15,22,.48) 100%)!important}
+#countriesScreen .countryCardInner{min-height:100px!important;padding:12px 13px!important;grid-template-columns:48px minmax(0,1fr) auto!important;gap:11px!important}
+#countriesScreen .countryFlagWrap{width:44px!important;height:44px!important;border-radius:14px!important;background:rgba(255,255,255,.055)}
+#countriesScreen .countryFlagWrap .flag{font-size:27px!important}
+#countriesScreen .countryTitle{font-size:16px!important;line-height:1.15}
+#countriesScreen .countrySubtitle{font-size:11px!important;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:230px}
+#countriesScreen .countryMeta{margin-top:6px!important}
+#countriesScreen .miniTag{font-size:9px!important;padding:3px 6px!important}
+#countriesScreen .status{font-size:9px!important;padding:5px 7px!important}
+.worldSectionLabel{display:flex;align-items:end;justify-content:space-between;padding:2px 15px 9px}
+.worldSectionLabel h3{margin:0;font-size:17px}.worldSectionLabel span{font-size:11px;color:#8198a7}
+
+/* Country detail gets the same native visual language */
+#countryDetail .topbar{position:sticky;top:0;z-index:31;background:rgba(4,13,21,.93);backdrop-filter:blur(18px)}
+#countryDetail .back{width:42px;height:42px;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:#0d202d;color:#fff;font-size:20px}
+#countryDetail .detailHero{height:280px!important;margin:4px 12px 14px!important;border-radius:30px!important;border:1px solid rgba(255,255,255,.07);box-shadow:0 22px 50px rgba(0,0,0,.3)!important}
+#countryDetail .detailHero:after{background:linear-gradient(180deg,rgba(0,0,0,.02),rgba(2,8,13,.82))!important}
+#countryDetail .detailHero .dtext{left:20px!important;bottom:20px!important}
+#countryDetail .detailHero .heroQuote{font-size:20px;max-width:310px;line-height:1.2}
+#countryDetail>.tabs{position:sticky;top:70px;z-index:29;padding:8px 12px 10px;background:rgba(4,13,21,.93);backdrop-filter:blur(18px)}
+#countryDetail>.tabs .chip{min-height:40px;padding:8px 14px}
+#countryDetail>.tabs .chip.active{background:rgba(226,189,104,.14);color:#f0d58e;border:1px solid rgba(226,189,104,.2)}
+@media(max-width:430px){
+ #countriesScreen .countryJourneyBanner{min-height:195px!important}
+ #countriesScreen .countrySubtitle{max-width:155px}
+ #countriesScreen .countryMeta .miniTag:nth-child(n+3){display:none}
+ #countryDetail .detailHero{height:245px!important}
+}
+
+
+/* V48 · JOURNEYS UI REDESIGN */
+#routeScreen{padding-bottom:78px}
+#routeScreen .topbar{position:sticky;top:0;z-index:32;background:rgba(4,13,21,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+#routeScreen .pillarIntro{
+ margin:3px 12px 12px;padding:19px 20px;border-radius:25px;
+ background:linear-gradient(135deg,rgba(18,43,58,.96),rgba(7,20,30,.96));
+ border:1px solid rgba(255,255,255,.07);color:#afc1cc;font-size:13px;line-height:1.55
+}
+.journeyOverview{
+ margin:0 12px 14px;padding:20px;border-radius:28px;overflow:hidden;position:relative;
+ background:radial-gradient(circle at 85% 10%,rgba(80,159,201,.16),transparent 34%),linear-gradient(145deg,#0e2535,#07151f);
+ border:1px solid rgba(255,255,255,.075)
+}
+.journeyOverview .kicker{margin-bottom:6px}.journeyOverview h2{font-size:26px;margin:0 0 6px}
+.journeyOverviewStats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
+.journeyOverviewStat{padding:11px 8px;border-radius:16px;background:rgba(255,255,255,.045);text-align:center}
+.journeyOverviewStat b{display:block;font-size:18px;color:#f0d58e}.journeyOverviewStat span{font-size:9px;color:#8fa6b4}
+.journeyCreateWrap{padding-top:0!important}
+.journeyCreateBtn{min-height:52px!important;border-radius:17px!important;text-transform:none!important;font-size:15px!important;letter-spacing:0!important}
+#routeScreen .journeyGrid{display:grid;gap:10px}
+#routeScreen .journeyCard{
+ padding:0!important;min-height:142px;border-radius:23px!important;overflow:hidden;
+ background:linear-gradient(145deg,rgba(14,34,48,.97),rgba(6,18,28,.98))!important;
+ border:1px solid rgba(255,255,255,.065)!important;box-shadow:none!important
+}
+#routeScreen .journeyCard:after{content:"›";right:15px;top:auto;bottom:13px;transform:none;font-size:24px;color:rgba(255,255,255,.28)}
+.journeyCardTop{display:flex;justify-content:space-between;gap:10px;padding:16px 16px 11px}
+.journeyCardTop h3{font-size:18px!important;line-height:1.15;margin:4px 0!important}
+.journeyRoute{font-size:12px;color:#8fa6b4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:300px}
+.journeyCountries{font-size:11px;color:#bfd0d9;margin-top:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.journeyStatus{
+ align-self:flex-start;padding:6px 9px!important;border-radius:999px!important;font-size:9px!important;
+ background:rgba(226,189,104,.11)!important;color:#efd188!important;border:1px solid rgba(226,189,104,.16)
+}
+.journeyCardBottom{
+ display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 40px 11px 16px;
+ border-top:1px solid rgba(255,255,255,.055);background:rgba(255,255,255,.018)
+}
+.journeyCardBottom span{font-size:10px;color:#8299a8}
+.journeyCardBottom b{font-size:10px;color:#cbd8de;font-weight:650}
+.journeyEmpty{
+ padding:28px 20px;text-align:center;border-radius:22px;background:#0a1b27;border:1px dashed rgba(255,255,255,.1)
+}
+.journeyEmpty b{display:block;font-size:17px;margin-bottom:5px}
+
+/* Journey detail */
+#routeScreen .journeyDetailBar .back{width:42px;height:42px;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:#0d202d;color:#fff}
+#routeScreen .journeyDelete{background:rgba(255,110,100,.07)!important;color:#e99a93!important;border:1px solid rgba(255,110,100,.11)!important}
+#routeScreen .journeyDetailHero{
+ margin:4px 12px 13px!important;padding:22px!important;border-radius:30px!important;
+ background:radial-gradient(circle at 88% 12%,rgba(226,189,104,.10),transparent 30%),linear-gradient(145deg,#122b3b,#07151f)!important;
+ border:1px solid rgba(255,255,255,.075)!important;box-shadow:0 20px 45px rgba(0,0,0,.23)!important
+}
+#routeScreen .journeyDetailHero h2{font-size:28px!important;line-height:1.05;margin:6px 0 8px!important}
+.journeyHeroRoute{font-size:13px;color:#a9bdc8;margin-bottom:10px}
+.journeyHeroMeta{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.journeyHeroMeta span{font-size:10px;padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.045);color:#b9cbd4}
+#routeScreen .detailStats{gap:8px!important;margin-top:17px!important}
+#routeScreen .detailStat{padding:12px 7px!important;border-radius:16px!important;background:rgba(255,255,255,.045)!important}
+#routeScreen .detailStat b{font-size:17px!important;color:#f0d58e}
+.journeyActions{display:flex;gap:8px;overflow:auto;scrollbar-width:none}.journeyActions::-webkit-scrollbar{display:none}
+.journeyActions .chip{flex:0 0 auto;min-height:40px}
+#routeScreen .targetList{gap:8px}
+#routeScreen .targetItem{border-radius:18px!important;padding:13px!important;background:#0a1c28!important;border-color:rgba(255,255,255,.06)!important}
+#routeScreen .targetOrigin{font-size:8px!important}
+.journeySectionCard{border-radius:22px!important;padding:17px!important;background:#091a26!important;border:1px solid rgba(255,255,255,.06)!important}
+.journeySectionCard h3{font-size:17px;margin:0}
+.journeySectionIcon{width:34px;height:34px;border-radius:12px;background:rgba(226,189,104,.09);display:grid;place-items:center;color:#e2bd68;font-size:16px}
+.journeySectionHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:11px}
+.journeySectionTitle{display:flex;align-items:center;gap:10px}
+#routeScreen .completeJourneyBtn{width:100%;min-height:54px;border-radius:17px;background:linear-gradient(135deg,#d8af58,#f0d58e);color:#10151b;font-weight:850;border:0}
+@media(max-width:430px){
+ .journeyOverview{margin-left:10px;margin-right:10px}
+ .journeyOverviewStats{gap:6px}
+ #routeScreen .journeyDetailHero{margin-left:10px!important;margin-right:10px!important}
+ .journeyCardTop{padding:14px 14px 10px}.journeyCardBottom{padding-left:14px}
+}
+
+
+/* V49 · EXPERIENCES UI + professional icon language */
+.uiMiniIcon{width:16px;height:16px;display:inline-block;vertical-align:-3px;flex:0 0 auto;color:currentColor}
+.iconCircle{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.045);color:#8199a8}
+.iconCircle.done{background:rgba(66,227,180,.10);color:#63dfbc}
+#questsScreen{padding-bottom:76px}
+#questsScreen .topbar{position:sticky;top:0;z-index:32;background:rgba(4,13,21,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.experienceHero{
+ margin:4px 12px 13px;padding:21px;border-radius:29px;
+ background:radial-gradient(circle at 88% 10%,rgba(226,189,104,.12),transparent 31%),linear-gradient(145deg,#102a3b,#07151f);
+ border:1px solid rgba(255,255,255,.075);box-shadow:0 18px 42px rgba(0,0,0,.2)
+}
+.experienceHero h2{font-size:27px;line-height:1.05;margin:6px 0 7px}
+.experienceStats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:15px}
+.experienceStat{padding:10px 6px;border-radius:15px;background:rgba(255,255,255,.045);text-align:center}
+.experienceStat b{display:block;font-size:17px;color:#f0d58e}.experienceStat span{font-size:9px;color:#8da5b4}
+.experienceAdd{width:100%;min-height:50px!important;margin-top:13px;border-radius:16px!important;text-transform:none!important;letter-spacing:0!important}
+.experienceToolbar{padding:0 12px 12px}
+.experienceSearch{display:flex;align-items:center;gap:9px;min-height:50px;padding:0 14px;border-radius:17px;background:#0c1d2a;border:1px solid rgba(255,255,255,.07)}
+.experienceSearch input{width:100%;min-height:48px;border:0;outline:0;background:transparent;color:#fff;font-size:14px}
+.experienceFilters{display:flex;gap:7px;overflow:auto;margin-top:9px;scrollbar-width:none}.experienceFilters::-webkit-scrollbar{display:none}
+.experienceFilters .chip{flex:0 0 auto;min-height:36px;padding:6px 12px}
+.experienceFilters .chip.active{background:rgba(226,189,104,.13);color:#efd188;border:1px solid rgba(226,189,104,.18)}
+.experienceList{margin:0 12px;border-radius:22px;overflow:hidden;background:#091a26;border:1px solid rgba(255,255,255,.06)}
+#questsScreen .adventureItem{
+ display:grid!important;grid-template-columns:34px minmax(0,1fr) 36px!important;gap:10px!important;
+ min-height:78px!important;margin:0!important;padding:12px 10px 12px 12px!important;border-radius:0!important;
+ border-bottom:1px solid rgba(255,255,255,.055)!important;background:transparent!important
+}
+#questsScreen .adventureItem:last-child{border-bottom:0!important}
+.adventureNo{font-size:10px;color:#728b9a;margin-bottom:2px;letter-spacing:.04em}
+.adventureTitle{font-size:14px;line-height:1.25}
+.adventureMeta{display:flex;align-items:center;gap:5px;margin-top:5px;font-size:10px;color:#849ba9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#questsScreen .adventureItem .statePill{display:inline-flex;margin-top:6px;padding:4px 7px;font-size:8px}
+#questsScreen .adventureItem .chip{width:34px!important;height:34px!important;min-height:34px!important;color:#849ba9!important}
+.experienceEmpty{padding:30px 18px;text-align:center;color:#8097a5}
+
+/* Adventure detail */
+.adventureDetailHero{
+ margin:4px 12px 13px!important;padding:21px!important;border-radius:29px!important;
+ background:radial-gradient(circle at 88% 8%,rgba(74,155,201,.14),transparent 32%),linear-gradient(145deg,#10293a,#07151f)!important;
+ border:1px solid rgba(255,255,255,.07)!important
+}
+.adventureDetailHero h2{font-size:27px;line-height:1.08;margin:6px 0 10px}
+.adventureDetailMeta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;color:#9fb3bf;font-size:11px}
+.adventureDetailActions{display:flex;gap:7px;margin-top:15px}
+.adventureDetailActions .chip{min-height:39px}
+#questsScreen .storyGrid{gap:8px}
+#questsScreen .storyMetric{border-radius:16px;background:rgba(255,255,255,.045)}
+.experienceSection{border-radius:22px!important;background:#091a26!important;border:1px solid rgba(255,255,255,.06)!important}
+@media(max-width:430px){.experienceHero{margin-left:10px;margin-right:10px}.experienceList{margin-left:10px;margin-right:10px}}
+
+
+/* V50 · MEMORIES UI REDESIGN */
+#journalScreen{padding-bottom:78px}
+#journalScreen .topbar{position:sticky;top:0;z-index:32;background:rgba(4,13,21,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.memoriesHero{
+ margin:4px 12px 14px;padding:21px;border-radius:30px;position:relative;overflow:hidden;
+ background:radial-gradient(circle at 86% 10%,rgba(226,189,104,.12),transparent 31%),linear-gradient(145deg,#122b3b,#07151f);
+ border:1px solid rgba(255,255,255,.075);box-shadow:0 20px 44px rgba(0,0,0,.22)
+}
+.memoriesHero h2{font-size:28px;line-height:1.06;margin:6px 0 7px}
+.memoriesHeroStats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:16px}
+.memoriesHeroStat{padding:11px 6px;border-radius:16px;background:rgba(255,255,255,.045);text-align:center}
+.memoriesHeroStat b{display:block;font-size:18px;color:#f0d58e}.memoriesHeroStat span{font-size:9px;color:#8fa6b4}
+.memoryToolbar{display:flex;gap:8px;padding:0 12px 13px;overflow:auto;scrollbar-width:none}.memoryToolbar::-webkit-scrollbar{display:none}
+.memoryToolbar .chip{flex:0 0 auto;min-height:39px}
+.memoryToolbar .chip.active{background:rgba(226,189,104,.13);color:#efd188;border:1px solid rgba(226,189,104,.18)}
+.memoryArchive{display:grid;gap:11px;padding:0 12px}
+.memoryChapter{
+ position:relative;overflow:hidden;border-radius:24px;background:linear-gradient(145deg,#0d2433,#071720);
+ border:1px solid rgba(255,255,255,.065);min-height:154px
+}
+.memoryChapterTop{padding:17px 17px 13px}
+.memoryChapterTop h3{font-size:19px;line-height:1.15;margin:5px 0 5px}
+.memoryChapterRoute{font-size:11px;color:#8da4b2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.memoryChapterCountries{display:flex;align-items:center;gap:5px;margin-top:9px;color:#bdcdd5;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.memoryChapterBottom{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,.055);background:rgba(255,255,255,.018)}
+.memoryChapterMetric{padding:10px 7px;text-align:center;border-right:1px solid rgba(255,255,255,.045)}
+.memoryChapterMetric:last-child{border-right:0}.memoryChapterMetric b{display:block;font-size:13px;color:#dce6eb}.memoryChapterMetric span{font-size:8px;color:#718a99;text-transform:uppercase;letter-spacing:.04em}
+.memoryChapterChevron{position:absolute;right:14px;top:16px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.045);color:#8aa1af}
+.memoryEmpty{padding:36px 20px;margin:0 12px;border-radius:24px;text-align:center;background:#091a26;border:1px dashed rgba(255,255,255,.1)}
+.memoryEmptyIcon{width:48px;height:48px;margin:0 auto 12px;border-radius:16px;display:grid;place-items:center;background:rgba(226,189,104,.08);color:#e2bd68}
+.memoryEmptyIcon svg{width:23px;height:23px}
+.memoryEmpty b{display:block;font-size:17px;margin-bottom:5px}
+.memoryBackup{display:flex!important;align-items:center;gap:5px}
+.memoryRecent{margin:15px 12px 0;padding:17px;border-radius:22px;background:#091a26;border:1px solid rgba(255,255,255,.06)}
+.memoryRecentHead{display:flex;align-items:center;gap:9px;margin-bottom:10px}.memoryRecentHead h3{margin:0;font-size:17px}
+.memoryRecent .entry{padding:10px 0}
+@media(min-width:760px){.memoryArchive{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+
+/* V51 · GLOBAL UI AUDIT + WORLD IDENTITY SYSTEM */
+:root{
+ --astra-page:#06111a;--astra-card:#091a26;--astra-card-hi:#0d2230;
+ --astra-text:#f4f7f8;--astra-muted:#8fa5b3;--astra-divider:rgba(255,255,255,.06)
+}
+body{background:var(--astra-page)}
+.topbar{min-height:66px!important;padding-top:max(9px,env(safe-area-inset-top))!important}
+.topbar h1{font-size:19px!important;letter-spacing:.01em!important}
+.topbar small{font-size:10px!important;color:#7f96a4!important}
+.section{padding-left:12px!important;padding-right:12px!important}
+.card{border-color:var(--astra-divider)!important}
+.btn,.chip,.back,.backBtn{-webkit-tap-highlight-color:transparent}
+.btn:focus-visible,.chip:focus-visible,.back:focus-visible,.backBtn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid rgba(226,189,104,.65)!important;outline-offset:2px}
+.toast{border:1px solid rgba(255,255,255,.08)!important;box-shadow:0 18px 44px rgba(0,0,0,.32)!important}
+.sheet{box-shadow:0 -25px 70px rgba(0,0,0,.45)!important}
+.formgrid{gap:12px!important}
+.formgrid input,.formgrid textarea,.formgrid select{min-height:50px!important;padding:12px 14px!important}
+.emptyState{padding:30px 18px;text-align:center;color:var(--astra-muted)}
+
+/* World Archive: useful dashboard instead of a decorative banner */
+#countriesScreen .countryJourneyBanner.worldArchiveV51{
+ min-height:250px!important;padding:20px!important;display:flex;align-items:flex-end;
+ background:
+  radial-gradient(circle at 82% 14%,rgba(72,156,205,.25),transparent 31%),
+  radial-gradient(circle at 18% 5%,rgba(226,189,104,.12),transparent 26%),
+  linear-gradient(145deg,#102b3d,#06131e)!important
+}
+.worldArchiveV51 .worldOrb{
+ position:absolute;right:-28px;top:-30px;width:190px;height:190px;border-radius:50%;
+ border:1px solid rgba(130,191,221,.16);opacity:.72;
+ background:radial-gradient(circle at 35% 30%,rgba(109,190,231,.16),transparent 24%),repeating-radial-gradient(circle at 50% 50%,transparent 0 17px,rgba(118,185,216,.07) 18px 19px)
+}
+.worldArchiveV51 .worldOrb:before,.worldArchiveV51 .worldOrb:after{content:"";position:absolute;inset:28px 8px;border:1px solid rgba(125,187,217,.12);border-radius:50%}
+.worldArchiveV51 .worldOrb:after{inset:8px 55px}
+.worldArchiveV51 .bannerText{position:relative!important;left:auto!important;right:auto!important;bottom:auto!important;width:100%;z-index:2}
+.worldArchiveV51 h2{font-size:31px!important;margin:5px 0 4px!important}
+.worldArchiveProgress{height:5px;border-radius:99px;background:rgba(255,255,255,.075);overflow:hidden;margin:15px 0 13px;max-width:430px}
+.worldArchiveProgress i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#d9b45f,#f0d58e)}
+.worldArchiveStats{display:flex;gap:7px;flex-wrap:wrap}
+.worldArchiveStat{min-width:83px;padding:8px 10px;border-radius:13px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.045)}
+.worldArchiveStat b{display:block;font-size:14px;color:#edf3f5}.worldArchiveStat span{font-size:8px;color:#7f98a7;text-transform:uppercase;letter-spacing:.05em}
+
+/* Every country now has its own identity card, even without photography */
+#countriesScreen .countryCard.noPhoto{background:linear-gradient(135deg,var(--countryA),var(--countryB))!important}
+.countryIdentityArt{position:absolute;inset:0;overflow:hidden;z-index:0;pointer-events:none}
+.countryIdentityArt .identityFlag{
+ position:absolute;right:12px;top:50%;transform:translateY(-52%) scale(2.8);
+ font-size:42px;filter:saturate(.8);opacity:.095
+}
+.countryIdentityArt .identityCode{
+ position:absolute;right:13px;bottom:-9px;font-size:48px;font-weight:900;letter-spacing:-.06em;
+ color:rgba(255,255,255,.055);text-transform:uppercase
+}
+.countryIdentityArt .identityOrbit{
+ position:absolute;right:-18px;top:-40px;width:145px;height:145px;border-radius:50%;
+ border:1px solid rgba(255,255,255,.08)
+}
+.countryIdentityArt .identityOrbit:before{content:"";position:absolute;inset:23px;border-radius:50%;border:1px solid rgba(255,255,255,.055)}
+#countriesScreen .countryCard.noPhoto:before{opacity:.22!important}
+#countriesScreen .countryCard.noPhoto .countryCardInner{background:linear-gradient(90deg,rgba(4,13,20,.32),rgba(4,13,20,.04))}
+#countriesScreen .countryCard{transition:transform .16s ease,border-color .16s ease,background .16s ease}
+#countriesScreen .countryCard:active{transform:scale(.985)}
+#countriesScreen .countryCard:hover{border-color:rgba(226,189,104,.14)!important}
+.countryCardArrow{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.045);color:#8199a8;margin-left:auto}
+.countryCardArrow svg{width:14px;height:14px}
+.countryStatusStack{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+
+/* Global professional icon cleanup */
+.back,.backBtn{font-size:0!important}
+.back:after,.backBtn:after{content:"";display:block;width:9px;height:9px;border-left:1.8px solid currentColor;border-bottom:1.8px solid currentColor;transform:rotate(45deg);margin-left:3px}
+.photo button{font-size:0!important;display:grid;place-items:center}
+.photo button:after{content:"";width:12px;height:12px;background:linear-gradient(45deg,transparent 44%,currentColor 45% 55%,transparent 56%),linear-gradient(-45deg,transparent 44%,currentColor 45% 55%,transparent 56%)}
+.v43-chip b{font-size:0;display:inline-block;width:14px;height:14px;position:relative;vertical-align:-2px}
+.v43-chip b:before,.v43-chip b:after{content:"";position:absolute;left:6px;top:2px;width:1px;height:10px;background:currentColor}.v43-chip b:before{transform:rotate(45deg)}.v43-chip b:after{transform:rotate(-45deg)}
+@media(min-width:760px){
+ #countriesScreen .countryGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ #countriesScreen .countryJourneyBanner.worldArchiveV51{min-height:270px!important}
+}
+
+
+/* V52 · DETAIL + FORM + EMPTY STATE REFINEMENT */
+:root{
+ --status-visited:#62d8b5;--status-planned:#e6c474;--status-neutral:#8ba0ad;
+ --status-active:#73bfe8;--status-danger:#e99a93
+}
+.status.visited,.statePill.completed{background:rgba(74,210,170,.10)!important;color:var(--status-visited)!important;border-color:rgba(74,210,170,.16)!important}
+.status.planned,.statePill.planned-in-journey{background:rgba(226,189,104,.11)!important;color:var(--status-planned)!important;border-color:rgba(226,189,104,.17)!important}
+.status.notvisited,.statePill.want-to-do{background:rgba(139,160,173,.08)!important;color:var(--status-neutral)!important;border-color:rgba(139,160,173,.12)!important}
+
+/* Country profile */
+.countryProfileHero{position:relative!important;overflow:hidden!important;background-image:none!important;background:linear-gradient(145deg,var(--countryA,#173347),var(--countryB,#07151f))!important}
+.countryProfileHero .cardBackdrop{position:absolute;inset:0;background-size:cover;background-position:center}
+.countryProfileHero .cardShade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(3,9,14,.05),rgba(3,9,14,.86))}
+.countryProfileHero .countryIdentityArt{z-index:0}
+.countryProfileHero .dtext{z-index:2!important}
+.countryProfileHero .heroQuote{font-size:22px!important;font-weight:760;letter-spacing:-.025em}
+.countryHeroSignature{font-size:11px;color:#c0d0d8;margin-top:7px}
+.countryProfileStats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:0 12px 13px}
+.countryProfileStat{padding:11px 7px;text-align:center;border-radius:16px;background:#0a1c28;border:1px solid rgba(255,255,255,.055)}
+.countryProfileStat b{display:block;font-size:16px;color:#f0d58e}.countryProfileStat span{font-size:8px;color:#7f98a7;text-transform:uppercase}
+.countryOverviewGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.countryOverviewTile{padding:14px;border-radius:18px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.045)}
+.countryOverviewTile .label{margin-bottom:5px}
+.countryActions{display:flex;gap:8px;margin-top:10px}.countryActions .btn{flex:1;margin:0!important}
+.countryEmpty{padding:28px 16px;text-align:center;border-radius:19px;background:rgba(255,255,255,.025);border:1px dashed rgba(255,255,255,.08)}
+.countryEmptyIcon{width:43px;height:43px;margin:0 auto 10px;display:grid;place-items:center;border-radius:14px;background:rgba(226,189,104,.07);color:#d9b45f}
+.countryEmptyIcon svg{width:21px;height:21px}
+.countryEmpty b{display:block;margin-bottom:4px}
+
+/* Native form surface */
+.v52FormIntro{margin:3px 12px 12px;padding:18px;border-radius:24px;background:linear-gradient(145deg,#102838,#081722);border:1px solid rgba(255,255,255,.065)}
+.v52FormIntro h2{margin:5px 0;font-size:23px}.v52FormIntro .small{line-height:1.5}
+.v43-field{padding:0!important;margin-bottom:15px!important}
+.v43-label{font-size:10px!important;text-transform:uppercase;letter-spacing:.065em!important;color:#8098a7!important;margin:0 0 7px 3px!important}
+.v43-input,.v43-select,.v43-countrybox input{min-height:52px!important;border-radius:16px!important;background:#0b1e2b!important}
+.v43-countrybox{padding:11px;border-radius:20px;background:#091a26;border:1px solid rgba(255,255,255,.06)}
+.v43-countrybox>.between{gap:8px}.v43-countrybox>.between input{flex:1;min-width:0}
+.v43-options{max-height:210px;overflow:auto;margin-top:8px;border-radius:14px}
+.v43-option{padding:11px 12px!important;border-bottom:1px solid rgba(255,255,255,.045);font-size:13px}
+.v43-option:last-child{border-bottom:0}.v43-option:active{background:rgba(226,189,104,.08)}
+.v43-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.v43-chip{display:inline-flex;align-items:center;gap:5px;padding:6px 8px!important;border-radius:999px!important;background:rgba(226,189,104,.09)!important;color:#e7c778!important;border:1px solid rgba(226,189,104,.13)}
+.v52Save{width:100%;min-height:53px!important;border-radius:17px!important;margin-top:3px}
+
+/* General empty states */
+.emptyState,.journeyEmpty,.experienceEmpty{border-radius:20px}
+.v52Empty{padding:30px 18px;text-align:center;border-radius:20px;background:#091a26;border:1px dashed rgba(255,255,255,.09)}
+.v52Empty .emptyIcon{width:44px;height:44px;margin:0 auto 10px;border-radius:14px;display:grid;place-items:center;background:rgba(226,189,104,.07);color:#e2bd68}
+.v52Empty .emptyIcon svg{width:21px;height:21px}.v52Empty b{display:block;font-size:15px;margin-bottom:4px}
+
 </style>
 <meta name="theme-color" content="#06111b">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1176,7 +1746,7 @@ function renderAstra(){
  <section class="section"><div class="card"><h3>Recent Memories</h3>${journal.slice(0,3).map(j=>`<div class="entry"><b>${j.country}</b><div class="small muted">${new Date(j.date).toLocaleDateString()}</div><div>${j.text}</div></div>`).join('')||'<div class="muted">No memories yet. Start adding them from a country page.</div>'}</div></section>`;
 }
 
-function countryCardImage(name,region){ const imgs={"Japan": "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1200&q=82", "New Zealand": "https://images.unsplash.com/photo-1469521669194-babb45599def?auto=format&fit=crop&w=1200&q=82", "Thailand": "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1200&q=82", "Egypt": "https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=1200&q=82", "Brazil": "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=1200&q=82", "Nepal": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=82", "Italy": "https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=82", "Morocco": "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?auto=format&fit=crop&w=1200&q=82", "Norway": "https://images.unsplash.com/photo-1520769669658-f07657f5a307?auto=format&fit=crop&w=1200&q=82", "Peru": "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=1200&q=82", "Malaysia": "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=1200&q=82", "China": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Great_Wall_of_China%2C_Mutianyu_Section.jpg/1280px-Great_Wall_of_China%2C_Mutianyu_Section.jpg", "Jordan": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Petra_Treasury.jpg", "India": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/Taj_Mahal_India.jpg/1280px-Taj_Mahal_India.jpg"}; return imgs[name]||'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1000&q=80'; }
+function countryCardImage(name,region){ const imgs={"Japan": "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1200&q=82", "New Zealand": "https://images.unsplash.com/photo-1469521669194-babb45599def?auto=format&fit=crop&w=1200&q=82", "Thailand": "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1200&q=82", "Egypt": "https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=1200&q=82", "Brazil": "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=1200&q=82", "Nepal": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=82", "Italy": "https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=82", "Morocco": "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?auto=format&fit=crop&w=1200&q=82", "Norway": "https://images.unsplash.com/photo-1520769669658-f07657f5a307?auto=format&fit=crop&w=1200&q=82", "Peru": "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=1200&q=82", "Malaysia": "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=1200&q=82", "China": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Great_Wall_of_China%2C_Mutianyu_Section.jpg/1280px-Great_Wall_of_China%2C_Mutianyu_Section.jpg", "Jordan": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Petra_Treasury.jpg", "India": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/Taj_Mahal_India.jpg/1280px-Taj_Mahal_India.jpg"}; return imgs[name]||null; }
 function countrySignature(name,region){
  const special={
  "Japan":"Fuji · Rail · Culture","Nepal":"Himalaya · EBC · Trekking","China":"Great Wall · Mandarin · Rail","Thailand":"Muay Thai · Food · Islands",
@@ -1194,6 +1764,14 @@ function countryColors(name){
  let h=0; for(const ch of name)h=(h*31+ch.charCodeAt(0))%360;
  return [`hsl(${h} 38% 23%)`,`hsl(${(h+55)%360} 38% 12%)`];
 }
+
+function countryCode(name){
+ const words=String(name||'').replace(/[^A-Za-z ]/g,' ').trim().split(/\s+/).filter(Boolean);
+ return (words.length>1?words.map(x=>x[0]).join(''):words[0]?.slice(0,3)||'AST').slice(0,3).toUpperCase()
+}
+function countryIdentityArt(name,flag){
+ return `<div class="countryIdentityArt"><span class="identityFlag">${flag||''}</span><span class="identityCode">${countryCode(name)}</span><span class="identityOrbit"></span></div>`
+}
 function linkedQuestCount(name){return first100.filter(q=>q[1].includes(name)).length}
 function countryWonder(name){let w=wonders.find(x=>x[1]===name);return w?w[0]:null}
 
@@ -1206,33 +1784,49 @@ function svgInline(name,cls='uiIcon'){
  return `<svg class="${cls}" viewBox="0 0 64 64" aria-hidden="true"><path d="${p}" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 }
 
-function renderCountries(filter=''){
- let arr=countries.filter(c=>c[0].toLowerCase().includes(filter.toLowerCase()));
- document.getElementById('countriesScreen').innerHTML=`
- <div class="topbar"><div class="brand"><div class="brandmark">${svgInline('countries','inlineBrandIcon')}</div><div><h1>COUNTRIES</h1><small>${countries.length} countries · one world</small></div></div></div>
- <div class="countryJourneyBanner"><div class="bannerText"><div class="kicker">WORLD ARCHIVE</div><h2 style="margin:5px 0 3px">${visited.length} of 195 visited</h2><div class="small muted">Every card becomes yours once the journey is real.</div></div></div>
- <section class="section"><input class="search" placeholder="Search country..." value="${filter}" oninput="renderCountries(this.value)"></section>
- <section class="section"><div class="countryGrid">${arr.map(c=>{
+let astraWorldSearch='';
+function astraWorldFilteredCountries(filter=''){
+ let arr=countries.filter(c=>c[0].toLowerCase().includes(String(filter||'').toLowerCase()));
+ if(astraWorldFilter==='visited')arr=arr.filter(c=>visited.includes(c[0]));
+ if(astraWorldFilter==='planned')arr=arr.filter(c=>planned.includes(c[0]));
+ if(astraWorldFilter==='unvisited')arr=arr.filter(c=>!visited.includes(c[0])&&!planned.includes(c[0]));
+ return arr
+}
+function astraWorldCountryCards(arr){
+ return arr.map(c=>{
    const st=visited.includes(c[0])?'visited':planned.includes(c[0])?'planned':'notvisited';
    const label=st==='visited'?'Visited':st==='planned'?'Planned':'Not visited';
-   const colors=countryColors(c[0]); const q=linkedQuestCount(c[0]); const w=countryWonder(c[0]); const img=countryCardImage(c[0],c[2]);
+   const colors=countryColors(c[0]),q=linkedQuestCount(c[0]),w=countryWonder(c[0]),img=countryCardImage(c[0],c[2]);
    return `<div class="countryCard ${img?'hasPhoto':'noPhoto'}" style="--countryA:${colors[0]};--countryB:${colors[1]}" onclick="openCountry('${c[0].replaceAll("'","\\'")}')">
-     ${img?`<div class="cardBackdrop" style="background-image:url('${img}')"></div><div class="cardShade"></div>`:''}
+     ${img?`<div class="cardBackdrop" style="background-image:url('${img}')"></div><div class="cardShade"></div>`:countryIdentityArt(c[0],c[1])}
      <div class="countryCardInner">
        <div class="countryFlagWrap"><div class="flag">${c[1]}</div></div>
-       <div>
-         <div class="countryTitle">${c[0]}</div>
-         <div class="countrySubtitle">${countrySignature(c[0],c[2])}</div>
-         <div class="countryMeta">
-           <span class="miniTag">${c[2]}</span>
-           ${q?`<span class="miniTag">${q} linked quest${q===1?'':'s'}</span>`:''}
-           ${w?`<span class="miniTag">${w}</span>`:''}
-         </div>
-       </div>
-       <span class="status ${st}">${label}</span>
-     </div>
-   </div>`
- }).join('')}</div></section>`;
+       <div><div class="countryTitle">${c[0]}</div><div class="countrySubtitle">${countrySignature(c[0],c[2])}</div><div class="countryMeta"><span class="miniTag">${c[2]}</span>${q?`<span class="miniTag">${q} linked quest${q===1?'':'s'}</span>`:''}${w?`<span class="miniTag">${w}</span>`:''}</div></div>
+       <div class="countryStatusStack"><span class="status ${st}">${label}</span><span class="countryCardArrow">${astraIcon('chevron')}</span></div>
+     </div></div>`
+ }).join('')
+}
+function astraWorldSearchInput(input){
+ astraWorldSearch=input.value||'';
+ const arr=astraWorldFilteredCountries(astraWorldSearch);
+ const grid=document.querySelector('#countriesScreen .countryGrid');
+ if(grid)grid.innerHTML=astraWorldCountryCards(arr)||'<div class="emptyState">No countries found.</div>';
+ const count=document.getElementById('worldResultCount');if(count)count.textContent=`${arr.length} shown`;
+}
+
+let astraWorldFilter='all';
+function setWorldFilter(mode,filter=''){astraWorldFilter=mode;renderCountries(filter||astraWorldSearch)}
+function renderCountries(filter=''){
+
+ astraWorldSearch=filter||'';
+ let arr=astraWorldFilteredCountries(astraWorldSearch);
+ document.getElementById('countriesScreen').innerHTML=`
+ <div class="topbar"><div class="brand"><div class="brandmark">${svgInline('countries','inlineBrandIcon')}</div><div><h1>COUNTRIES</h1><small>${countries.length} countries · one world</small></div></div></div>
+ <div class="countryJourneyBanner worldArchiveV51"><div class="worldOrb"></div><div class="bannerText"><div class="kicker">WORLD ARCHIVE</div><h2>${visited.length} of 195 explored</h2><div class="small muted">A living atlas of where you have been and where the road may lead next.</div><div class="worldArchiveProgress"><i style="width:${Math.min(100,visited.length/195*100)}%"></i></div><div class="worldArchiveStats"><div class="worldArchiveStat"><b>${visited.length}</b><span>Visited</span></div><div class="worldArchiveStat"><b>${planned.length}</b><span>Planned</span></div><div class="worldArchiveStat"><b>${195-visited.length}</b><span>To Explore</span></div></div></div></div>
+ <section class="section"><div class="worldSearchShell"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="2"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><input id="worldCountrySearch" class="search" placeholder="Search 195 countries" value="${v44Escape(filter)}" oninput="astraWorldSearchInput(this)"></div></section>
+ <div class="worldFilterRow"><button class="chip ${astraWorldFilter==='all'?'active':''}" onclick="setWorldFilter('all','${filter.replaceAll("'","\\'")}')">All</button><button class="chip ${astraWorldFilter==='visited'?'active':''}" onclick="setWorldFilter('visited','${filter.replaceAll("'","\\'")}')">Visited · ${visited.length}</button><button class="chip ${astraWorldFilter==='planned'?'active':''}" onclick="setWorldFilter('planned','${filter.replaceAll("'","\\'")}')">Planned · ${planned.length}</button><button class="chip ${astraWorldFilter==='unvisited'?'active':''}" onclick="setWorldFilter('unvisited','${filter.replaceAll("'","\\'")}')">Unvisited</button></div>
+ <div class="worldSectionLabel"><h3>${astraWorldFilter==='all'?'Explore countries':astraWorldFilter[0].toUpperCase()+astraWorldFilter.slice(1)}</h3><span id="worldResultCount">${arr.length} shown</span></div>
+ <section class="section"><div class="countryGrid">${astraWorldCountryCards(arr)||'<div class="emptyState">No countries found.</div>'}</div></section>`;
 }
 function coverFor(name){ const map={"Japan": "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1200&q=82", "New Zealand": "https://images.unsplash.com/photo-1469521669194-babb45599def?auto=format&fit=crop&w=1200&q=82", "Thailand": "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1200&q=82", "Egypt": "https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=1200&q=82", "Brazil": "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=1200&q=82", "Nepal": "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=82", "Italy": "https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=82", "Morocco": "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?auto=format&fit=crop&w=1200&q=82", "Norway": "https://images.unsplash.com/photo-1520769669658-f07657f5a307?auto=format&fit=crop&w=1200&q=82", "Peru": "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=1200&q=82", "Malaysia": "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=1200&q=82", "China": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Great_Wall_of_China%2C_Mutianyu_Section.jpg/1280px-Great_Wall_of_China%2C_Mutianyu_Section.jpg", "Jordan": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Petra_Treasury.jpg", "India": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/Taj_Mahal_India.jpg/1280px-Taj_Mahal_India.jpg"}; return map[name]||"https://images.unsplash.com/photo-1469521669194-babb45599def?auto=format&fit=crop&w=1400&q=85"; }
 function openCountry(name){
@@ -1240,12 +1834,16 @@ function openCountry(name){
  const c=countries.find(x=>x[0]===name)||[name,"🏳️","Other"];
  const st=visited.includes(name)?'visited':planned.includes(name)?'planned':'notvisited';
  const notes=countryNotes[name]||{people:[],food:[],language:[],business:[],spiritual:[],reflection:"",expenses:0};
+ const img=countryCardImage(name,c[2]),colors=countryColors(name);
+ const js=astraJourneys.filter(j=>(j.actualCountries||j.countries||[]).includes(name));
+ const adv=allAdventures().filter(a=>(a.countries||[]).includes(name));
  document.getElementById('countryDetail').innerHTML=`
  <div class="topbar"><div class="between"><button class="back" onclick="showScreen('countries')">←</button><div><b>${c[1]} ${name}</b><div class="small muted">${c[2]}</div></div><span class="status ${st}">${st==='visited'?'Visited':st==='planned'?'Planned':'Not visited'}</span></div></div>
- <div class="detailHero" style="background-image:url('${coverFor(name)}')"><div class="dtext"><div class="kicker">${c[1]} ${name}</div><div class="heroQuote">Collect moments, not things.</div></div></div>
+ <div class="detailHero countryProfileHero" style="--countryA:${colors[0]};--countryB:${colors[1]}">${img?`<div class="cardBackdrop" style="background-image:url('${img}')"></div><div class="cardShade"></div>`:countryIdentityArt(name,c[1])}<div class="dtext"><div class="kicker">${c[1]} ${name}</div><div class="heroQuote">${visited.includes(name)?'A chapter of your world.':'A story still waiting to happen.'}</div><div class="countryHeroSignature">${countrySignature(name,c[2])}</div></div></div>
+ <div class="countryProfileStats"><div class="countryProfileStat"><b>${js.length}</b><span>Journeys</span></div><div class="countryProfileStat"><b>${adv.length}</b><span>Adventures</span></div><div class="countryProfileStat"><b>${(notes.people||[]).length}</b><span>People</span></div></div>
  <div class="tabs">
   <button class="chip active" onclick="countryTab('overview',this)">Overview</button>
-  <button class="chip" onclick="countryTab('quests',this)">Quests</button>
+  <button class="chip" onclick="countryTab('quests',this)">Adventures</button>
   <button class="chip" onclick="countryTab('photos',this)">Photos</button>
   <button class="chip" onclick="countryTab('journal',this)">Journal</button>
   <button class="chip" onclick="countryTab('more',this)">More</button>
@@ -1262,11 +1860,11 @@ function countryTab(tab,btn){
   <div style="height:10px"></div><button class="btn btn-primary" onclick="cycleCountryStatus('${name.replaceAll("'","\\'")}')">Change status</button>
   <button class="btn btn-dark" onclick="editExpenses()" style="margin-left:6px">Edit spend</button></div>`;
  if(tab==='quests'){
-  const qs=first100.map((q,i)=>({q,i})).filter(x=>x.q[1].includes(name)||x.q[1]==='Any');
-  box.innerHTML=`<div class="card">${qs.map(x=>`<label class="quest"><input type="checkbox" ${questDone.includes(x.i)?'checked':''} onchange="toggleQuest(${x.i},this.checked)"><div><b>${x.q[0]}</b><div class="small muted">${x.q[1]}</div></div><span class="badge">${x.q[2]}</span></label>`).join('')||'<div class="muted">No First 100 quest directly assigned here yet.</div>'}</div>`
+  const qs=allAdventures().filter(a=>(a.countries||[]).includes(name));
+  box.innerHTML=qs.length?`<div class="card">${qs.map(a=>`<div class="entry" onclick="showAdventureDetail('${a.ref}')"><div class="between"><div><b>${a.title}</b><div class="small muted">${a.category||'Adventure'}</div></div><span class="statePill ${stateClass(adventureState(a.ref))}">${adventureState(a.ref)}</span></div></div>`).join('')}</div>`:`<div class="countryEmpty"><div class="countryEmptyIcon">${astraIcon('route')}</div><b>No Adventures linked yet</b><div class="small muted">Add an Adventure for ${name} and it will appear here.</div></div>`
  }
- if(tab==='photos'){box.innerHTML=`<div class="card"><div class="between"><h3>Photo Vault</h3><button class="btn btn-primary" onclick="pickPhotos()">+ Add photos</button></div><div class="small muted">Saved locally as compressed WebP in this browser. Max edge 1280px · quality 78%. Export your archive for backup.</div></div><div style="height:10px"></div><div class="gallery" id="gallery"></div>`;loadPhotos(name)}
- if(tab==='journal'){box.innerHTML=`<div class="card"><div class="formgrid"><textarea id="jtext" placeholder="What happened in ${name}?"></textarea><button class="btn btn-primary" onclick="addJournal()">Add journal entry</button></div></div><div style="height:10px"></div><div class="card">${journal.filter(j=>j.country===name).map(j=>`<div class="entry"><div class="small muted">${new Date(j.date).toLocaleString()}</div><div>${j.text}</div></div>`).join('')||'<div class="muted">No journal entries yet.</div>'}</div>`}
+ if(tab==='photos'){box.innerHTML=`<div class="card"><div class="between"><h3>Photo Vault</h3><button class="btn btn-primary" onclick="pickPhotos()">${astraIcon('plus')} Add Photos</button></div><div class="small muted">Saved locally as compressed WebP in this browser. Max edge 1280px · quality 78%. Export your archive for backup.</div></div><div style="height:10px"></div><div class="gallery" id="gallery"></div>`;loadPhotos(name)}
+ if(tab==='journal'){box.innerHTML=`<div class="card"><div class="formgrid"><textarea id="jtext" placeholder="What happened in ${name}?"></textarea><button class="btn btn-primary" onclick="addJournal()">Add journal entry</button></div></div><div style="height:10px"></div><div class="card">${journal.filter(j=>j.country===name).map(j=>`<div class="entry"><div class="small muted">${new Date(j.date).toLocaleString()}</div><div>${j.text}</div></div>`).join('')||`<div class="countryEmpty"><div class="countryEmptyIcon">${astraIcon('book')}</div><b>No journal entries yet</b><div class="small muted">Write the first note from ${name}.</div></div>`}</div>`}
  if(tab==='more'){
   box.innerHTML=`
   ${renderPeopleSection()}
@@ -1302,7 +1900,7 @@ function renderPeopleSection(){
    <input id="personFile" type="file" accept="image/*">
    <button class="btn btn-dark" onclick="addPerson()">+ Add person</button>
   </div>
-  <div>${n.people.map(p=>`<div class="peopleCard">${p.photoId?`<img class="peopleAvatar" id="personimg-${p.photoId}" alt="${p.name}">`:`<div class="peopleAvatar" style="display:grid;place-items:center;font-size:24px">👤</div>`}<div><b>${p.name}</b><div class="small muted">${p.story||''}</div><div class="peopleContact">${p.social?`<span class="contactPill">📱 ${p.social}</span>`:''}${p.phone?`<span class="contactPill">☎️ ${p.phone}</span>`:''}</div></div></div>`).join('')||`<div class="muted small">No people saved yet.</div>`}</div>
+  <div>${n.people.map(p=>`<div class="peopleCard">${p.photoId?`<img class="peopleAvatar" id="personimg-${p.photoId}" alt="${p.name}">`:`<div class="peopleAvatar" style="display:grid;place-items:center">${astraIcon('user')}</div>`}<div><b>${p.name}</b><div class="small muted">${p.story||''}</div><div class="peopleContact">${p.social?`<span class="contactPill">${astraIcon('user')} ${p.social}</span>`:''}${p.phone?`<span class="contactPill">${astraIcon('user')} ${p.phone}</span>`:''}</div></div></div>`).join('')||`<div class="v52Empty"><div class="emptyIcon">${astraIcon('users')}</div><b>No people recorded yet</b><div class="small muted">People you meet can become part of this country story.</div></div>`}</div>
  </div>`
 }
 async function addPerson(){
@@ -1512,11 +2110,11 @@ function editAdventure(ref){
  showOnly('questsScreen');
  const sc=document.getElementById('questsScreen');
  sc.innerHTML=`<div class="topbar"><button class="backBtn" onclick="showAdventureDetail('${ref}')">‹</button><div><h1>EDIT ADVENTURE</h1><small>Structured details</small></div></div>
- <section class="section">
+ <div class="v52FormIntro"><div class="kicker">NEW EXPERIENCE</div><h2>What belongs on your map?</h2><div class="small muted">Add the idea now. You can connect it to a Journey later.</div></div><section class="section">
   <div class="v43-field"><div class="v43-label">Adventure name</div><input id="v43AdvTitle" class="v43-input" value="${v44Escape(a.title||'')}"></div>
   <div class="v43-field"><div class="v43-label">Country / Countries</div>${v43CountryPicker('v43AdvCountries',a.countries||[])}</div>
   <div class="v43-field"><div class="v43-label">Category</div><select id="v43AdvCategory" class="v43-select">${['Mountain & Trekking','Ocean','Adrenaline','Warrior','Wildlife','Nature','Journey','Wonders & Culture','Human & Culture','Personal, Spiritual & Business','Adventure'].map(x=>`<option ${x===(a.category||'')?'selected':''}>${x}</option>`).join('')}</select></div>
-  <button class="primaryBtn" onclick="saveAdventureEdit('${ref}')">Save Changes</button>
+  <button class="primaryBtn v52Save" onclick="saveAdventureEdit('${ref}')">Save Changes</button>
  </section>`;
  v43RenderPicker('v43AdvCountries')
 }
@@ -1546,7 +2144,10 @@ function getAdventure(ref){return applyAdventureOverride(getAdventureBase(ref))}
 function allAdventures(){
  const deleted=new Set(deletedAdventureRefs());
  const legacy=first100.map((q,i)=>getAdventure(originalAdventureId(i))).filter(a=>a&&!deleted.has(a.ref));
- const custom=customActivities.map(a=>getAdventure(customAdventureId(a.id))).filter(a=>a&&!deleted.has(a.ref));
+ const custom=customActivities.map(a=>getAdventure(customAdventureId(a.id))).filter(a=>a&&!deleted.has(a.ref)).sort((a,b)=>{
+   const ta=Date.parse(a.created||'')||0,tb=Date.parse(b.created||'')||0;
+   return ta-tb;
+ });
  return [...legacy,...custom]
 }
 function adventureHistory(a){
@@ -1584,20 +2185,34 @@ function renderAstra(){
  <div class="hero"><div class="heroContent"><div class="kicker">YOUR PERSONAL ADVENTURE ATLAS</div><div class="heroTitle">ASTRA</div><div class="heroQuote">Explore your world.</div></div></div>
  <section class="section"><div class="stats"><div class="stat"><b>${visited.length}</b><div class="small muted">/195 Countries</div></div><div class="stat"><b>${continentCount()}</b><div class="small muted">/7 Continents</div></div><div class="stat"><b>${astraJourneys.filter(j=>j.status==='Completed').length}</b><div class="small muted">Journeys</div></div><div class="stat"><b>${adventureCount()}</b><div class="small muted">Adventures Done</div></div></div></section>
  ${astraMapMarkup()}
- <div class="exploreNow"><div class="kicker">EXPLORE NOW</div><h3>Where could the journey go next?</h3><div class="small muted">One journey can cross one country or ten. The map follows where you actually went.</div><div class="options"><button class="chip" onclick="showScreen('route')">${current?'Continue '+current.name:'Create a journey'}</button><button class="chip" onclick="showScreen('countries')">Browse the world</button><button class="chip" onclick="showScreen('quests')">Adventure List</button></div></div>
- <section class="section"><div class="card"><div class="between"><h3>Tracking Engine</h3><span class="badge">AUTO</span></div><div class="autoGrid"><div class="autoRule"><b>Journey Review</b><span class="small muted">Only countries confirmed at completion become Visited.</span></div><div class="autoRule"><b>Adventure Sync</b><span class="small muted">Journey targets are references to the master Adventure List, never duplicates.</span></div><div class="autoRule"><b>Multi-country</b><span class="small muted">Journeys and adventures can span several countries.</span></div><div class="autoRule"><b>Completion History</b><span class="small muted">Repeatable adventures can record more than one completion.</span></div></div></div></section>`;
+ <div class="exploreNow"><div class="kicker">${current?'CURRENT CHAPTER':'EXPLORE NOW'}</div><h3>${current?current.name:'Where could the journey go next?'}</h3><div class="small muted">${current?`${(current.countries||[]).join(' · ')||'Open route'} · ${current.status}`:'One country or ten. Planned or spontaneous. Astra follows where you actually go.'}</div><div class="options"><button class="chip" onclick="showScreen('route')">${current?'Continue '+current.name:'Create a journey'}</button><button class="chip" onclick="showScreen('countries')">Explore World</button><button class="chip" onclick="showScreen('quests')">Adventure List</button></div></div>
+ <section class="section"><div class="card"><div class="between"><div><div class="kicker">ASTRA ENGINE</div><h3 style="margin:5px 0">Your atlas builds itself</h3></div><span class="badge">AUTO</span></div><div class="autoGrid"><div class="autoRule"><b>Journey Review</b><span class="small muted">Only countries confirmed at completion become Visited.</span></div><div class="autoRule"><b>Adventure Sync</b><span class="small muted">Journey targets are references to the master Adventure List, never duplicates.</span></div><div class="autoRule"><b>Multi-country</b><span class="small muted">Journeys and adventures can span several countries.</span></div><div class="autoRule"><b>Completion History</b><span class="small muted">Repeatable adventures can record more than one completion.</span></div></div></div></section>`;
 }
 
 function addJourney(){
- const name=prompt('Journey name','Train to Bangkok');if(!name)return;
- const route=prompt('Route / places','Malaysia → Thailand')||'Open route';
- const cs=askCountries('Countries this journey may pass through (comma separated)');
- const startDate=prompt('Start date (YYYY-MM-DD, optional)','')||'';
- const endDate=prompt('End date (YYYY-MM-DD, optional)','')||'';
- const journeyType=prompt('Journey type','Train')||'Mixed';
- astraJourneys.unshift({id:crypto.randomUUID(),name,route,countries:cs,startDate,endDate,journeyType,status:'Idea',created:new Date().toISOString(),adventureRefs:[],adventurePlan:{},places:[],people:[],memories:[],expenses:[]});
- saveJourneys();renderRoute();toast('Journey created');
+ showOnly('routeScreen');const sc=document.getElementById('routeScreen');
+ sc.innerHTML=`<div class="topbar"><button class="backBtn" onclick="renderRoute()">‹</button><div><h1>NEW JOURNEY</h1><small>Plan the chapter</small></div></div>
+ <section class="section">
+  <div class="v43-field"><div class="v43-label">Journey name</div><input id="v43NewJName" class="v43-input" placeholder="e.g. Train to Bangkok"></div>
+  <div class="v43-field"><div class="v43-label">Route / places</div><input id="v43NewJRoute" class="v43-input" placeholder="e.g. Malaysia → Thailand"></div>
+  <div class="v43-field"><div class="v43-label">Countries</div>${v43CountryPicker('v43NewJCountries',[])}</div>
+  <div class="v43-field"><div class="v43-label">Start date</div><input id="v43NewJStart" type="date" class="v43-input"></div>
+  <div class="v43-field"><div class="v43-label">End date</div><input id="v43NewJEnd" type="date" class="v43-input"></div>
+  <div class="v43-field"><div class="v43-label">Journey type</div><select id="v43NewJType" class="v43-select">${V43_JOURNEY_TYPES.map(x=>`<option ${x==='Mixed'?'selected':''}>${x}</option>`).join('')}</select></div>
+  <div class="v43-field"><div class="v43-label">Status</div><select id="v43NewJStatus" class="v43-select">${V43_JOURNEY_STATUSES.map(x=>`<option ${x==='Idea'?'selected':''}>${x}</option>`).join('')}</select></div>
+  <button class="primaryBtn v52Save" onclick="saveNewJourney()">Create Journey</button>
+ </section>`;
+ v43RenderPicker('v43NewJCountries')
 }
+function saveNewJourney(){
+ const name=document.getElementById('v43NewJName').value.trim();if(!name)return toast('Journey name is required');
+ const route=document.getElementById('v43NewJRoute').value.trim()||'Open route';
+ const countries=v43PickerValues('v43NewJCountries'),startDate=document.getElementById('v43NewJStart').value,endDate=document.getElementById('v43NewJEnd').value;
+ if(startDate&&endDate&&new Date(endDate)<new Date(startDate))return toast('End date cannot be before start date');
+ astraJourneys.unshift({id:crypto.randomUUID(),name,route,countries,startDate,endDate,journeyType:document.getElementById('v43NewJType').value,status:document.getElementById('v43NewJStatus').value,created:new Date().toISOString(),adventureRefs:[],adventurePlan:{},places:[],people:[],memories:[],expenses:[]});
+ saveJourneys();renderRoute();toast('Journey created')
+}
+
 function editJourneyCountries(id){const j=astraJourneys.find(x=>x.id===id);if(!j)return;const cs=askCountries('Update journey countries (comma separated)\nCurrent: '+j.countries.join(', '));if(cs.length)j.countries=cs;saveJourneys();renderJourneyDetail(id)}
 function deleteJourney(id){if(!confirm('Delete this journey? Adventures stay in Adventure List.'))return;astraJourneys=astraJourneys.filter(x=>x.id!==id);saveJourneys();renderRoute()}
 function cycleJourney(id){const order=['Idea','Planning','Ready','On Journey'];const j=astraJourneys.find(x=>x.id===id);if(!j||j.status==='Completed')return;j.status=order[(order.indexOf(j.status)+1)%order.length];saveJourneys();renderJourneyDetail(id)}
@@ -1618,34 +2233,44 @@ function adventureState(ref){
 function stateClass(x){return x==='Completed'?'stateDone':x==='Planned in Journey'?'statePlan':'stateWant'}
 function wondersCollectionHTML(){
  const items=allAdventures().filter(a=>isNewWonderTitle(a.title)),done=items.filter(a=>adventureIsDone(a)).length;
- return `<div class="card" style="border-color:rgba(225,190,102,.22)"><div class="between"><div><div class="kicker">SPECIAL COLLECTION</div><h3 style="margin:4px 0">7 Wonders</h3><div class="small muted">${done}/7 completed · inside Adventure List</div></div><b style="font-size:22px">${done}/7</b></div>${items.map(a=>`<div class="entry" onclick="showAdventureDetail('${a.ref}')"><div class="between"><b>${a.title}</b><span class="statePill ${stateClass(adventureState(a.ref))}">${adventureState(a.ref)}</span></div><div class="small muted">📍 ${(a.countries||[]).join(' · ')||'Location'}</div></div>`).join('')}</div>`;
+ return `<div class="card" style="border-color:rgba(225,190,102,.22)"><div class="between"><div><div class="kicker">SPECIAL COLLECTION</div><h3 style="margin:4px 0">7 Wonders</h3><div class="small muted">${done}/7 completed · inside Adventure List</div></div><b style="font-size:22px">${done}/7</b></div>${items.map(a=>`<div class="entry" onclick="showAdventureDetail('${a.ref}')"><div class="between"><b>${a.title}</b><span class="statePill ${stateClass(adventureState(a.ref))}">${adventureState(a.ref)}</span></div><div class="small muted">${astraIcon('pin')} ${(a.countries||[]).join(' · ')||'Location'}</div></div>`).join('')}</div>`;
 }
 
-function editJourneyMeta(id){
- const j=astraJourneys.find(x=>x.id===id);if(!j)return;
- j.startDate=prompt('Start date YYYY-MM-DD',j.startDate||'')||'';
- j.endDate=prompt('End date YYYY-MM-DD',j.endDate||'')||'';
- j.journeyType=prompt('Journey type',j.journeyType||'Mixed')||'Mixed';
- saveJourneys();renderJourneyDetail(id)
-}
+function editJourneyMeta(id){editJourneyStructured(id)}
 
 function renderRoute(){
+ const active=astraJourneys.filter(j=>j.status!=='Completed').length;
+ const completed=astraJourneys.filter(j=>j.status==='Completed').length;
+ const countriesTouched=new Set(astraJourneys.flatMap(j=>{ensureJourneyShape(j);return j.status==='Completed'?(j.actualCountries||j.countries):j.countries})).size;
  document.getElementById('routeScreen').innerHTML=`
- <div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64"><path d="M15 15h10v10H15V15Zm24 24h10v10H39V39ZM25 20c16 0 4 24 18 24" fill="none" stroke="currentColor" stroke-width="4"/></svg></div><div><h1>JOURNEYS</h1><small>One country, many countries, any duration</small></div></div></div>
- <div class="pillarIntro">A journey is a chapter, not a fixed itinerary. Add every country you may cross, then confirm where you actually went when the journey ends.</div>
- <section class="section"><button class="btn btn-primary" style="width:100%" onclick="addJourney()">+ CREATE JOURNEY</button></section>
- <section class="section"><div class="journeyGrid">${astraJourneys.map(j=>{ensureJourneyShape(j);return `<article class="journeyCard" onclick="renderJourneyDetail('${j.id}')"><div class="journeyMeta"><div><div class="label">${j.status==='Completed'?'MEMORY':'JOURNEY'}</div><h3 style="margin:4px 0">${j.name}</h3><div class="small muted">${j.route}</div><div class="small muted" style="margin-top:5px">🌍 ${j.countries.join(' · ')||'Countries not set'}</div><div class="small muted">${j.journeyType||'Mixed'}${journeyDuration(j)?' · '+journeyDuration(j):''}${j.startDate?' · '+j.startDate:''}</div></div><span class="journeyStatus">${j.status}</span></div><div class="between small muted" style="margin-top:10px"><span>${j.adventureRefs.length} adventures</span><span>${j.status==='Completed'?'View memories →':'Open journey →'}</span></div></article>`}).join('')||'<div class="card muted">Create your first journey.</div>'}</div></section>`;showOnly('routeScreen')
+ <div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64"><path d="M15 15h10v10H15V15Zm24 24h10v10H39V39ZM25 20c16 0 4 24 18 24" fill="none" stroke="currentColor" stroke-width="4"/></svg></div><div><h1>JOURNEYS</h1><small>Your travel chapters</small></div></div></div>
+ <div class="journeyOverview"><div class="kicker">YOUR JOURNEY LIBRARY</div><h2>Every trip becomes a chapter.</h2><div class="small muted">Plan lightly, explore freely, then preserve what actually happened.</div><div class="journeyOverviewStats"><div class="journeyOverviewStat"><b>${active}</b><span>ACTIVE</span></div><div class="journeyOverviewStat"><b>${completed}</b><span>COMPLETED</span></div><div class="journeyOverviewStat"><b>${countriesTouched}</b><span>COUNTRIES</span></div></div></div>
+ <section class="section journeyCreateWrap"><button class="btn btn-primary journeyCreateBtn" style="width:100%" onclick="addJourney()">＋ Create Journey</button></section>
+ <div class="worldSectionLabel"><h3>${astraJourneys.length?'Your chapters':'Start exploring'}</h3><span>${astraJourneys.length} journey${astraJourneys.length===1?'':'s'}</span></div>
+ <section class="section"><div class="journeyGrid">${astraJourneys.map(j=>{ensureJourneyShape(j);return `<article class="journeyCard" onclick="renderJourneyDetail('${j.id}')"><div class="journeyCardTop"><div style="min-width:0"><div class="label">${j.status==='Completed'?'MEMORY':'JOURNEY'}</div><h3>${j.name}</h3><div class="journeyRoute">${j.route||'Open route'}</div><div class="journeyCountries">${astraIcon('globe')} ${j.countries.join(' · ')||'Countries not set'}</div></div><span class="journeyStatus">${j.status}</span></div><div class="journeyCardBottom"><span>${j.journeyType||'Mixed'}${journeyDuration(j)?' · '+journeyDuration(j):''}</span><b>${j.adventureRefs.length} adventure${j.adventureRefs.length===1?'':'s'}</b></div></article>`}).join('')||'<div class="journeyEmpty"><b>No journeys yet</b><span class="small muted">Your first chapter starts whenever the road does.</span></div>'}</div></section>`;showOnly('routeScreen')
 }
-
 function createAdventureForJourney(jid,origin='Planned'){
  const j=astraJourneys.find(x=>x.id===jid);if(!j)return;
- const title=prompt(origin==='Discovered'?'What did you discover along the way?':'What do you want to do?');if(!title)return;
- let cs=askCountries('Country/countries for this adventure.\nLeave invalid/blank if it can happen anywhere.');
- if(!cs.length&&j.countries.length===1)cs=[j.countries[0]];
- const a={id:crypto.randomUUID(),title,countries:cs,category:'Journey',completions:[],created:new Date().toISOString()};
- customActivities.unshift(a);const ref=customAdventureId(a.id);j.adventureRefs.push(ref);j.adventurePlan[ref]={plannedCountries:cs,doneOnTrip:false,origin};
- saveCustomActivities();saveJourneys();renderJourneyDetail(jid)
+ showOnly('routeScreen');const sc=document.getElementById('routeScreen');
+ const seed=j.countries.length===1?[j.countries[0]]:[];
+ sc.innerHTML=`<div class="topbar"><button class="backBtn" onclick="renderJourneyDetail('${jid}')">‹</button><div><h1>${origin==='Discovered'?'DISCOVERED ADVENTURE':'NEW ADVENTURE'}</h1><small>${v44Escape(j.name||'Journey')}</small></div></div>
+ <section class="section">
+  <div class="v43-field"><div class="v43-label">Adventure name</div><input id="v43JourneyAdvTitle" class="v43-input" placeholder="${origin==='Discovered'?'What did you discover?':'What do you want to do?'}"></div>
+  <div class="v43-field"><div class="v43-label">Country / Countries</div>${v43CountryPicker('v43JourneyAdvCountries',seed)}</div>
+  <div class="v43-field"><div class="v43-label">Category</div><select id="v43JourneyAdvCategory" class="v43-select">${['Mountain & Trekking','Ocean','Adrenaline','Warrior','Wildlife','Nature','Journey','Wonders & Culture','Human & Culture','Personal, Spiritual & Business','Adventure'].map(x=>`<option ${x==='Journey'?'selected':''}>${x}</option>`).join('')}</select></div>
+  <button class="primaryBtn v52Save" onclick="saveJourneyAdventure('${jid}','${origin}')">Add to Journey</button>
+ </section>`;
+ v43RenderPicker('v43JourneyAdvCountries')
 }
+function saveJourneyAdventure(jid,origin='Planned'){
+ const j=astraJourneys.find(x=>x.id===jid);if(!j)return;
+ const title=document.getElementById('v43JourneyAdvTitle').value.trim();if(!title)return toast('Adventure name is required');
+ const cs=v43PickerValues('v43JourneyAdvCountries'),category=document.getElementById('v43JourneyAdvCategory').value;
+ const a={id:crypto.randomUUID(),title,countries:cs,category,completions:[],created:new Date().toISOString()};
+ customActivities.unshift(a);const ref=customAdventureId(a.id);j.adventureRefs.push(ref);j.adventurePlan[ref]={plannedCountries:cs,doneOnTrip:false,origin};
+ saveCustomActivities();saveJourneys();renderJourneyDetail(jid);toast('Adventure added to Journey')
+}
+
 function attachAdventure(jid){
  const j=astraJourneys.find(x=>x.id===jid);if(!j)return;
  const available=[];
@@ -1711,7 +2336,7 @@ function editJourneyStructured(id){
   <div class="v43-field"><div class="v43-label">End date</div><input id="v43JEnd" type="date" class="v43-input" value="${j.endDate||''}" onchange="v43JourneyDuration()"><div id="v43JDuration" class="muted"></div></div>
   <div class="v43-field"><div class="v43-label">Journey type</div><select id="v43JType" class="v43-select">${V43_JOURNEY_TYPES.map(x=>`<option ${x===(j.journeyType||j.type||'')?'selected':''}>${x}</option>`).join('')}</select></div>
   <div class="v43-field"><div class="v43-label">Status</div><select id="v43JStatus" class="v43-select">${V43_JOURNEY_STATUSES.map(x=>`<option value="${x}" ${String(x).toLowerCase()===String(j.status||'Idea').toLowerCase()?'selected':''}>${x}</option>`).join('')}</select></div>
-  <button class="primaryBtn" onclick="saveJourneyStructured('${id}')">Save Journey</button>
+  <button class="primaryBtn v52Save" onclick="saveJourneyStructured('${id}')">Save Journey</button>
  </section>`;
  v43RenderPicker('v43JCountries');v43JourneyDuration()
 }
@@ -1728,22 +2353,35 @@ function renderJourneyDetail(id){
  const j=astraJourneys.find(x=>x.id===id);if(!j){renderRoute();return}ensureJourneyShape(j);
  const completed=j.status==='Completed';
  document.getElementById('routeScreen').innerHTML=`
- <div class="topbar"><div class="between"><button class="back" onclick="renderRoute()">←</button><div><b>JOURNEY</b><div class="small muted">${j.status}</div></div><button class="chip" onclick="deleteJourney('${j.id}')">Delete</button></div></div>
- <div class="detailHero"><div class="kicker">${completed?'JOURNEY MEMORY':'JOURNEY CANVAS'}</div><h2>${j.name}</h2><div class="muted">${j.route}</div><div class="small muted" style="margin-top:7px">🌍 ${completed?(j.actualCountries||j.countries).join(' · '):j.countries.join(' · ')||'Countries not set'}</div><div class="small muted">${j.journeyType||'Mixed'}${journeyDuration(j)?' · '+journeyDuration(j):''}${j.startDate?' · '+j.startDate:''}${j.endDate?' → '+j.endDate:''}</div><div class="detailStats"><div class="detailStat"><b>${j.adventureRefs.length}</b><div class="small muted">Adventures</div></div><div class="detailStat"><b>${j.people.length}</b><div class="small muted">People</div></div><div class="detailStat"><b>RM ${journeySpend(j).toLocaleString()}</b><div class="small muted">Recorded</div></div></div></div>
- ${completed?`<section class="section"><div class="completedStamp">✓ COMPLETED ${new Date(j.completedAt).toLocaleDateString()} · TAP BACK ANYTIME TO REVISIT</div><div class="recapCard" style="margin-top:10px"><div class="kicker">JOURNEY RECAP</div><h3>${j.name}</h3><div class="storyGrid"><div class="storyMetric"><b>${(j.actualCountries||[]).length}</b><span class="small muted">Countries</span></div><div class="storyMetric"><b>${(j.completedAdventureRefs||[]).length}</b><span class="small muted">Adventures</span></div><div class="storyMetric"><b>${j.people.length}</b><span class="small muted">People</span></div><div class="storyMetric"><b>${journeyDuration(j)||'—'}</b><span class="small muted">Duration</span></div></div></div></section>`:`<section class="section"><div class="between"><button class="chip" onclick="cycleJourney('${j.id}')">Status: ${j.status} →</button><div><button class="chip" onclick="editJourneyCountries('${j.id}')">Countries</button> <button class="chip" onclick="editJourneyMeta('${j.id}')">Dates / Type</button></div></div></section>`}
- <section class="section"><div class="between"><h3>Adventure List</h3>${!completed?`<div><button class="chip" onclick="attachAdventure('${j.id}')">Attach</button> <button class="chip" onclick="createAdventureForJourney('${j.id}','Planned')">+ New</button></div>`:''}</div><div class="small muted" style="margin-bottom:9px">These are the same records shown in the global Adventure List.</div><div class="targetList">${j.adventureRefs.map(ref=>{const a=getAdventure(ref),pl=j.adventurePlan[ref]||{};if(!a)return'';const globally=adventureIsDone(a);return `<div class="targetItem ${completed&&j.completedAdventureRefs?.includes(ref)?'done':''}">${!completed?`<input class="targetCheck" type="checkbox" ${pl.doneOnTrip?'checked':''} onchange="markDoneOnTrip('${j.id}','${ref}',this.checked)">`:'<span>✓</span>'}<div><div class="targetOrigin">${pl.origin||'Planned'}${globally?' · done before':''}</div><b>${a.title}</b><div class="small muted">📍 ${(pl.plannedCountries||a.countries||[]).join(' · ')||'Anywhere / choose when done'}</div></div>${!completed?`<button class="chip" onclick="setAdventurePlanCountries('${j.id}','${ref}')">📍</button>`:''}</div>`}).join('')||'<div class="card muted">Attach an existing Adventure or create a new one. New ones appear in the global Adventure List instantly.</div>'}</div>${!completed?`<button class="btn" style="width:100%;margin-top:9px" onclick="createAdventureForJourney('${j.id}','Discovered')">+ DISCOVERED ALONG THE WAY</button>`:''}</section>
- <section class="section"><div class="card"><div class="between"><h3>Places</h3>${!completed?`<button class="chip" onclick="addJourneyPlace('${j.id}')">+ Add</button>`:''}</div><div class="memoryStrip">${j.places.map(x=>`<div class="memoryPill">📍 ${x}</div>`).join('')||'<span class="small muted">No places saved yet.</span>'}</div></div></section>
- <section class="section"><div class="card"><div class="between"><h3>People I Met</h3><button class="chip" onclick="addJourneyPerson('${j.id}')">+ Add</button></div>${j.people.map(x=>`<div class="entry"><b>${x.name}</b><div class="small muted">${x.contact||'No contact saved'}</div></div>`).join('')||'<div class="small muted">No people saved yet.</div>'}</div></section>
- <section class="section"><div class="card"><div class="between"><h3>Memories</h3><button class="chip" onclick="addJourneyMemory('${j.id}')">+ Add</button></div>${j.memories.map(x=>`<div class="entry"><div>${x.text}</div><div class="small muted">${new Date(x.date).toLocaleString()}</div></div>`).join('')||'<div class="small muted">Capture moments worth remembering.</div>'}</div></section>
- <section class="section"><div class="card"><div class="between"><h3>Journey Spend</h3>${!completed?`<button class="chip" onclick="addJourneyExpense('${j.id}')">+ Add</button>`:''}</div>${j.expenses.map(x=>`<div class="between entry"><span>${x.label}</span><b>RM ${Number(x.amount).toLocaleString()}</b></div>`).join('')||'<div class="small muted">Optional.</div>'}</div></section>
- ${!completed?`<section class="section"><button class="btn completeJourneyBtn" onclick="completeJourney('${j.id}')">✓ COMPLETE JOURNEY · FINAL REVIEW</button></section>`:''}`;showOnly('routeScreen')
+ <div class="topbar journeyDetailBar"><div class="between"><button class="back" onclick="renderRoute()">←</button><div><b>JOURNEY</b><div class="small muted">${j.status}</div></div><button class="chip journeyDelete" onclick="deleteJourney('${j.id}')">Delete</button></div></div>
+ <div class="detailHero journeyDetailHero"><div class="kicker">${completed?'JOURNEY MEMORY':'JOURNEY CANVAS'}</div><h2>${j.name}</h2><div class="journeyHeroRoute">${j.route||'Open route'}</div><div class="journeyHeroMeta"><span>${astraIcon('globe')} ${completed?(j.actualCountries||j.countries).join(' · '):j.countries.join(' · ')||'Countries not set'}</span><span>${j.journeyType||'Mixed'}</span>${journeyDuration(j)?`<span>${journeyDuration(j)}</span>`:''}${j.startDate?`<span>${j.startDate}${j.endDate?' → '+j.endDate:''}</span>`:''}</div><div class="detailStats"><div class="detailStat"><b>${j.adventureRefs.length}</b><div class="small muted">Adventures</div></div><div class="detailStat"><b>${j.people.length}</b><div class="small muted">People</div></div><div class="detailStat"><b>RM ${journeySpend(j).toLocaleString()}</b><div class="small muted">Recorded</div></div></div></div>
+ ${completed?`<section class="section"><div class="completedStamp">${astraIcon('check')} COMPLETED ${new Date(j.completedAt).toLocaleDateString()} · TAP BACK ANYTIME TO REVISIT</div><div class="recapCard" style="margin-top:10px"><div class="kicker">JOURNEY RECAP</div><h3>${j.name}</h3><div class="storyGrid"><div class="storyMetric"><b>${(j.actualCountries||[]).length}</b><span class="small muted">Countries</span></div><div class="storyMetric"><b>${(j.completedAdventureRefs||[]).length}</b><span class="small muted">Adventures</span></div><div class="storyMetric"><b>${j.people.length}</b><span class="small muted">People</span></div><div class="storyMetric"><b>${journeyDuration(j)||'—'}</b><span class="small muted">Duration</span></div></div></div></section>`:`<section class="section"><div class="journeyActions"><button class="chip" onclick="cycleJourney('${j.id}')">Status · ${j.status}</button><button class="chip" onclick="editJourneyCountries('${j.id}')">${astraIcon('globe')} Countries</button><button class="chip" onclick="editJourneyMeta('${j.id}')">${astraIcon('calendar')} Dates / Type</button></div></section>`}
+ <section class="section"><div class="between"><h3>Adventure List</h3>${!completed?`<div><button class="chip" onclick="attachAdventure('${j.id}')">Attach</button> <button class="chip" onclick="createAdventureForJourney('${j.id}','Planned')">+ New</button></div>`:''}</div><div class="small muted" style="margin-bottom:9px">These are the same records shown in the global Adventure List.</div><div class="targetList">${j.adventureRefs.map(ref=>{const a=getAdventure(ref),pl=j.adventurePlan[ref]||{};if(!a)return'';const globally=adventureIsDone(a);return `<div class="targetItem ${completed&&j.completedAdventureRefs?.includes(ref)?'done':''}">${!completed?`<input class="targetCheck" type="checkbox" ${pl.doneOnTrip?'checked':''} onchange="markDoneOnTrip('${j.id}','${ref}',this.checked)">`:`<span class="iconCircle done">${astraIcon('check')}</span>`}<div><div class="targetOrigin">${pl.origin||'Planned'}${globally?' · done before':''}</div><b>${a.title}</b><div class="small muted">${astraIcon('pin')} ${(pl.plannedCountries||a.countries||[]).join(' · ')||'Anywhere / choose when done'}</div></div>${!completed?`<button class="chip" onclick="setAdventurePlanCountries('${j.id}','${ref}')">${astraIcon('pin')}</button>`:''}</div>`}).join('')||'<div class="card muted">Attach an existing Adventure or create a new one. New ones appear in the global Adventure List instantly.</div>'}</div>${!completed?`<button class="btn" style="width:100%;margin-top:9px" onclick="createAdventureForJourney('${j.id}','Discovered')">+ DISCOVERED ALONG THE WAY</button>`:''}</section>
+ <section class="section"><div class="card journeySectionCard"><div class="journeySectionHead"><div class="journeySectionTitle"><span class="journeySectionIcon">${astraIcon('pin')}</span><h3>Places</h3></div>${!completed?`<button class="chip" onclick="addJourneyPlace('${j.id}')">+ Add</button>`:''}</div><div class="memoryStrip">${j.places.map(x=>`<div class="memoryPill">${astraIcon('pin')} ${x}</div>`).join('')||'<span class="small muted">No places saved yet.</span>'}</div></div></section>
+ <section class="section"><div class="card journeySectionCard"><div class="journeySectionHead"><div class="journeySectionTitle"><span class="journeySectionIcon">${astraIcon('user')}</span><h3>People I Met</h3></div><button class="chip" onclick="addJourneyPerson('${j.id}')">+ Add</button></div>${j.people.map(x=>`<div class="entry"><b>${x.name}</b><div class="small muted">${x.contact||'No contact saved'}</div></div>`).join('')||'<div class="small muted">No people saved yet.</div>'}</div></section>
+ <section class="section"><div class="card journeySectionCard"><div class="journeySectionHead"><div class="journeySectionTitle"><span class="journeySectionIcon">${astraIcon('memory')}</span><h3>Memories</h3></div><button class="chip" onclick="addJourneyMemory('${j.id}')">+ Add</button></div>${j.memories.map(x=>`<div class="entry"><div>${x.text}</div><div class="small muted">${new Date(x.date).toLocaleString()}</div></div>`).join('')||'<div class="small muted">Capture moments worth remembering.</div>'}</div></section>
+ <section class="section"><div class="card journeySectionCard"><div class="journeySectionHead"><div class="journeySectionTitle"><span class="journeySectionIcon">${astraIcon('wallet')}</span><h3>Journey Spend</h3></div>${!completed?`<button class="chip" onclick="addJourneyExpense('${j.id}')">+ Add</button>`:''}</div>${j.expenses.map(x=>`<div class="between entry"><span>${x.label}</span><b>RM ${Number(x.amount).toLocaleString()}</b></div>`).join('')||'<div class="small muted">Optional.</div>'}</div></section>
+ ${!completed?`<section class="section"><button class="btn completeJourneyBtn" onclick="completeJourney('${j.id}')">${astraIcon('check')} COMPLETE JOURNEY · FINAL REVIEW</button></section>`:''}`;showOnly('routeScreen')
 }
 
 function addCustomActivity(){
- const title=prompt('New adventure / activity');if(!title)return;
- const cs=askCountries('Country/countries for this adventure.\nFor a flexible adventure, you can leave this blank.');
- customActivities.unshift({id:crypto.randomUUID(),title,countries:cs,category:prompt('Category','Adventure')||'Adventure',completions:[],created:new Date().toISOString()});saveCustomActivities();renderQuests('first')
+ showOnly('questsScreen');const sc=document.getElementById('questsScreen');
+ sc.innerHTML=`<div class="topbar"><button class="backBtn" onclick="renderQuests()">‹</button><div><h1>NEW ADVENTURE</h1><small>Add to your master list</small></div></div>
+ <section class="section">
+  <div class="v43-field"><div class="v43-label">Adventure name</div><input id="v43NewAdvTitle" class="v43-input" placeholder="What do you want to experience?"></div>
+  <div class="v43-field"><div class="v43-label">Country / Countries</div>${v43CountryPicker('v43NewAdvCountries',[])}</div>
+  <div class="v43-field"><div class="v43-label">Category</div><select id="v43NewAdvCategory" class="v43-select">${['Mountain & Trekking','Ocean','Adrenaline','Warrior','Wildlife','Nature','Journey','Wonders & Culture','Human & Culture','Personal, Spiritual & Business','Adventure'].map(x=>`<option ${x==='Adventure'?'selected':''}>${x}</option>`).join('')}</select></div>
+  <button class="primaryBtn v52Save" onclick="saveNewAdventure()">${astraIcon('plus')} Add Adventure</button>
+ </section>`;
+ v43RenderPicker('v43NewAdvCountries')
 }
+function saveNewAdventure(){
+ const title=document.getElementById('v43NewAdvTitle').value.trim();if(!title)return toast('Adventure name is required');
+ const countries=v43PickerValues('v43NewAdvCountries'),category=document.getElementById('v43NewAdvCategory').value;
+ customActivities.unshift({id:crypto.randomUUID(),title,countries,category,completions:[],created:new Date().toISOString()});
+ saveCustomActivities();renderQuests();toast('Adventure added')
+}
+
 function completeAdventureDirect(ref){
  const a=getAdventure(ref);if(!a)return;
  let cs=a.countries||[];if(!cs.length)cs=askCountries('Where did you complete "'+a.title+'"?');
@@ -1752,27 +2390,59 @@ function completeAdventureDirect(ref){
 }
 function deleteCustomActivity(id){if(!confirm('Delete this custom adventure?'))return;customActivities=customActivities.filter(x=>x.id!==id);saveCustomActivities();renderQuests('first')}
 
-function renderQuests(mode='first'){
- const adventures=allAdventures();
- const completed=adventures.filter(a=>adventureIsDone(a)).length;
- document.getElementById('questsScreen').innerHTML=`<div class="topbar"><div><h1>EXPERIENCES</h1><small>Adventure List</small></div></div>
- <section class="section"><div class="card"><div class="between"><div><div class="kicker">ADVENTURE LIBRARY</div><h2 style="margin:4px 0">Adventure List</h2></div><span class="badge">${completed}/${adventures.length}</span></div>
- <div class="small muted">${adventures.length} adventures in your master list. No finish line.</div><button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="addCustomActivity()">+ ADD MY OWN ADVENTURE</button></div>
- <div class="tabs"><button class="tab active" onclick="renderQuests()">Adventure List</button></div>
- <section class="section"><div class="card">${adventures.map((a,i)=>{const n=adventureHistory(a).length;return `<div class="adventureItem ${n?'done':''}"><span>${n?'✓':'○'}</span><div><b>${i+1}. ${a.title}</b><div class="small muted">📍 ${(a.countries||[]).join(' · ')||'Anywhere'} · ${a.category||'Adventure'}${n&&a.originalIndex==null?' · '+n+' completion'+(n>1?'s':''):''}</div><span class="statePill ${stateClass(adventureState(a.ref))}">${adventureState(a.ref)}</span></div><button class="chip" onclick="showAdventureDetail('${a.ref}')">Open</button></div>`}).join('')||'<div class="muted">No Adventures yet.</div>'}</div></section>`;
- showOnly('questsScreen')
+
+function astraIcon(name,cls='uiMiniIcon'){
+ const icons={
+  pin:'<path d="M12 21s6-5.2 6-11a6 6 0 1 0-12 0c0 5.8 6 11 6 11Z"/><circle cx="12" cy="10" r="2.2"/>',
+  globe:'<circle cx="12" cy="12" r="8.5"/><path d="M3.8 12h16.4M12 3.5c2.4 2.5 3.7 5.3 3.7 8.5S14.4 18 12 20.5M12 3.5C9.6 6 8.3 8.8 8.3 12S9.6 18 12 20.5"/>',
+  check:'<path d="m6.5 12.5 3.3 3.3 7.7-8"/>',
+  circle:'<circle cx="12" cy="12" r="8"/>',
+  search:'<circle cx="10.8" cy="10.8" r="6.2"/><path d="m15.5 15.5 4 4"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  edit:'<path d="M5 17.5 6 13l8.5-8.5a2.1 2.1 0 0 1 3 3L9 16l-4 1.5Z"/><path d="m13 6 3 3"/>',
+  trash:'<path d="M5 7h14M9 7V4.5h6V7M8 10v7M12 10v7M16 10v7M7 7l1 13h8l1-13"/>',
+  chevron:'<path d="m9 6 6 6-6 6"/>',
+  user:'<circle cx="12" cy="8" r="3.2"/><path d="M5.5 20c.7-4 3-6 6.5-6s5.8 2 6.5 6"/>',
+  memory:'<path d="M5 5h14v14H5z"/><path d="m7.5 16 3.5-4 2.5 2.5 2-2 2 3M9 9h.01"/>',
+  wallet:'<path d="M4.5 7h13A2.5 2.5 0 0 1 20 9.5v8H6A2 2 0 0 1 4 15.5v-9A2.5 2.5 0 0 1 6.5 4H17v3"/><path d="M15 12h5"/>',
+  calendar:'<rect x="4" y="5.5" width="16" height="14" rx="2"/><path d="M8 3.5v4M16 3.5v4M4 9.5h16"/>',
+  camera:'<rect x="3.5" y="6.5" width="17" height="12" rx="2"/><path d="m8 6.5 1.4-2h5.2l1.4 2"/><circle cx="12" cy="12.5" r="3"/>',
+  book:'<path d="M4.5 5.5h6A2.5 2.5 0 0 1 13 8v11a2.5 2.5 0 0 0-2.5-2.5h-6z"/><path d="M19.5 5.5h-4A2.5 2.5 0 0 0 13 8v11a2.5 2.5 0 0 1 2.5-2.5h4z"/>',
+  route:'<circle cx="6" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M8 6h3a3 3 0 0 1 3 3v6a3 3 0 0 0 3 3"/>',
+  users:'<circle cx="9" cy="8" r="3"/><path d="M3.5 19c.5-4 2.3-6 5.5-6s5 2 5.5 6M15 6.5a3 3 0 0 1 0 5.5M16 14c2.6.4 4 2 4.5 5"/>'
+ };
+ return `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]||icons.circle}</svg>`
 }
 
-
+let astraExperienceFilter='all',astraExperienceSearch='';
+function setExperienceFilter(mode){astraExperienceFilter=mode;renderQuests('first')}
+function setExperienceSearch(value){astraExperienceSearch=value;renderQuests('first')}
+function renderQuests(mode='first'){
+ const screen=document.getElementById('questsScreen');
+ if(mode!=='first'){_renderQuestsV32(mode);screen.innerHTML=screen.innerHTML.replace(/QUESTS/g,'EXPERIENCES').replace(/First 100/g,'Adventure List');const top=screen.querySelector('.topbar small');if(top)top.textContent='Explore without a finish line';return}
+ const all=allAdventures();
+ const completed=all.filter(a=>adventureHistory(a).length).length;
+ const planned=all.filter(a=>adventureState(a.ref)==='Planned in Journey').length;
+ let list=all.filter(a=>!astraExperienceSearch||`${a.title} ${(a.countries||[]).join(' ')} ${a.category||''}`.toLowerCase().includes(astraExperienceSearch.toLowerCase()));
+ if(astraExperienceFilter==='completed')list=list.filter(a=>adventureHistory(a).length);
+ if(astraExperienceFilter==='planned')list=list.filter(a=>adventureState(a.ref)==='Planned in Journey');
+ if(astraExperienceFilter==='want')list=list.filter(a=>adventureState(a.ref)==='Want to Do');
+ screen.innerHTML=`
+ <div class="topbar"><div class="brand"><div class="brandmark">${svgInline('quests','inlineBrandIcon')}</div><div><h1>EXPERIENCES</h1><small>Your adventure library</small></div></div></div>
+ <div class="experienceHero"><div class="kicker">ADVENTURE LIST</div><h2>Explore without a finish line.</h2><div class="small muted">One master list for everything you want to experience, plan and remember.</div><div class="experienceStats"><div class="experienceStat"><b>${all.length}</b><span>ADVENTURES</span></div><div class="experienceStat"><b>${completed}</b><span>COMPLETED</span></div><div class="experienceStat"><b>${planned}</b><span>PLANNED</span></div></div><button class="btn btn-primary experienceAdd" onclick="addCustomActivity()">${astraIcon('plus')} Add Adventure</button></div>
+ <div class="experienceToolbar"><div class="experienceSearch">${astraIcon('search')}<input placeholder="Search adventures" value="${v44Escape(astraExperienceSearch)}" oninput="setExperienceSearch(this.value)"></div><div class="experienceFilters"><button class="chip ${astraExperienceFilter==='all'?'active':''}" onclick="setExperienceFilter('all')">All</button><button class="chip ${astraExperienceFilter==='want'?'active':''}" onclick="setExperienceFilter('want')">Want to Do</button><button class="chip ${astraExperienceFilter==='planned'?'active':''}" onclick="setExperienceFilter('planned')">Planned</button><button class="chip ${astraExperienceFilter==='completed'?'active':''}" onclick="setExperienceFilter('completed')">Completed</button></div></div>
+ <div class="worldSectionLabel"><h3>${astraExperienceFilter==='all'?'Adventure library':astraExperienceFilter[0].toUpperCase()+astraExperienceFilter.slice(1)}</h3><span>${list.length} shown</span></div>
+ <div class="experienceList">${list.map(a=>{const i=all.findIndex(x=>x.ref===a.ref),n=adventureHistory(a).length;return `<div class="adventureItem ${n?'done':''}"><span class="iconCircle ${n?'done':''}">${astraIcon(n?'check':'circle')}</span><div style="min-width:0"><div class="adventureNo">ADVENTURE ${i+1}</div><b class="adventureTitle">${a.title}</b><div class="adventureMeta">${astraIcon('pin')}<span>${(a.countries||[]).join(' · ')||'Anywhere'} · ${a.category}${n&&a.originalIndex==null?' · '+n+' completion'+(n>1?'s':''):''}</span></div><span class="statePill ${stateClass(adventureState(a.ref))}">${adventureState(a.ref)}</span></div><button class="chip" onclick="showAdventureDetail('${a.ref}')" aria-label="Open adventure">${astraIcon('chevron')}</button></div>`}).join('')||'<div class="experienceEmpty">No Adventures match this view.</div>'}</div>`;showOnly('questsScreen')
+}
 function showAdventureDetail(ref){
  const a=getAdventure(ref);if(!a)return;
  const hist=adventureHistory(a);
  const linked=astraJourneys.filter(j=>(j.adventureRefs||[]).includes(ref));
  const screen=document.getElementById('questsScreen');
  screen.innerHTML=`<div class="topbar"><div class="between"><button class="back" onclick="renderQuests('first')">←</button><div><b>ADVENTURE</b><div class="small muted">${a.category||'Adventure'}</div></div><span class="statePill ${stateClass(adventureState(ref))}">${adventureState(ref)}</span></div></div>
- <section class="section"><div class="countryStoryHero"><div class="between"><div><div class="kicker">ADVENTURE STORY</div><h2>${a.title}</h2></div><div><button class="chip" onclick="editAdventure('${ref}')">Edit</button> <button class="chip" onclick="deleteAdventure('${ref}')">Delete</button></div></div><div class="muted">📍 ${(a.countries||[]).join(' · ')||'Anywhere'} · ${a.category||'Adventure'}</div><div class="storyGrid" style="margin-top:14px"><div class="storyMetric"><b>${hist.length}</b><span class="small muted">Completions</span></div><div class="storyMetric"><b>${linked.length}</b><span class="small muted">Journeys</span></div></div></div></section>
- <section class="section"><div class="card"><div class="between"><h3>Journey History</h3><button class="chip" onclick="completeAdventureDirect('${ref}')">${hist.length?'+ Record Again':'Record Done'}</button></div>${linked.map(j=>`<div class="entry"><b>${j.name}</b><div class="small muted">${j.status} · ${(j.actualCountries||j.countries||[]).join(' · ')}</div></div>`).join('')||'<div class="muted">Not attached to a Journey yet.</div>'}</div></section>
- <section class="section"><div class="card"><h3>Completion History</h3>${hist.map((h,i)=>`<div class="entry"><b>Completion ${i+1}</b><div class="small muted">${(h.countries||a.countries||[]).join(' · ')||'Location not recorded'}${h.date?' · '+new Date(h.date).toLocaleDateString():''}</div></div>`).join('')||'<div class="muted">Still waiting to become a memory.</div>'}</div></section>`;showOnly('questsScreen')
+ <section class="section"><div class="countryStoryHero adventureDetailHero"><div class="kicker">ADVENTURE STORY</div><h2>${a.title}</h2><div class="adventureDetailMeta">${astraIcon('pin')}<span>${(a.countries||[]).join(' · ')||'Anywhere'} · ${a.category||'Adventure'}</span></div><div class="adventureDetailActions"><button class="chip" onclick="editAdventure('${ref}')">${astraIcon('edit')} Edit</button><button class="chip journeyDelete" onclick="deleteAdventure('${ref}')">${astraIcon('trash')} Delete</button></div><div class="storyGrid" style="margin-top:16px"><div class="storyMetric"><b>${hist.length}</b><span class="small muted">Completions</span></div><div class="storyMetric"><b>${linked.length}</b><span class="small muted">Journeys</span></div></div></div></section>
+ <section class="section"><div class="card experienceSection"><div class="between"><h3>Journey History</h3><button class="chip" onclick="completeAdventureDirect('${ref}')">${hist.length?'+ Record Again':'Record Done'}</button></div>${linked.map(j=>`<div class="entry"><b>${j.name}</b><div class="small muted">${j.status} · ${(j.actualCountries||j.countries||[]).join(' · ')}</div></div>`).join('')||'<div class="muted">Not attached to a Journey yet.</div>'}</div></section>
+ <section class="section"><div class="card experienceSection"><h3>Completion History</h3>${hist.map((h,i)=>`<div class="entry"><b>Completion ${i+1}</b><div class="small muted">${(h.countries||a.countries||[]).join(' · ')||'Location not recorded'}${h.date?' · '+new Date(h.date).toLocaleDateString():''}</div></div>`).join('')||'<div class="muted">Still waiting to become a memory.</div>'}</div></section>`;showOnly('questsScreen')
 }
 function showCountryStory(name){
  const c=canonicalCountry(name);if(!c)return;
@@ -1796,9 +2466,22 @@ renderCountries=function(filter=''){_renderCountriesV32(filter);const screen=doc
 const _toggleWonderV32=toggleWonder;
 toggleWonder=function(i,on){_toggleWonderV32(i,on);if(on&&wonders[i]?.[1])markVisited(wonders[i][1])}
 
+let astraMemoryFilter='all';
+function setMemoryFilter(mode){astraMemoryFilter=mode;renderJournal()}
 function renderJournal(){
  const completed=astraJourneys.filter(j=>j.status==='Completed');
- document.getElementById('journalScreen').innerHTML=`<div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64"><path d="M16 13h24a8 8 0 0 1 8 8v30H22a6 6 0 0 1-6-6V13Zm6 0v38M28 23h13M28 31h13" fill="none" stroke="currentColor" stroke-width="4"/></svg></div><div><h1>MEMORIES</h1><small>Your exploration life archive</small></div></div><button class="chip" onclick="openBackupCenter()">Backup</button></div><div class="pillarIntro">Completed journeys become chapters you can reopen years later.</div><section class="section"><div class="between"><h3>Journey Memories</h3><span class="badge">${completed.length}</span></div><div class="journeyGrid">${completed.map(j=>`<article class="journeyCard" onclick="renderJourneyDetail('${j.id}')"><div class="journeyMeta"><div><div class="label">ARCHIVED JOURNEY</div><h3 style="margin:4px 0">${j.name}</h3><div class="small muted">${j.route}</div><div class="small muted">🌍 ${(j.actualCountries||j.countries).join(' · ')}</div></div><span class="status visited">Completed</span></div><div class="small muted" style="margin-top:10px">${(j.completedAdventureRefs||[]).length} adventures · ${j.people.length} people · RM ${journeySpend(j).toLocaleString()}</div></article>`).join('')||'<div class="card muted">Complete a journey and it will live here.</div>'}</div></section>`;showOnly('journalScreen')
+ const totalAdventures=completed.reduce((n,j)=>n+(j.completedAdventureRefs||[]).length,0);
+ const totalPeople=completed.reduce((n,j)=>n+(j.people||[]).length,0);
+ const journeyMemories=completed.reduce((out,j)=>out.concat((j.memories||[]).map(m=>({...m,journey:j.name,journeyId:j.id}))),[]).sort((a,b)=>new Date(b.date||0)-new Date(a.date||0));
+ let chapters=completed;
+ if(astraMemoryFilter==='recent')chapters=[...completed].sort((a,b)=>new Date(b.completedAt||b.endDate||0)-new Date(a.completedAt||a.endDate||0)).slice(0,6);
+ document.getElementById('journalScreen').innerHTML=`
+ <div class="topbar"><div class="brand"><div class="brandmark"><svg class="uiIcon" viewBox="0 0 64 64"><path d="M16 13h24a8 8 0 0 1 8 8v30H22a6 6 0 0 1-6-6V13Zm6 0v38M28 23h13M28 31h13" fill="none" stroke="currentColor" stroke-width="4"/></svg></div><div><h1>MEMORIES</h1><small>Your exploration life archive</small></div></div><button class="chip memoryBackup" onclick="openBackupCenter()">${astraIcon('memory')} Backup</button></div>
+ <div class="memoriesHero"><div class="kicker">LIFE ARCHIVE</div><h2>The places fade. The stories stay.</h2><div class="small muted">Completed journeys become chapters you can reopen whenever you want.</div><div class="memoriesHeroStats"><div class="memoriesHeroStat"><b>${completed.length}</b><span>CHAPTERS</span></div><div class="memoriesHeroStat"><b>${totalAdventures}</b><span>ADVENTURES</span></div><div class="memoriesHeroStat"><b>${totalPeople}</b><span>PEOPLE MET</span></div></div></div>
+ <div class="memoryToolbar"><button class="chip ${astraMemoryFilter==='all'?'active':''}" onclick="setMemoryFilter('all')">All Chapters</button><button class="chip ${astraMemoryFilter==='recent'?'active':''}" onclick="setMemoryFilter('recent')">Recent</button></div>
+ <div class="worldSectionLabel"><h3>Journey Stories</h3><span>${chapters.length} archived</span></div>
+ ${chapters.length?`<div class="memoryArchive">${chapters.map(j=>`<article class="memoryChapter" onclick="renderJourneyDetail('${j.id}')"><span class="memoryChapterChevron">${astraIcon('chevron')}</span><div class="memoryChapterTop"><div class="label">ARCHIVED JOURNEY</div><h3>${j.name}</h3><div class="memoryChapterRoute">${j.route||'Journey archive'}</div><div class="memoryChapterCountries">${astraIcon('globe')}<span>${(j.actualCountries||j.countries||[]).join(' · ')||'Countries not recorded'}</span></div></div><div class="memoryChapterBottom"><div class="memoryChapterMetric"><b>${(j.completedAdventureRefs||[]).length}</b><span>Adventures</span></div><div class="memoryChapterMetric"><b>${(j.people||[]).length}</b><span>People</span></div><div class="memoryChapterMetric"><b>${journeyDuration(j)||'—'}</b><span>Duration</span></div></div></article>`).join('')}</div>`:`<div class="memoryEmpty"><div class="memoryEmptyIcon">${astraIcon('memory')}</div><b>Your archive is waiting</b><div class="small muted">Complete a Journey and its story will live here.</div></div>`}
+ ${journeyMemories.length?`<div class="memoryRecent"><div class="memoryRecentHead">${astraIcon('memory')}<h3>Recent Notes</h3></div>${journeyMemories.slice(0,5).map(x=>`<div class="entry" onclick="renderJourneyDetail('${x.journeyId}')"><b>${x.journey}</b><div>${v44Escape(x.text||'')}</div><div class="small muted">${x.date?new Date(x.date).toLocaleDateString():''}</div></div>`).join('')}</div>`:''}`;showOnly('journalScreen')
 }
 function showScreen(n){document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.nav===n));if(n==='astra'){renderAstra();showOnly('astraHome');setTimeout(renderInteractiveMap,0);return}if(n==='countries'){renderCountries();showOnly('countriesScreen');return}if(n==='quests'){renderQuests('first');return}if(n==='route'){renderRoute();return}if(n==='journal'){renderJournal();return}}
 
@@ -2010,7 +2693,7 @@ function authMessage(text,error=false){
 function showGate(show){el("authGate")?.classList.toggle("show",show)}
 function snapshot(){
   return {
-    schemaVersion:17,
+    schemaVersion:16,
     clientUpdatedAt:new Date().toISOString(),
     phoenix:JSON.parse(localStorage.getItem("phoenix")||"{}"),
     journal:JSON.parse(localStorage.getItem("astraJournal")||"[]"),
@@ -2056,7 +2739,7 @@ async function pushCloud(){
   syncStatus("Saving…","syncing");
   const payload=snapshot();
   await setDoc(doc(FB.db,"users",FB.user.uid,"astra","state"),{
-    ...payload,ownerUid:FB.user.uid,schemaVersion:17,serverUpdatedAt:serverTimestamp()
+    ...payload,ownerUid:FB.user.uid,schemaVersion:16,serverUpdatedAt:serverTimestamp()
   },{merge:true});
   lastCloudWrite=Date.now();
   syncStatus("Synced","synced");
