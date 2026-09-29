@@ -1753,14 +1753,14 @@ function completeAdventureDirect(ref){
 function deleteCustomActivity(id){if(!confirm('Delete this custom adventure?'))return;customActivities=customActivities.filter(x=>x.id!==id);saveCustomActivities();renderQuests('first')}
 
 function renderQuests(mode='first'){
- const screen=document.getElementById('questsScreen');
- if(mode!=='first'){_renderQuestsV32(mode);screen.innerHTML=screen.innerHTML.replace(/QUESTS/g,'EXPERIENCES').replace(/First 100/g,'Adventure List');const top=screen.querySelector('.topbar small');if(top)top.textContent='Explore without a finish line';return}
- screen.innerHTML=`
- <div class="topbar"><div class="brand"><div class="brandmark">${svgInline('quests','inlineBrandIcon')}</div><div><h1>EXPERIENCES</h1><small>One master Adventure List</small></div></div></div>
- <div class="adventureHeader"><div class="kicker">ADVENTURE LIST</div><h2 style="margin:5px 0">${adventureCount()} adventures lived</h2><div class="small muted">${first100.length} original ideas + ${customActivities.length} added by you. No finish line.</div><button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="addCustomActivity()">+ ADD MY OWN ADVENTURE</button></div>
- <div class="tabs"><button class="tab active" onclick="renderQuests('first')">Adventure List</button></div>
- <section class="section"><div class="card">${first100.map((q,i)=>{const a=getAdventure(originalAdventureId(i));return `<div class="adventureItem ${adventureIsDone(a)?'done':''}"><span>${adventureIsDone(a)?'✓':'○'}</span><div><b>${i+1}. ${a.title}</b><div class="small muted">📍 ${a.countries.join(' · ')||'Anywhere'} · ${a.category}</div><span class="statePill ${stateClass(adventureState(a.ref))}">${adventureState(a.ref)}</span></div><button class="chip" onclick="showAdventureDetail('${a.ref}')">Open</button></div>`}).join('')}</div></section>
- ${customActivities.length?`<section class="section"><div class="between"><h3>Added By Me</h3><span class="badge">${customActivities.length}</span></div><div class="card">${customActivities.map(a=>{const x=getAdventure(customAdventureId(a.id)),n=adventureHistory(x).length;return `<div class="adventureItem ${n?'done':''}"><span>${n?'✓':'○'}</span><div><b>${a.title}</b><div class="small muted">📍 ${(a.countries||[]).join(' · ')||'Anywhere'} · ${a.category}${n?' · '+n+' completion'+(n>1?'s':''):''}</div><span class="statePill ${stateClass(adventureState(x.ref))}">${adventureState(x.ref)}</span></div><button class="chip" onclick="showAdventureDetail('${x.ref}')">Open</button></div>`}).join('')}</div></section>`:''}`;showOnly('questsScreen')
+ const adventures=allAdventures();
+ const completed=adventures.filter(a=>adventureIsDone(a)).length;
+ document.getElementById('questsScreen').innerHTML=`<div class="topbar"><div><h1>EXPERIENCES</h1><small>Adventure List</small></div></div>
+ <section class="section"><div class="card"><div class="between"><div><div class="kicker">ADVENTURE LIBRARY</div><h2 style="margin:4px 0">Adventure List</h2></div><span class="badge">${completed}/${adventures.length}</span></div>
+ <div class="small muted">${adventures.length} adventures in your master list. No finish line.</div><button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="addCustomActivity()">+ ADD MY OWN ADVENTURE</button></div>
+ <div class="tabs"><button class="tab active" onclick="renderQuests()">Adventure List</button></div>
+ <section class="section"><div class="card">${adventures.map((a,i)=>{const n=adventureHistory(a).length;return `<div class="adventureItem ${n?'done':''}"><span>${n?'✓':'○'}</span><div><b>${i+1}. ${a.title}</b><div class="small muted">📍 ${(a.countries||[]).join(' · ')||'Anywhere'} · ${a.category||'Adventure'}${n&&a.originalIndex==null?' · '+n+' completion'+(n>1?'s':''):''}</div><span class="statePill ${stateClass(adventureState(a.ref))}">${adventureState(a.ref)}</span></div><button class="chip" onclick="showAdventureDetail('${a.ref}')">Open</button></div>`}).join('')||'<div class="muted">No Adventures yet.</div>'}</div></section>`;
+ showOnly('questsScreen')
 }
 
 
@@ -2010,7 +2010,7 @@ function authMessage(text,error=false){
 function showGate(show){el("authGate")?.classList.toggle("show",show)}
 function snapshot(){
   return {
-    schemaVersion:16,
+    schemaVersion:17,
     clientUpdatedAt:new Date().toISOString(),
     phoenix:JSON.parse(localStorage.getItem("phoenix")||"{}"),
     journal:JSON.parse(localStorage.getItem("astraJournal")||"[]"),
@@ -2056,7 +2056,7 @@ async function pushCloud(){
   syncStatus("Saving…","syncing");
   const payload=snapshot();
   await setDoc(doc(FB.db,"users",FB.user.uid,"astra","state"),{
-    ...payload,ownerUid:FB.user.uid,schemaVersion:16,serverUpdatedAt:serverTimestamp()
+    ...payload,ownerUid:FB.user.uid,schemaVersion:17,serverUpdatedAt:serverTimestamp()
   },{merge:true});
   lastCloudWrite=Date.now();
   syncStatus("Synced","synced");
