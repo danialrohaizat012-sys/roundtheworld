@@ -1,10 +1,11 @@
-# Astra · Danial Journey V39
+# Astra · Danial Journey V39 FIXED
 
-Experience cleanup hard-fix:
-- Experiences has one top destination only: Adventure List.
-- Legacy 7 Continents and 7 Wonders tabs are removed from source UI, not merely hidden after rendering.
-- Legacy First 100 label is retired from the Experience navigation.
-- New 7 Wonders remain a special collection inside Adventure List.
-- 7 Continents remains derived automatically inside World.
-- Added an integrity guard so obsolete Experience tab controls cannot survive stale markup.
-- V38 multi-user isolation and all Journey/World/Memory features are preserved.
+Recovery build based directly on stable V38.
+
+Fix:
+- Removed the legacy Experience top controls for 7 Continents and 7 Wonders at source.
+- Renamed the remaining legacy First 100 control to Adventure List.
+- Did not replace or rewrite either Experience renderer.
+- Preserves V38 multi-user isolation, Journey logic, World progress, 7 Wonders collection, Backup Center and Photo Vault.
+
+This build intentionally uses a surgical patch after the earlier V39 blank-screen regression.
